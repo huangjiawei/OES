@@ -1,0 +1,103 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Runtime;
+using System.ComponentModel.DataAnnotations;
+namespace OnlineExam.Models
+{
+    public class ImportPaper
+    {
+        [Key]
+        public int ID { get; set; }
+        public string ExamTitle { get; set; }//标题
+        public string Grade { get; set; }//年级
+        public string Year { get; set; }//试卷年份
+        public string SubjectName { get; set; }
+        public string SubSubjectName { get; set; }//科目的子名称(上册、下册、必修一等)
+
+
+        public string ExamType { get; set; }
+
+        public ImportPaper()
+        {
+            ID = 0;
+            ExamTitle = ""; Grade = ""; Year = "";
+            SubjectName = ""; SubSubjectName = "";
+            name = ""; TotleScore = 0;
+            Answers = new List<ImportAnswer>();
+            Questions = new List<ImportQuestion>();
+        }
+        public string name { get; set; }
+        public int TotleScore { get; set; }
+        public int SingleChoiceQuantity { get; set; }
+        public int SingleChoiceGrade { get; set; }
+        public int MultipleChoiceQuantity { get; set; }
+        public int MultipleChoiceGrade { get; set; }
+        public int CompletionQuantity { get; set; }
+        public int CompletionGrade { get; set; }
+        public int ShortAnswerQuantity { get; set; }
+        public int ShortAnswerGrade { get; set; }
+        public int DiscussionQuantity { get; set; }
+        public int DiscussionGrade { get; set; }
+        public List<ImportAnswer> Answers { get; set; }
+        public List<ImportQuestion> Questions { get; set; }
+        //List<QuestionMultipleChoice> MultipleChoiceList;
+        //List<QuestionShortAnswer> ShortAnswerList;
+        //List<QuestionDiscussion> DiscussionList;
+        //List<QuestionSingleChoice> SingleChoiceList;
+        //List<QuestionDiscussion> CompletionList;
+        //List<Resource> QuestionResult;
+
+
+    }
+    public class ImportAnswer
+    {
+        string Num { get; set; }//题目编号
+        string Answer { get; set; }//答案
+        string Info { get; set; }//题解、备注、评分标准
+        public ImportAnswer()
+        {
+            Num = ""; Answer = ""; Info = "";
+
+        }
+    }
+
+    public class ImportQuestion
+    {
+        public string QuestionBigNum { get; set; }
+        public int BigNum { get; set; }
+        public int QuestionNum { get; set; }
+        public QuestionType QType { get; set; }
+        public string Question { get; set; }
+        public string Answer { get; set; }
+        public string Info { get; set; }
+        public List<Option> Options { get; set; }
+        public ImportQuestion()
+        {
+            QuestionBigNum = "";
+            BigNum = -1;
+            QuestionNum = -1;
+            QType = QuestionType.UnKnown;
+            Question = "";
+            Answer = "";
+            Info = "";
+            Options = new List<Option>();
+
+
+        }
+    }
+    public class Option
+    {
+        public string Op { get; set; }
+        public string Content { get; set; }
+        public Option(string o, string c) { Op = o; Content = c; }
+        public Option(string o) { Op = o; }
+        public Option()
+        {
+            Op = "";
+            Content = "";
+        }
+    }
+}

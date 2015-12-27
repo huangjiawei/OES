@@ -1,0 +1,657 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ExamModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DisplayName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaims">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogins">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+    <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+    <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+  </EntityType>
+  <EntityType Name="Grade">
+    <Key>
+      <PropertyRef Name="GradeID" />
+    </Key>
+    <Property Name="GradeID" Type="Int32" Nullable="false" />
+    <Property Name="GradeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Major">
+    <Key>
+      <PropertyRef Name="MajorID" />
+    </Key>
+    <Property Name="MajorID" Type="Int32" Nullable="false" />
+    <Property Name="MajorName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Major_Subject" Relationship="Self.FK_Major_Subject_Major" FromRole="Major" ToRole="Major_Subject" />
+  </EntityType>
+  <EntityType Name="Major_Subject">
+    <Key>
+      <PropertyRef Name="MajorID" />
+      <PropertyRef Name="SubjectID" />
+    </Key>
+    <Property Name="MajorID" Type="Int32" Nullable="false" />
+    <Property Name="SubjectID" Type="Int32" Nullable="false" />
+    <Property Name="Socre" Type="Int32" />
+    <NavigationProperty Name="Major" Relationship="Self.FK_Major_Subject_Major" FromRole="Major_Subject" ToRole="Major" />
+    <NavigationProperty Name="Subject" Relationship="Self.FK_Major_Subject_Subject" FromRole="Major_Subject" ToRole="Subject" />
+  </EntityType>
+  <EntityType Name="Paper_AnswerList">
+    <Key>
+      <PropertyRef Name="AnserListID" />
+    </Key>
+    <Property Name="AnserListID" Type="Int64" Nullable="false" />
+    <Property Name="PaperID" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="StudentID" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Paper_AnswerList_Item" Relationship="ExamModel.FK_TestAnswerSubItem_TestAnswerList" FromRole="Paper_AnswerList" ToRole="Paper_AnswerList_Item" />
+    <NavigationProperty Name="TestPaper" Relationship="ExamModel.FK_Paper_AnswerList_TestPaper" FromRole="Paper_AnswerList" ToRole="TestPaper" />
+  </EntityType>
+  <EntityType Name="Paper_Choice">
+    <Key>
+      <PropertyRef Name="PaperID" />
+      <PropertyRef Name="QuestionID" />
+    </Key>
+    <Property Name="PaperID" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="QuestionID" Type="Int64" Nullable="false" />
+    <Property Name="Score" Type="Double" Nullable="false" />
+    <Property Name="BigQuestionNumber" Type="Int32" Nullable="false" />
+    <Property Name="SmallQuestionNumber" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Paper_QuestionCategory" Relationship="Self.FK_Paper_Choice_Paper_QuestionCategory" FromRole="Paper_Choice" ToRole="Paper_QuestionCategory" />
+    <NavigationProperty Name="QuestionChoice" Relationship="Self.FK_Paper_Choice_QuestionChoice" FromRole="Paper_Choice" ToRole="QuestionChoice" />
+    <NavigationProperty Name="TestPaper" Relationship="ExamModel.FK_Paper_Choice_TestPaper" FromRole="Paper_Choice" ToRole="TestPaper" />
+  </EntityType>
+  <EntityType Name="Paper_Essay">
+    <Key>
+      <PropertyRef Name="PaperID" />
+      <PropertyRef Name="QuestionID" />
+    </Key>
+    <Property Name="PaperID" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="QuestionID" Type="Int64" Nullable="false" />
+    <Property Name="Score" Type="Double" />
+    <Property Name="BigQuestionNumber" Type="Int32" />
+    <Property Name="SmallQuestionNumber" Type="Int32" />
+    <NavigationProperty Name="Paper_QuestionCategory" Relationship="Self.FK_Paper_Essay_Paper_QuestionCategory" FromRole="Paper_Essay" ToRole="Paper_QuestionCategory" />
+    <NavigationProperty Name="QuestionEssay_" Relationship="Self.FK_Paper_Essay_QuestionEssay_" FromRole="Paper_Essay" ToRole="QuestionEssay_" />
+    <NavigationProperty Name="TestPaper" Relationship="ExamModel.FK_Paper_Essay_TestPaper" FromRole="Paper_Essay" ToRole="TestPaper" />
+  </EntityType>
+  <EntityType Name="Paper_QuestionCategory">
+    <Key>
+      <PropertyRef Name="PaperID" />
+      <PropertyRef Name="Sequence" />
+    </Key>
+    <Property Name="PaperID" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Sequence" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="ScorePerQuestion" Type="Double" Nullable="false" />
+    <Property Name="QuestionType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Paper_Choice" Relationship="Self.FK_Paper_Choice_Paper_QuestionCategory" FromRole="Paper_QuestionCategory" ToRole="Paper_Choice" />
+    <NavigationProperty Name="Paper_Essay" Relationship="Self.FK_Paper_Essay_Paper_QuestionCategory" FromRole="Paper_QuestionCategory" ToRole="Paper_Essay" />
+    <NavigationProperty Name="TestPaper" Relationship="ExamModel.FK_Paper_QuestionCategory_TestPaper" FromRole="Paper_QuestionCategory" ToRole="TestPaper" />
+  </EntityType>
+  <EntityType Name="PaperCollection">
+    <Key>
+      <PropertyRef Name="UserID" />
+      <PropertyRef Name="PaperID" />
+    </Key>
+    <Property Name="UserID" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PaperID" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="TestPaper" Relationship="ExamModel.FK_PaperCollection_TestPaper" FromRole="PaperCollection" ToRole="TestPaper" />
+  </EntityType>
+  <EntityType Name="Permission">
+    <Key>
+      <PropertyRef Name="PermissionID" />
+    </Key>
+    <Property Name="PermissionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PermissionName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Remark" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="QuestionChoice">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Question" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="OptionA" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="OptionB" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="OptionC" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="OptionD" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="OptionE" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="OptionF" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsMultiple" Type="Boolean" Nullable="false" />
+    <Property Name="AisTrue" Type="Boolean" Nullable="false" />
+    <Property Name="BisTrue" Type="Boolean" Nullable="false" />
+    <Property Name="CisTrue" Type="Boolean" Nullable="false" />
+    <Property Name="DisTrue" Type="Boolean" Nullable="false" />
+    <Property Name="EisTrue" Type="Boolean" Nullable="false" />
+    <Property Name="FisTrue" Type="Boolean" Nullable="false" />
+    <Property Name="ModificationTeacher" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+    <Property Name="ModificationDate" Type="DateTime" Precision="3" />
+    <Property Name="DateAdded" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Difficulty" Type="Int16" Nullable="false" />
+    <Property Name="Frequency" Type="Int16" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Assessment" Type="String" MaxLength="1000" FixedLength="true" Unicode="true" />
+    <Property Name="Info" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Audit" Type="Int32" Nullable="false" />
+    <Property Name="ModificationTeacherID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IsImport" Type="Boolean" Nullable="false" />
+    <Property Name="Auditor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="AuditorID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Paper_Choice" Relationship="Self.FK_Paper_Choice_QuestionChoice" FromRole="QuestionChoice" ToRole="Paper_Choice" />
+  </EntityType>
+  <EntityType Name="QuestionCollection">
+    <Key>
+      <PropertyRef Name="UserID" />
+      <PropertyRef Name="QuestionID" />
+    </Key>
+    <Property Name="UserID" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="QuestionID" Type="Int64" Nullable="false" />
+    <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="QuestionEssay">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Question" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Answer" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="QuestionType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Info" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="ModificationTeacher" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+    <Property Name="ModificationDate" Type="DateTime" Precision="3" />
+    <Property Name="DateAdded" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Difficulty" Type="Int16" Nullable="false" />
+    <Property Name="Frequency" Type="Int16" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Assessment" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="Audit" Type="Int32" Nullable="false" />
+    <Property Name="ModificationTeacherID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IsImport" Type="Boolean" Nullable="false" />
+    <Property Name="Auditor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="AuditorID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Paper_Essay" Relationship="Self.FK_Paper_Essay_QuestionEssay_" FromRole="QuestionEssay_" ToRole="Paper_Essay" />
+  </EntityType>
+  <EntityType Name="Resource">
+    <Key>
+      <PropertyRef Name="ResourceID" />
+    </Key>
+    <Property Name="ResourceID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Url" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Location" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="DateAdded" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="Subject">
+    <Key>
+      <PropertyRef Name="SubjectID" />
+    </Key>
+    <Property Name="SubjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SubjectCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SubjectName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Term" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Grade" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Version" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ParentId" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="PreSubject" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Book" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ExamType" Type="Int32" />
+    <NavigationProperty Name="Major_Subject" Relationship="Self.FK_Major_Subject_Subject" FromRole="Subject" ToRole="Major_Subject" />
+    <NavigationProperty Name="Teacher_Subject" Relationship="Self.FK_Teacher_Subject_Subject" FromRole="Subject" ToRole="Teacher_Subject" />
+    <NavigationProperty Name="User_Subject" Relationship="Self.FK_User_Subject_Subject" FromRole="Subject" ToRole="User_Subject" />
+  </EntityType>
+  <EntityType Name="Subject_Choice">
+    <Key>
+      <PropertyRef Name="SubjectID" />
+      <PropertyRef Name="QuestionID" />
+    </Key>
+    <Property Name="SubjectID" Type="Int32" Nullable="false" />
+    <Property Name="QuestionID" Type="Int64" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Subject_Essay">
+    <Key>
+      <PropertyRef Name="SubjectID" />
+      <PropertyRef Name="QuestionID" />
+    </Key>
+    <Property Name="SubjectID" Type="Int32" Nullable="false" />
+    <Property Name="QuestionID" Type="Int64" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Teacher_Subject">
+    <Key>
+      <PropertyRef Name="TeacherID" />
+      <PropertyRef Name="SubjectID" />
+    </Key>
+    <Property Name="TeacherID" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="SubjectID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Subject" Relationship="Self.FK_Teacher_Subject_Subject" FromRole="Teacher_Subject" ToRole="Subject" />
+  </EntityType>
+  <EntityType Name="User_Subject">
+    <Key>
+      <PropertyRef Name="UserID" />
+      <PropertyRef Name="SubjectID" />
+    </Key>
+    <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="SubjectID" Type="Int32" Nullable="false" />
+    <Property Name="Type" Type="Int32" />
+    <NavigationProperty Name="Subject" Relationship="Self.FK_User_Subject_Subject" FromRole="User_Subject" ToRole="Subject" />
+  </EntityType>
+  <EntityType Name="UserProfile">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="NickName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RealName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="School" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Birthday" Type="DateTime" Precision="3" />
+    <Property Name="Company" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Photo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="TelPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="QQ" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaims">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogins">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Major_Subject_Major">
+    <End Role="Major" Type="Self.Major" Multiplicity="1" />
+    <End Role="Major_Subject" Type="Self.Major_Subject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Major">
+        <PropertyRef Name="MajorID" />
+      </Principal>
+      <Dependent Role="Major_Subject">
+        <PropertyRef Name="MajorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Major_Subject_Subject">
+    <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+    <End Role="Major_Subject" Type="Self.Major_Subject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subject">
+        <PropertyRef Name="SubjectID" />
+      </Principal>
+      <Dependent Role="Major_Subject">
+        <PropertyRef Name="SubjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paper_Choice_Paper_QuestionCategory">
+    <End Role="Paper_QuestionCategory" Type="Self.Paper_QuestionCategory" Multiplicity="1" />
+    <End Role="Paper_Choice" Type="Self.Paper_Choice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paper_QuestionCategory">
+        <PropertyRef Name="PaperID" />
+        <PropertyRef Name="Sequence" />
+      </Principal>
+      <Dependent Role="Paper_Choice">
+        <PropertyRef Name="PaperID" />
+        <PropertyRef Name="BigQuestionNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paper_Choice_QuestionChoice">
+    <End Role="QuestionChoice" Type="Self.QuestionChoice" Multiplicity="1" />
+    <End Role="Paper_Choice" Type="Self.Paper_Choice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QuestionChoice">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paper_Choice">
+        <PropertyRef Name="QuestionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paper_Essay_Paper_QuestionCategory">
+    <End Role="Paper_QuestionCategory" Type="Self.Paper_QuestionCategory" Multiplicity="0..1" />
+    <End Role="Paper_Essay" Type="Self.Paper_Essay" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paper_QuestionCategory">
+        <PropertyRef Name="PaperID" />
+        <PropertyRef Name="Sequence" />
+      </Principal>
+      <Dependent Role="Paper_Essay">
+        <PropertyRef Name="PaperID" />
+        <PropertyRef Name="BigQuestionNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paper_Essay_QuestionEssay_">
+    <End Role="QuestionEssay_" Type="ExamModel.QuestionEssay" Multiplicity="1" />
+    <End Role="Paper_Essay" Type="Self.Paper_Essay" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QuestionEssay_">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paper_Essay">
+        <PropertyRef Name="QuestionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Teacher_Subject_Subject">
+    <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+    <End Role="Teacher_Subject" Type="Self.Teacher_Subject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subject">
+        <PropertyRef Name="SubjectID" />
+      </Principal>
+      <Dependent Role="Teacher_Subject">
+        <PropertyRef Name="SubjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Subject_Subject">
+    <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+    <End Role="User_Subject" Type="Self.User_Subject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subject">
+        <PropertyRef Name="SubjectID" />
+      </Principal>
+      <Dependent Role="User_Subject">
+        <PropertyRef Name="SubjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserRoles">
+    <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="ExamEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+    <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
+    <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
+    <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" />
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
+    <EntitySet Name="Grade" EntityType="Self.Grade" />
+    <EntitySet Name="Major" EntityType="Self.Major" />
+    <EntitySet Name="Major_Subject" EntityType="Self.Major_Subject" />
+    <EntitySet Name="Paper_AnswerList" EntityType="Self.Paper_AnswerList" />
+    <EntitySet Name="Paper_Choice" EntityType="Self.Paper_Choice" />
+    <EntitySet Name="Paper_Essay" EntityType="Self.Paper_Essay" />
+    <EntitySet Name="Paper_QuestionCategory" EntityType="Self.Paper_QuestionCategory" />
+    <EntitySet Name="PaperCollection" EntityType="Self.PaperCollection" />
+    <EntitySet Name="Permission" EntityType="Self.Permission" />
+    <EntitySet Name="QuestionChoice" EntityType="Self.QuestionChoice" />
+    <EntitySet Name="QuestionCollection" EntityType="Self.QuestionCollection" />
+    <EntitySet Name="QuestionEssay" EntityType="ExamModel.QuestionEssay" />
+    <EntitySet Name="Resource" EntityType="Self.Resource" />
+    <EntitySet Name="Subject" EntityType="Self.Subject" />
+    <EntitySet Name="Subject_Choice" EntityType="Self.Subject_Choice" />
+    <EntitySet Name="Subject_Essay" EntityType="Self.Subject_Essay" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Teacher_Subject" EntityType="Self.Teacher_Subject" />
+    <EntitySet Name="User_Subject" EntityType="Self.User_Subject" />
+    <EntitySet Name="UserProfile" EntityType="Self.UserProfile" />
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Major_Subject_Major" Association="Self.FK_Major_Subject_Major">
+      <End Role="Major" EntitySet="Major" />
+      <End Role="Major_Subject" EntitySet="Major_Subject" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Major_Subject_Subject" Association="Self.FK_Major_Subject_Subject">
+      <End Role="Subject" EntitySet="Subject" />
+      <End Role="Major_Subject" EntitySet="Major_Subject" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paper_Choice_Paper_QuestionCategory" Association="Self.FK_Paper_Choice_Paper_QuestionCategory">
+      <End Role="Paper_QuestionCategory" EntitySet="Paper_QuestionCategory" />
+      <End Role="Paper_Choice" EntitySet="Paper_Choice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paper_Choice_QuestionChoice" Association="Self.FK_Paper_Choice_QuestionChoice">
+      <End Role="QuestionChoice" EntitySet="QuestionChoice" />
+      <End Role="Paper_Choice" EntitySet="Paper_Choice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paper_Essay_Paper_QuestionCategory" Association="Self.FK_Paper_Essay_Paper_QuestionCategory">
+      <End Role="Paper_QuestionCategory" EntitySet="Paper_QuestionCategory" />
+      <End Role="Paper_Essay" EntitySet="Paper_Essay" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paper_Essay_QuestionEssay_" Association="Self.FK_Paper_Essay_QuestionEssay_">
+      <End Role="QuestionEssay_" EntitySet="QuestionEssay" />
+      <End Role="Paper_Essay" EntitySet="Paper_Essay" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Teacher_Subject_Subject" Association="Self.FK_Teacher_Subject_Subject">
+      <End Role="Subject" EntitySet="Subject" />
+      <End Role="Teacher_Subject" EntitySet="Teacher_Subject" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Subject_Subject" Association="Self.FK_User_Subject_Subject">
+      <End Role="Subject" EntitySet="Subject" />
+      <End Role="User_Subject" EntitySet="User_Subject" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+      <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+    </AssociationSet>
+    <EntitySet Name="Paper_AnswerList_Item" EntityType="ExamModel.Paper_AnswerList_Item" />
+    <AssociationSet Name="FK_TestAnswerSubItem_TestAnswerList" Association="ExamModel.FK_TestAnswerSubItem_TestAnswerList">
+      <End Role="Paper_AnswerList" EntitySet="Paper_AnswerList" />
+      <End Role="Paper_AnswerList_Item" EntitySet="Paper_AnswerList_Item" />
+    </AssociationSet>
+    <EntitySet Name="TestPaper" EntityType="ExamModel.TestPaper" />
+    <AssociationSet Name="FK_Paper_AnswerList_TestPaper" Association="ExamModel.FK_Paper_AnswerList_TestPaper">
+      <End Role="TestPaper" EntitySet="TestPaper" />
+      <End Role="Paper_AnswerList" EntitySet="Paper_AnswerList" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paper_Choice_TestPaper" Association="ExamModel.FK_Paper_Choice_TestPaper">
+      <End Role="TestPaper" EntitySet="TestPaper" />
+      <End Role="Paper_Choice" EntitySet="Paper_Choice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paper_Essay_TestPaper" Association="ExamModel.FK_Paper_Essay_TestPaper">
+      <End Role="TestPaper" EntitySet="TestPaper" />
+      <End Role="Paper_Essay" EntitySet="Paper_Essay" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paper_QuestionCategory_TestPaper" Association="ExamModel.FK_Paper_QuestionCategory_TestPaper">
+      <End Role="TestPaper" EntitySet="TestPaper" />
+      <End Role="Paper_QuestionCategory" EntitySet="Paper_QuestionCategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PaperCollection_TestPaper" Association="ExamModel.FK_PaperCollection_TestPaper">
+      <End Role="TestPaper" EntitySet="TestPaper" />
+      <End Role="PaperCollection" EntitySet="PaperCollection" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Paper_AnswerList_Item">
+    <Key>
+      <PropertyRef Name="AnswerListID" />
+      <PropertyRef Name="BigQuestionNumber" />
+      <PropertyRef Name="SmallQuestionNumber" />
+    </Key>
+    <Property Name="AnswerListID" Type="Int64" Nullable="false" />
+    <Property Name="BigQuestionNumber" Type="Int32" Nullable="false" />
+    <Property Name="SmallQuestionNumber" Type="Int32" Nullable="false" />
+    <Property Name="Answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Score" Type="Double" />
+    <Property Name="IsCorrect" Type="Boolean" />
+    <NavigationProperty Name="Paper_AnswerList" Relationship="ExamModel.FK_TestAnswerSubItem_TestAnswerList" FromRole="Paper_AnswerList_Item" ToRole="Paper_AnswerList" />
+  </EntityType>
+  <Association Name="FK_TestAnswerSubItem_TestAnswerList">
+    <End Type="ExamModel.Paper_AnswerList" Role="Paper_AnswerList" Multiplicity="1" />
+    <End Type="ExamModel.Paper_AnswerList_Item" Role="Paper_AnswerList_Item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paper_AnswerList">
+        <PropertyRef Name="AnserListID" />
+      </Principal>
+      <Dependent Role="Paper_AnswerList_Item">
+        <PropertyRef Name="AnswerListID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="TestPaper">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="Info" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IsReady" Type="Boolean" Nullable="false" />
+    <Property Name="ExamType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SubjectID" Type="Int32" Nullable="false" />
+    <Property Name="ExamTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="TimeDuration" Type="Int32" />
+    <Property Name="Active" Type="Int32" Nullable="false" />
+    <Property Name="Audit" Type="Int32" Nullable="false" />
+    <Property Name="ModificationTeacher" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ModificationTeacherID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ModificationDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Assessment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Paper_AnswerList" Relationship="ExamModel.FK_Paper_AnswerList_TestPaper" FromRole="TestPaper" ToRole="Paper_AnswerList" />
+    <NavigationProperty Name="Paper_Choice" Relationship="ExamModel.FK_Paper_Choice_TestPaper" FromRole="TestPaper" ToRole="Paper_Choice" />
+    <NavigationProperty Name="Paper_Essay" Relationship="ExamModel.FK_Paper_Essay_TestPaper" FromRole="TestPaper" ToRole="Paper_Essay" />
+    <NavigationProperty Name="Paper_QuestionCategory" Relationship="ExamModel.FK_Paper_QuestionCategory_TestPaper" FromRole="TestPaper" ToRole="Paper_QuestionCategory" />
+    <NavigationProperty Name="PaperCollection" Relationship="ExamModel.FK_PaperCollection_TestPaper" FromRole="TestPaper" ToRole="PaperCollection" />
+  </EntityType>
+  <Association Name="FK_Paper_AnswerList_TestPaper">
+    <End Type="ExamModel.TestPaper" Role="TestPaper" Multiplicity="1" />
+    <End Type="ExamModel.Paper_AnswerList" Role="Paper_AnswerList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TestPaper">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paper_AnswerList">
+        <PropertyRef Name="PaperID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paper_Choice_TestPaper">
+    <End Type="ExamModel.TestPaper" Role="TestPaper" Multiplicity="1" />
+    <End Type="ExamModel.Paper_Choice" Role="Paper_Choice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TestPaper">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paper_Choice">
+        <PropertyRef Name="PaperID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paper_Essay_TestPaper">
+    <End Type="ExamModel.TestPaper" Role="TestPaper" Multiplicity="1" />
+    <End Type="ExamModel.Paper_Essay" Role="Paper_Essay" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TestPaper">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paper_Essay">
+        <PropertyRef Name="PaperID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paper_QuestionCategory_TestPaper">
+    <End Type="ExamModel.TestPaper" Role="TestPaper" Multiplicity="1" />
+    <End Type="ExamModel.Paper_QuestionCategory" Role="Paper_QuestionCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TestPaper">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paper_QuestionCategory">
+        <PropertyRef Name="PaperID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PaperCollection_TestPaper">
+    <End Type="ExamModel.TestPaper" Role="TestPaper" Multiplicity="1" />
+    <End Type="ExamModel.PaperCollection" Role="PaperCollection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TestPaper">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PaperCollection">
+        <PropertyRef Name="PaperID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

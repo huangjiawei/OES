@@ -1,0 +1,471 @@
+-----------------------------------------------------------
+Exception generated on 2014年3月21日, at 16:06
+
+ Page location: /OnlineCertification/User/RealNameAuthentication.aspx
+
+ Message: 要解密的数据的长度无效。
+
+ Source: mscorlib
+
+ Method: Byte[] TransformFinalBlock(Byte[], Int32, Int32)
+
+ Stack Trace: 
+
+   在 System.Security.Cryptography.RijndaelManagedTransform.TransformFinalBlock(Byte[] inputBuffer, Int32 inputOffset, Int32 inputCount)
+   在 System.Security.Cryptography.CryptoStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   在 SecurityLib.StringEncryptor.DecryptUTF(String encryptedText) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\StringEncryptor.cs:行号 145
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月21日, at 16:06
+
+ Page location: /OnlineCertification/User/RealNameAuthentication.aspx
+
+ Message: 要解密的数据的长度无效。
+
+ Source: mscorlib
+
+ Method: Byte[] TransformFinalBlock(Byte[], Int32, Int32)
+
+ Stack Trace: 
+
+   在 System.Security.Cryptography.RijndaelManagedTransform.TransformFinalBlock(Byte[] inputBuffer, Int32 inputOffset, Int32 inputCount)
+   在 System.Security.Cryptography.CryptoStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   在 SecurityLib.StringEncryptor.DecryptUTF(String encryptedText) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\StringEncryptor.cs:行号 145
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月21日, at 16:06
+
+ Page location: /OnlineCertification/User/RealNameAuthentication.aspx
+
+ Message: 要解密的数据的长度无效。
+
+ Source: mscorlib
+
+ Method: Byte[] TransformFinalBlock(Byte[], Int32, Int32)
+
+ Stack Trace: 
+
+   在 System.Security.Cryptography.RijndaelManagedTransform.TransformFinalBlock(Byte[] inputBuffer, Int32 inputOffset, Int32 inputCount)
+   在 System.Security.Cryptography.CryptoStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   在 SecurityLib.StringEncryptor.DecryptUTF(String encryptedText) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\StringEncryptor.cs:行号 145
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月22日, at 21:31
+
+ Page location: /OnlineCertification/User/CertificateQuery.aspx
+
+ Message: 违反了 PRIMARY KEY 约束 'PK_Certification'。不能在对象 'dbo.Certificate' 中插入重复键。
+语句已终止。
+
+ Source: .Net SqlClient Data Provider
+
+ Method: Void OnError(System.Data.SqlClient.SqlException, Boolean)
+
+ Stack Trace: 
+
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, DbAsyncResult result)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(DbAsyncResult result, String methodName, Boolean sendToPipe)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 GenericDataAccess.ExecuteNonQuery(DbCommand command) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\GenericDataAccess.cs:行号 63
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月22日, at 21:41
+
+ Page location: /OnlineCertification/User/CertificateQuery.aspx
+
+ Message: 违反了 PRIMARY KEY 约束 'PK_Certification'。不能在对象 'dbo.Certificate' 中插入重复键。
+语句已终止。
+
+ Source: .Net SqlClient Data Provider
+
+ Method: Void OnError(System.Data.SqlClient.SqlException, Boolean)
+
+ Stack Trace: 
+
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, DbAsyncResult result)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(DbAsyncResult result, String methodName, Boolean sendToPipe)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 GenericDataAccess.ExecuteNonQuery(DbCommand command) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\GenericDataAccess.cs:行号 63
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月22日, at 21:42
+
+ Page location: /OnlineCertification/User/CertificateQuery.aspx
+
+ Message: 违反了 PRIMARY KEY 约束 'PK_Certification'。不能在对象 'dbo.Certificate' 中插入重复键。
+语句已终止。
+
+ Source: .Net SqlClient Data Provider
+
+ Method: Void OnError(System.Data.SqlClient.SqlException, Boolean)
+
+ Stack Trace: 
+
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, DbAsyncResult result)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(DbAsyncResult result, String methodName, Boolean sendToPipe)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 GenericDataAccess.ExecuteNonQuery(DbCommand command) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\GenericDataAccess.cs:行号 63
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月23日, at 15:05
+
+ Page location: /OnlineCertification/User/RealNameAuthentication.aspx
+
+ Message: 要解密的数据的长度无效。
+
+ Source: mscorlib
+
+ Method: Byte[] TransformFinalBlock(Byte[], Int32, Int32)
+
+ Stack Trace: 
+
+   在 System.Security.Cryptography.RijndaelManagedTransform.TransformFinalBlock(Byte[] inputBuffer, Int32 inputOffset, Int32 inputCount)
+   在 System.Security.Cryptography.CryptoStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   在 SecurityLib.StringEncryptor.DecryptUTF(String encryptedText) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\StringEncryptor.cs:行号 145
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月23日, at 15:05
+
+ Page location: /OnlineCertification/User/RealNameAuthentication.aspx
+
+ Message: 要解密的数据的长度无效。
+
+ Source: mscorlib
+
+ Method: Byte[] TransformFinalBlock(Byte[], Int32, Int32)
+
+ Stack Trace: 
+
+   在 System.Security.Cryptography.RijndaelManagedTransform.TransformFinalBlock(Byte[] inputBuffer, Int32 inputOffset, Int32 inputCount)
+   在 System.Security.Cryptography.CryptoStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   在 SecurityLib.StringEncryptor.DecryptUTF(String encryptedText) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\StringEncryptor.cs:行号 145
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月23日, at 15:32
+
+ Page location: /OnlineCertification/User/RealNameAuthentication.aspx
+
+ Message: 用户“huangyi”已经在角色“WaitToBeExaminee”中。
+
+ Source: System.Web
+
+ Method: Void AddUsersToRolesCore(System.Data.SqlClient.SqlConnection, System.String, System.String)
+
+ Stack Trace: 
+
+   在 System.Web.Security.SqlRoleProvider.AddUsersToRolesCore(SqlConnection conn, String usernames, String roleNames)
+   在 System.Web.Security.SqlRoleProvider.AddUsersToRoles(String[] usernames, String[] roleNames)
+   在 System.Web.Security.Roles.AddUserToRole(String username, String roleName)
+   在 User_RealNameAuthentication.btnSave_Click(Object sender, EventArgs e) 位置 f:\My File\云同步\我的文档\OnlineCertification\User\RealNameAuthentication.aspx.cs:行号 44
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月23日, at 15:34
+
+ Page location: /OnlineCertification/User/UserProfile.aspx
+
+ Message: 要解密的数据的长度无效。
+
+ Source: mscorlib
+
+ Method: Byte[] TransformFinalBlock(Byte[], Int32, Int32)
+
+ Stack Trace: 
+
+   在 System.Security.Cryptography.RijndaelManagedTransform.TransformFinalBlock(Byte[] inputBuffer, Int32 inputOffset, Int32 inputCount)
+   在 System.Security.Cryptography.CryptoStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   在 SecurityLib.StringEncryptor.DecryptUTF(String encryptedText) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\StringEncryptor.cs:行号 145
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月23日, at 15:34
+
+ Page location: /OnlineCertification/User/UserProfile.aspx
+
+ Message: 要解密的数据的长度无效。
+
+ Source: mscorlib
+
+ Method: Byte[] TransformFinalBlock(Byte[], Int32, Int32)
+
+ Stack Trace: 
+
+   在 System.Security.Cryptography.RijndaelManagedTransform.TransformFinalBlock(Byte[] inputBuffer, Int32 inputOffset, Int32 inputCount)
+   在 System.Security.Cryptography.CryptoStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   在 SecurityLib.StringEncryptor.DecryptUTF(String encryptedText) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\StringEncryptor.cs:行号 145
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月23日, at 15:34
+
+ Page location: /OnlineCertification/User/UserProfile.aspx
+
+ Message: 要解密的数据的长度无效。
+
+ Source: mscorlib
+
+ Method: Byte[] TransformFinalBlock(Byte[], Int32, Int32)
+
+ Stack Trace: 
+
+   在 System.Security.Cryptography.RijndaelManagedTransform.TransformFinalBlock(Byte[] inputBuffer, Int32 inputOffset, Int32 inputCount)
+   在 System.Security.Cryptography.CryptoStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   在 SecurityLib.StringEncryptor.DecryptUTF(String encryptedText) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\StringEncryptor.cs:行号 145
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月23日, at 15:34
+
+ Page location: /OnlineCertification/User/UserProfile.aspx
+
+ Message: 要解密的数据的长度无效。
+
+ Source: mscorlib
+
+ Method: Byte[] TransformFinalBlock(Byte[], Int32, Int32)
+
+ Stack Trace: 
+
+   在 System.Security.Cryptography.RijndaelManagedTransform.TransformFinalBlock(Byte[] inputBuffer, Int32 inputOffset, Int32 inputCount)
+   在 System.Security.Cryptography.CryptoStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   在 SecurityLib.StringEncryptor.DecryptUTF(String encryptedText) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\StringEncryptor.cs:行号 145
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月23日, at 20:15
+
+ Page location: /OnlineCertification/User/EnrollCertificationExam.aspx
+
+ Message: 违反了 PRIMARY KEY 约束 'PK_CertificationExam_UserEnroll'。不能在对象 'dbo.CertificationExam_UserEnroll' 中插入重复键。
+语句已终止。
+
+ Source: .Net SqlClient Data Provider
+
+ Method: Void OnError(System.Data.SqlClient.SqlException, Boolean)
+
+ Stack Trace: 
+
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, DbAsyncResult result)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(DbAsyncResult result, String methodName, Boolean sendToPipe)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 GenericDataAccess.ExecuteNonQuery(DbCommand command) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\GenericDataAccess.cs:行号 63
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月23日, at 20:16
+
+ Page location: /OnlineCertification/User/EnrollCertificationExam.aspx
+
+ Message: 违反了 PRIMARY KEY 约束 'PK_CertificationExam_UserEnroll'。不能在对象 'dbo.CertificationExam_UserEnroll' 中插入重复键。
+语句已终止。
+
+ Source: .Net SqlClient Data Provider
+
+ Method: Void OnError(System.Data.SqlClient.SqlException, Boolean)
+
+ Stack Trace: 
+
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, DbAsyncResult result)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(DbAsyncResult result, String methodName, Boolean sendToPipe)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 GenericDataAccess.ExecuteNonQuery(DbCommand command) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\GenericDataAccess.cs:行号 63
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月23日, at 20:19
+
+ Page location: /OnlineCertification/User/EnrollSubjectExam.aspx
+
+ Message: 违反了 PRIMARY KEY 约束 'PK_SubjectExam_UserEnroll'。不能在对象 'dbo.SubjectExam_UserEnroll' 中插入重复键。
+语句已终止。
+
+ Source: .Net SqlClient Data Provider
+
+ Method: Void OnError(System.Data.SqlClient.SqlException, Boolean)
+
+ Stack Trace: 
+
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, DbAsyncResult result)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(DbAsyncResult result, String methodName, Boolean sendToPipe)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 GenericDataAccess.ExecuteNonQuery(DbCommand command) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\GenericDataAccess.cs:行号 63
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月23日, at 20:27
+
+ Page location: /OnlineCertification/User/EnrollCertificationExam.aspx
+
+ Message: 违反了 PRIMARY KEY 约束 'PK_CertificationExam_UserEnroll'。不能在对象 'dbo.CertificationExam_UserEnroll' 中插入重复键。
+语句已终止。
+
+ Source: .Net SqlClient Data Provider
+
+ Method: Void OnError(System.Data.SqlClient.SqlException, Boolean)
+
+ Stack Trace: 
+
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, DbAsyncResult result)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(DbAsyncResult result, String methodName, Boolean sendToPipe)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 GenericDataAccess.ExecuteNonQuery(DbCommand command) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\GenericDataAccess.cs:行号 63
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月23日, at 20:27
+
+ Page location: /OnlineCertification/User/EnrollSubjectExam.aspx
+
+ Message: 违反了 PRIMARY KEY 约束 'PK_SubjectExam_UserEnroll'。不能在对象 'dbo.SubjectExam_UserEnroll' 中插入重复键。
+语句已终止。
+
+ Source: .Net SqlClient Data Provider
+
+ Method: Void OnError(System.Data.SqlClient.SqlException, Boolean)
+
+ Stack Trace: 
+
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, DbAsyncResult result)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(DbAsyncResult result, String methodName, Boolean sendToPipe)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 GenericDataAccess.ExecuteNonQuery(DbCommand command) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\GenericDataAccess.cs:行号 63
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月23日, at 20:34
+
+ Page location: /OnlineCertification/User/CertificateQuery.aspx
+
+ Message: 将截断字符串或二进制数据。
+语句已终止。
+
+ Source: .Net SqlClient Data Provider
+
+ Method: Void OnError(System.Data.SqlClient.SqlException, Boolean)
+
+ Stack Trace: 
+
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, DbAsyncResult result)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(DbAsyncResult result, String methodName, Boolean sendToPipe)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 GenericDataAccess.ExecuteNonQuery(DbCommand command) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\GenericDataAccess.cs:行号 63
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月23日, at 20:35
+
+ Page location: /OnlineCertification/User/CertificateQuery.aspx
+
+ Message: 将截断字符串或二进制数据。
+语句已终止。
+
+ Source: .Net SqlClient Data Provider
+
+ Method: Void OnError(System.Data.SqlClient.SqlException, Boolean)
+
+ Stack Trace: 
+
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, DbAsyncResult result)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(DbAsyncResult result, String methodName, Boolean sendToPipe)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 GenericDataAccess.ExecuteNonQuery(DbCommand command) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\GenericDataAccess.cs:行号 63
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月23日, at 20:37
+
+ Page location: /OnlineCertification/User/EnrollSubjectExam.aspx
+
+ Message: 违反了 PRIMARY KEY 约束 'PK_SubjectExam_UserEnroll'。不能在对象 'dbo.SubjectExam_UserEnroll' 中插入重复键。
+语句已终止。
+
+ Source: .Net SqlClient Data Provider
+
+ Method: Void OnError(System.Data.SqlClient.SqlException, Boolean)
+
+ Stack Trace: 
+
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, DbAsyncResult result)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(DbAsyncResult result, String methodName, Boolean sendToPipe)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 GenericDataAccess.ExecuteNonQuery(DbCommand command) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\GenericDataAccess.cs:行号 63
+-----------------------------------------------------------
+-----------------------------------------------------------
+Exception generated on 2014年3月23日, at 20:38
+
+ Page location: /OnlineCertification/User/CertificateQuery.aspx
+
+ Message: 将截断字符串或二进制数据。
+语句已终止。
+
+ Source: .Net SqlClient Data Provider
+
+ Method: Void OnError(System.Data.SqlClient.SqlException, Boolean)
+
+ Stack Trace: 
+
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, DbAsyncResult result)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(DbAsyncResult result, String methodName, Boolean sendToPipe)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 GenericDataAccess.ExecuteNonQuery(DbCommand command) 位置 f:\My File\云同步\我的文档\OnlineCertification\App_Code\GenericDataAccess.cs:行号 63
+-----------------------------------------------------------

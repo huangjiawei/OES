@@ -1,0 +1,672 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ExamModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+    <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="DisplayName" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaims">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ClaimType" Type="nvarchar(max)" />
+    <Property Name="ClaimValue" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogins">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserRoles">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="256" />
+    <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+    <Property Name="PasswordHash" Type="nvarchar(max)" />
+    <Property Name="SecurityStamp" Type="nvarchar(max)" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" />
+    <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="datetime" />
+    <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Grade">
+    <Key>
+      <PropertyRef Name="GradeID" />
+    </Key>
+    <Property Name="GradeID" Type="int" Nullable="false" />
+    <Property Name="GradeName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Major">
+    <Key>
+      <PropertyRef Name="MajorID" />
+    </Key>
+    <Property Name="MajorID" Type="int" Nullable="false" />
+    <Property Name="MajorName" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Major_Subject">
+    <Key>
+      <PropertyRef Name="MajorID" />
+      <PropertyRef Name="SubjectID" />
+    </Key>
+    <Property Name="MajorID" Type="int" Nullable="false" />
+    <Property Name="SubjectID" Type="int" Nullable="false" />
+    <Property Name="Socre" Type="int" />
+  </EntityType>
+  <EntityType Name="Paper_AnswerList">
+    <Key>
+      <PropertyRef Name="AnserListID" />
+    </Key>
+    <Property Name="AnserListID" Type="bigint" Nullable="false" />
+    <Property Name="PaperID" Type="varchar" MaxLength="256" Nullable="false" />
+    <Property Name="StudentID" Type="nvarchar" MaxLength="256" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Paper_AnswerList_Item">
+    <Key>
+      <PropertyRef Name="AnswerListID" />
+      <PropertyRef Name="BigQuestionNumber" />
+      <PropertyRef Name="SmallQuestionNumber" />
+    </Key>
+    <Property Name="AnswerListID" Type="bigint" Nullable="false" />
+    <Property Name="BigQuestionNumber" Type="int" Nullable="false" />
+    <Property Name="SmallQuestionNumber" Type="int" Nullable="false" />
+    <Property Name="Answer" Type="nvarchar(max)" />
+    <Property Name="Score" Type="float" />
+    <Property Name="IsCorrect" Type="bit" />
+  </EntityType>
+  <EntityType Name="Paper_Choice">
+    <Key>
+      <PropertyRef Name="PaperID" />
+      <PropertyRef Name="QuestionID" />
+    </Key>
+    <Property Name="PaperID" Type="varchar" MaxLength="256" Nullable="false" />
+    <Property Name="QuestionID" Type="bigint" Nullable="false" />
+    <Property Name="Score" Type="float" Nullable="false" />
+    <Property Name="BigQuestionNumber" Type="int" Nullable="false" />
+    <Property Name="SmallQuestionNumber" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Paper_Essay">
+    <Key>
+      <PropertyRef Name="PaperID" />
+      <PropertyRef Name="QuestionID" />
+    </Key>
+    <Property Name="PaperID" Type="varchar" MaxLength="256" Nullable="false" />
+    <Property Name="QuestionID" Type="bigint" Nullable="false" />
+    <Property Name="Score" Type="float" />
+    <Property Name="BigQuestionNumber" Type="int" />
+    <Property Name="SmallQuestionNumber" Type="int" />
+  </EntityType>
+  <EntityType Name="Paper_QuestionCategory">
+    <Key>
+      <PropertyRef Name="PaperID" />
+      <PropertyRef Name="Sequence" />
+    </Key>
+    <Property Name="PaperID" Type="varchar" MaxLength="256" Nullable="false" />
+    <Property Name="Sequence" Type="int" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="1000" Nullable="false" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
+    <Property Name="ScorePerQuestion" Type="float" Nullable="false" />
+    <Property Name="QuestionType" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PaperCollection">
+    <Key>
+      <PropertyRef Name="UserID" />
+      <PropertyRef Name="PaperID" />
+    </Key>
+    <Property Name="UserID" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="PaperID" Type="varchar" MaxLength="256" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="1000" />
+  </EntityType>
+  <EntityType Name="Permission">
+    <Key>
+      <PropertyRef Name="PermissionID" />
+    </Key>
+    <Property Name="PermissionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PermissionName" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="QuestionChoice">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Question" Type="nvarchar" MaxLength="1000" Nullable="false" />
+    <Property Name="OptionA" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="OptionB" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="OptionC" Type="nvarchar" MaxLength="500" />
+    <Property Name="OptionD" Type="nvarchar" MaxLength="500" />
+    <Property Name="OptionE" Type="nvarchar" MaxLength="500" />
+    <Property Name="OptionF" Type="nvarchar" MaxLength="500" />
+    <Property Name="IsMultiple" Type="bit" Nullable="false" />
+    <Property Name="AisTrue" Type="bit" Nullable="false" />
+    <Property Name="BisTrue" Type="bit" Nullable="false" />
+    <Property Name="CisTrue" Type="bit" Nullable="false" />
+    <Property Name="DisTrue" Type="bit" Nullable="false" />
+    <Property Name="EisTrue" Type="bit" Nullable="false" />
+    <Property Name="FisTrue" Type="bit" Nullable="false" />
+    <Property Name="ModificationTeacher" Type="nchar" MaxLength="100" />
+    <Property Name="ModificationDate" Type="datetime" />
+    <Property Name="DateAdded" Type="date" Nullable="false" />
+    <Property Name="Difficulty" Type="smallint" Nullable="false" />
+    <Property Name="Frequency" Type="smallint" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="500" />
+    <Property Name="Assessment" Type="nchar" MaxLength="1000" />
+    <Property Name="Info" Type="nvarchar" MaxLength="500" />
+    <Property Name="Audit" Type="int" Nullable="false" />
+    <Property Name="ModificationTeacherID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="IsImport" Type="bit" Nullable="false" />
+    <Property Name="Auditor" Type="nvarchar" MaxLength="100" />
+    <Property Name="AuditorID" Type="nvarchar" MaxLength="128" />
+  </EntityType>
+  <EntityType Name="QuestionCollection">
+    <Key>
+      <PropertyRef Name="UserID" />
+      <PropertyRef Name="QuestionID" />
+    </Key>
+    <Property Name="UserID" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="QuestionID" Type="bigint" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="1000" />
+  </EntityType>
+  <EntityType Name="QuestionEssay ">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Question" Type="nvarchar" MaxLength="1000" Nullable="false" />
+    <Property Name="Answer" Type="nvarchar" MaxLength="1000" Nullable="false" />
+    <Property Name="QuestionType" Type="nvarchar" MaxLength="50" />
+    <Property Name="Info" Type="nvarchar" MaxLength="500" />
+    <Property Name="ModificationTeacher" Type="nchar" MaxLength="100" />
+    <Property Name="ModificationDate" Type="datetime" />
+    <Property Name="DateAdded" Type="date" Nullable="false" />
+    <Property Name="Difficulty" Type="smallint" Nullable="false" />
+    <Property Name="Frequency" Type="smallint" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="500" />
+    <Property Name="Assessment" Type="nvarchar" MaxLength="1000" />
+    <Property Name="Audit" Type="int" Nullable="false" />
+    <Property Name="ModificationTeacherID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="IsImport" Type="bit" Nullable="false" />
+    <Property Name="Auditor" Type="nvarchar" MaxLength="100" />
+    <Property Name="AuditorID" Type="nvarchar" MaxLength="128" />
+  </EntityType>
+  <EntityType Name="Resource">
+    <Key>
+      <PropertyRef Name="ResourceID" />
+    </Key>
+    <Property Name="ResourceID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Url" Type="nvarchar" MaxLength="500" />
+    <Property Name="Location" Type="nvarchar" MaxLength="500" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="1000" />
+    <Property Name="DateAdded" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Subject">
+    <Key>
+      <PropertyRef Name="SubjectID" />
+    </Key>
+    <Property Name="SubjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SubjectCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="SubjectName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Term" Type="nvarchar" MaxLength="50" />
+    <Property Name="Grade" Type="nvarchar" MaxLength="50" />
+    <Property Name="Version" Type="nvarchar" MaxLength="50" />
+    <Property Name="ParentId" Type="int" />
+    <Property Name="Description" Type="nvarchar" MaxLength="500" />
+    <Property Name="PreSubject" Type="nvarchar" MaxLength="50" />
+    <Property Name="Book" Type="nvarchar" MaxLength="50" />
+    <Property Name="ExamType" Type="int" />
+  </EntityType>
+  <EntityType Name="Subject_Choice">
+    <Key>
+      <PropertyRef Name="SubjectID" />
+      <PropertyRef Name="QuestionID" />
+    </Key>
+    <Property Name="SubjectID" Type="int" Nullable="false" />
+    <Property Name="QuestionID" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Subject_Essay">
+    <Key>
+      <PropertyRef Name="SubjectID" />
+      <PropertyRef Name="QuestionID" />
+    </Key>
+    <Property Name="SubjectID" Type="int" Nullable="false" />
+    <Property Name="QuestionID" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Teacher_Subject">
+    <Key>
+      <PropertyRef Name="TeacherID" />
+      <PropertyRef Name="SubjectID" />
+    </Key>
+    <Property Name="TeacherID" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="SubjectID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TestPaper">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="varchar" MaxLength="256" Nullable="false" />
+    <Property Name="Name" Type="nchar" MaxLength="50" Nullable="false" />
+    <Property Name="Info" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsReady" Type="bit" Nullable="false" />
+    <Property Name="ExamType" Type="nvarchar" MaxLength="50" />
+    <Property Name="SubjectID" Type="int" Nullable="false" />
+    <Property Name="ExamTime" Type="datetime" Nullable="false" />
+    <Property Name="TimeDuration" Type="int" />
+    <Property Name="Active" Type="int" Nullable="false" />
+    <Property Name="Audit" Type="int" Nullable="false" />
+    <Property Name="ModificationTeacher" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="ModificationTeacherID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ModificationDate" Type="datetime" Nullable="false" />
+    <Property Name="Assessment" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="User_Subject">
+    <Key>
+      <PropertyRef Name="UserID" />
+      <PropertyRef Name="SubjectID" />
+    </Key>
+    <Property Name="UserID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="SubjectID" Type="int" Nullable="false" />
+    <Property Name="Type" Type="int" />
+  </EntityType>
+  <EntityType Name="UserProfile">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="NickName" Type="nvarchar" MaxLength="50" />
+    <Property Name="RealName" Type="nvarchar" MaxLength="250" />
+    <Property Name="Address" Type="nvarchar" MaxLength="250" />
+    <Property Name="School" Type="nvarchar" MaxLength="250" />
+    <Property Name="Birthday" Type="datetime" />
+    <Property Name="Company" Type="nvarchar" MaxLength="250" />
+    <Property Name="Photo" Type="nvarchar" MaxLength="1000" />
+    <Property Name="TelPhone" Type="nvarchar" MaxLength="50" />
+    <Property Name="QQ" Type="nvarchar" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaims">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogins">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+    <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetRoles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Major_Subject_Major">
+    <End Role="Major" Type="Self.Major" Multiplicity="1" />
+    <End Role="Major_Subject" Type="Self.Major_Subject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Major">
+        <PropertyRef Name="MajorID" />
+      </Principal>
+      <Dependent Role="Major_Subject">
+        <PropertyRef Name="MajorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Major_Subject_Subject">
+    <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+    <End Role="Major_Subject" Type="Self.Major_Subject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subject">
+        <PropertyRef Name="SubjectID" />
+      </Principal>
+      <Dependent Role="Major_Subject">
+        <PropertyRef Name="SubjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <!--生成过程中发现错误:
+警告 6035: 关系“FK_Paper_AnswerList_AspNetUsers”在关系主端上有一些列不属于表的键的一部分。已排除了此关系。
+        <Association Name="FK_Paper_AnswerList_AspNetUsers" />-->
+  <Association Name="FK_Paper_AnswerList_TestPaper">
+    <End Role="TestPaper" Type="Self.TestPaper" Multiplicity="1" />
+    <End Role="Paper_AnswerList" Type="Self.Paper_AnswerList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TestPaper">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paper_AnswerList">
+        <PropertyRef Name="PaperID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paper_Choice_Paper_QuestionCategory">
+    <End Role="Paper_QuestionCategory" Type="Self.Paper_QuestionCategory" Multiplicity="1" />
+    <End Role="Paper_Choice" Type="Self.Paper_Choice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paper_QuestionCategory">
+        <PropertyRef Name="PaperID" />
+        <PropertyRef Name="Sequence" />
+      </Principal>
+      <Dependent Role="Paper_Choice">
+        <PropertyRef Name="PaperID" />
+        <PropertyRef Name="BigQuestionNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paper_Choice_QuestionChoice">
+    <End Role="QuestionChoice" Type="Self.QuestionChoice" Multiplicity="1" />
+    <End Role="Paper_Choice" Type="Self.Paper_Choice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QuestionChoice">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paper_Choice">
+        <PropertyRef Name="QuestionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paper_Choice_TestPaper">
+    <End Role="TestPaper" Type="Self.TestPaper" Multiplicity="1" />
+    <End Role="Paper_Choice" Type="Self.Paper_Choice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TestPaper">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paper_Choice">
+        <PropertyRef Name="PaperID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paper_Essay_Paper_QuestionCategory">
+    <End Role="Paper_QuestionCategory" Type="Self.Paper_QuestionCategory" Multiplicity="0..1" />
+    <End Role="Paper_Essay" Type="Self.Paper_Essay" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paper_QuestionCategory">
+        <PropertyRef Name="PaperID" />
+        <PropertyRef Name="Sequence" />
+      </Principal>
+      <Dependent Role="Paper_Essay">
+        <PropertyRef Name="PaperID" />
+        <PropertyRef Name="BigQuestionNumber" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paper_Essay_QuestionEssay ">
+    <End Role="QuestionEssay " Type="Self.QuestionEssay " Multiplicity="1" />
+    <End Role="Paper_Essay" Type="Self.Paper_Essay" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QuestionEssay ">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paper_Essay">
+        <PropertyRef Name="QuestionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paper_Essay_TestPaper">
+    <End Role="TestPaper" Type="Self.TestPaper" Multiplicity="1" />
+    <End Role="Paper_Essay" Type="Self.Paper_Essay" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TestPaper">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paper_Essay">
+        <PropertyRef Name="PaperID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paper_QuestionCategory_TestPaper">
+    <End Role="TestPaper" Type="Self.TestPaper" Multiplicity="1" />
+    <End Role="Paper_QuestionCategory" Type="Self.Paper_QuestionCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TestPaper">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paper_QuestionCategory">
+        <PropertyRef Name="PaperID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <!--生成过程中发现错误:
+警告 6035: 关系“FK_PaperCollection_AspNetUsers”在关系主端上有一些列不属于表的键的一部分。已排除了此关系。
+        <Association Name="FK_PaperCollection_AspNetUsers" />-->
+  <Association Name="FK_PaperCollection_TestPaper">
+    <End Role="TestPaper" Type="Self.TestPaper" Multiplicity="1" />
+    <End Role="PaperCollection" Type="Self.PaperCollection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TestPaper">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PaperCollection">
+        <PropertyRef Name="PaperID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <!--生成过程中发现错误:
+警告 6035: 关系“FK_QuestionCollection_AspNetUsers”在关系主端上有一些列不属于表的键的一部分。已排除了此关系。
+        <Association Name="FK_QuestionCollection_AspNetUsers" />-->
+  <!--生成过程中发现错误:
+警告 6035: 关系“FK_Teacher_Subject_AspNetUsers”在关系主端上有一些列不属于表的键的一部分。已排除了此关系。
+        <Association Name="FK_Teacher_Subject_AspNetUsers" />-->
+  <Association Name="FK_Teacher_Subject_Subject">
+    <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+    <End Role="Teacher_Subject" Type="Self.Teacher_Subject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subject">
+        <PropertyRef Name="SubjectID" />
+      </Principal>
+      <Dependent Role="Teacher_Subject">
+        <PropertyRef Name="SubjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TestAnswerSubItem_TestAnswerList">
+    <End Role="Paper_AnswerList" Type="Self.Paper_AnswerList" Multiplicity="1" />
+    <End Role="Paper_AnswerList_Item" Type="Self.Paper_AnswerList_Item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paper_AnswerList">
+        <PropertyRef Name="AnserListID" />
+      </Principal>
+      <Dependent Role="Paper_AnswerList_Item">
+        <PropertyRef Name="AnswerListID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Subject_Subject">
+    <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+    <End Role="User_Subject" Type="Self.User_Subject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subject">
+        <PropertyRef Name="SubjectID" />
+      </Principal>
+      <Dependent Role="User_Subject">
+        <PropertyRef Name="SubjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ExamModelStoreContainer">
+    <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Grade" EntityType="Self.Grade" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Major" EntityType="Self.Major" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Major_Subject" EntityType="Self.Major_Subject" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Paper_AnswerList" EntityType="Self.Paper_AnswerList" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Paper_AnswerList_Item" EntityType="Self.Paper_AnswerList_Item" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Paper_Choice" EntityType="Self.Paper_Choice" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Paper_Essay" EntityType="Self.Paper_Essay" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Paper_QuestionCategory" EntityType="Self.Paper_QuestionCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PaperCollection" EntityType="Self.PaperCollection" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Permission" EntityType="Self.Permission" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QuestionChoice" EntityType="Self.QuestionChoice" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QuestionCollection" EntityType="Self.QuestionCollection" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QuestionEssay " EntityType="Self.QuestionEssay " Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Resource" EntityType="Self.Resource" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Subject_Choice" EntityType="Self.Subject_Choice" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Subject_Essay" EntityType="Self.Subject_Essay" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Teacher_Subject" EntityType="Self.Teacher_Subject" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TestPaper" EntityType="Self.TestPaper" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User_Subject" EntityType="Self.User_Subject" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+      <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Major_Subject_Major" Association="Self.FK_Major_Subject_Major">
+      <End Role="Major" EntitySet="Major" />
+      <End Role="Major_Subject" EntitySet="Major_Subject" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Major_Subject_Subject" Association="Self.FK_Major_Subject_Subject">
+      <End Role="Subject" EntitySet="Subject" />
+      <End Role="Major_Subject" EntitySet="Major_Subject" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paper_AnswerList_TestPaper" Association="Self.FK_Paper_AnswerList_TestPaper">
+      <End Role="TestPaper" EntitySet="TestPaper" />
+      <End Role="Paper_AnswerList" EntitySet="Paper_AnswerList" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paper_Choice_Paper_QuestionCategory" Association="Self.FK_Paper_Choice_Paper_QuestionCategory">
+      <End Role="Paper_QuestionCategory" EntitySet="Paper_QuestionCategory" />
+      <End Role="Paper_Choice" EntitySet="Paper_Choice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paper_Choice_QuestionChoice" Association="Self.FK_Paper_Choice_QuestionChoice">
+      <End Role="QuestionChoice" EntitySet="QuestionChoice" />
+      <End Role="Paper_Choice" EntitySet="Paper_Choice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paper_Choice_TestPaper" Association="Self.FK_Paper_Choice_TestPaper">
+      <End Role="TestPaper" EntitySet="TestPaper" />
+      <End Role="Paper_Choice" EntitySet="Paper_Choice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paper_Essay_Paper_QuestionCategory" Association="Self.FK_Paper_Essay_Paper_QuestionCategory">
+      <End Role="Paper_QuestionCategory" EntitySet="Paper_QuestionCategory" />
+      <End Role="Paper_Essay" EntitySet="Paper_Essay" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paper_Essay_QuestionEssay " Association="Self.FK_Paper_Essay_QuestionEssay ">
+      <End Role="QuestionEssay " EntitySet="QuestionEssay " />
+      <End Role="Paper_Essay" EntitySet="Paper_Essay" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paper_Essay_TestPaper" Association="Self.FK_Paper_Essay_TestPaper">
+      <End Role="TestPaper" EntitySet="TestPaper" />
+      <End Role="Paper_Essay" EntitySet="Paper_Essay" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paper_QuestionCategory_TestPaper" Association="Self.FK_Paper_QuestionCategory_TestPaper">
+      <End Role="TestPaper" EntitySet="TestPaper" />
+      <End Role="Paper_QuestionCategory" EntitySet="Paper_QuestionCategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PaperCollection_TestPaper" Association="Self.FK_PaperCollection_TestPaper">
+      <End Role="TestPaper" EntitySet="TestPaper" />
+      <End Role="PaperCollection" EntitySet="PaperCollection" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Teacher_Subject_Subject" Association="Self.FK_Teacher_Subject_Subject">
+      <End Role="Subject" EntitySet="Subject" />
+      <End Role="Teacher_Subject" EntitySet="Teacher_Subject" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TestAnswerSubItem_TestAnswerList" Association="Self.FK_TestAnswerSubItem_TestAnswerList">
+      <End Role="Paper_AnswerList" EntitySet="Paper_AnswerList" />
+      <End Role="Paper_AnswerList_Item" EntitySet="Paper_AnswerList_Item" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Subject_Subject" Association="Self.FK_User_Subject_Subject">
+      <End Role="Subject" EntitySet="Subject" />
+      <End Role="User_Subject" EntitySet="User_Subject" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

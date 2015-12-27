@@ -1,0 +1,250 @@
+﻿@model OnlineExam.Models.ImportPaper
+
+<div>
+    <h4>试卷试题导入</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            题目：
+        </dt>
+
+        <dd>
+            @Html.TextBoxFor(model => Model.ExamTitle)
+        </dd>
+
+        <dt>
+            年级：
+        </dt>
+
+        <dd>
+            @Html.TextBoxFor(model => Model.Grade)
+        </dd>
+
+        <dt>
+            年度：
+        </dt>
+
+        <dd>
+            @Html.TextBoxFor(model => Model.Year)
+        </dd>
+
+        <dt>
+            科目：
+        </dt>
+
+        <dd>
+            @Html.TextBoxFor(model => Model.SubjectName)
+        </dd>
+
+        <dt>
+            学期：
+        </dt>
+
+        <dd>
+            @Html.TextBoxFor(model => Model.SubSubjectName)
+        </dd>
+
+        <dt>
+            试卷类型：
+        </dt>
+
+        <dd>
+            @Html.TextBoxFor(model => Model.ExamType)
+        </dd>
+
+        <dt>
+            试卷名称：
+        </dt>
+
+        <dd>
+            @Html.TextBoxFor(model => Model.name)
+        </dd>
+
+        <dt>
+            总分
+        </dt>
+
+        <dd>
+            @Html.TextBoxFor(model => Model.TotleScore)
+        </dd>
+
+        <dt>
+            单选题：
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.SingleChoiceQuantity)
+            题x
+            @Html.TextBoxFor(model => Model.SingleChoiceGrade)
+            分
+        </dd>
+
+        <dt>
+            多选题：
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.ChoiceQuantity)
+            题x
+            @Html.TextBoxFor(model => Model.ChoiceGrade)
+            分
+        </dd>
+        <dt>
+            填空题
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.CompletionQuantity)
+            题x
+            @Html.TextBoxFor(model => Model.CompletionGrade)
+            分
+        </dd>
+
+
+        <dt>
+            简答题
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.ShortAnswerQuantity)
+            题x
+            @Html.TextBoxFor(model => Model.ShortAnswerGrade)
+            分
+        </dd>
+
+        <dt>
+            应用题
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.DiscussionQuantity)
+            题x
+            @Html.TextBoxFor(model => Model.DiscussionGrade)
+            分
+        </dd>
+
+    </dl>
+</div>
+<div>
+    <input type="checkbox" checked="checked" onchange="DisplayInfo(this);" value="" />显示解释
+    <input type="checkbox" onchange="DisplayAnswer(this);" checked="checked" value="" />显示答案
+</div>
+@{
+    int bigNum = -1;
+}
+@foreach (var i in Model.Questions)
+{
+    if (bigNum == -1 || bigNum != i.BigNum)
+    {
+        bigNum = i.BigNum;
+        <h3>
+            @i.QuestionBigNum
+            、
+            @i.QType.GetInfo();
+        </h3>
+    }
+ 
+    <div id="@i.ID" class="bg-primary ">
+        <div>
+            <span id="toolBox">
+                <a class="btn btn-primary edit"  onclick="QEdit('@i.ID');">编辑</a>
+                <a class="btn btn-danger delete" onclick="QDelete('@i.ID');">删除</a>
+                <a class="btn btn-info import" onclick="QImport('@i.ID');">导入</a>
+            </span>
+            <span class="BigQuestionType"><b>所属大题：</b>@i.QuestionBigNum <b>题目类型：</b>@i.QType.GetInfo()</span>
+        </div>
+        <h4 class="Question">
+            @i.QuestionNum
+            :
+            @Html.Raw(i.Question)
+        </h4>
+        @if (i.Options != null && i.Options.Count > 0)
+        {
+            <hr />
+            foreach (var o in i.Options)
+            {
+                <h4 class="Option">
+                    @o.Op
+                    :
+                    @Html.Raw(o.Content)
+                </h4>
+            }
+        }
+        <hr />
+        <footer class="QuestionInfo"><b>解释/评论：</b> @Html.Raw(i.Info)</footer>
+        <hr />
+        <footer class="Answer"><b>答案：</b>@Html.Raw(i.Answer)</footer>
+        
+    </div>
+    <hr />
+
+}
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+<style>
+    .BigQuestionType {
+        float: right;
+    }
+</style>
+<script type="text/javascript">
+
+    function DisplayInfo(e) {
+        if ($(e).is(":checked")) {
+            $(".QuestionInfo").css("display", "block");
+        } else {
+            $(".QuestionInfo").css("display", "none");
+        }
+    }
+    function DisplayAnswer(e) {
+        if ($(e).is(":checked")) {
+            $(".Answer").css("display", "block");
+        } else {
+            $(".Answer").css("display", "none");
+        }
+    }
+
+    function QEdit(id) {
+
+
+    }
+    function QDelete(id) {
+        if (confirm("确定要删除选中的题目吗?"))
+            $.ajax({
+                url: '@Url.Action("Delete")',
+                data: { id: id, key: '@ViewBag.PaperKey' },
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    if (data.Success == 0) {
+                        alert("提交失败");
+                    } else {
+                        $("#" + id).next("hr").css("display", "none");
+                        $("#" + id).css("display", "none");
+                    }
+                }
+            });
+
+
+    }
+    function QImport(id) {
+        $.ajax({
+            url: '@Url.Action("Import")',
+            data: { id: id, key: '@ViewBag.PaperKey' },
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                if (data.Success == 0) {
+                    alert("导入失败");
+                } else {
+                    $("#" + id).removeClass("bg-primary");
+                    $("#" + id).removeClass("bg-warning");
+                    $("#" + id).find(".import").text("已导入").addClass("btn-success").removeAttr("onclick");
+                }
+            }
+        });
+    }
+
+</script>

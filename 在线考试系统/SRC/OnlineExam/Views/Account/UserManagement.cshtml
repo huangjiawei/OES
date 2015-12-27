@@ -1,0 +1,198 @@
+﻿@using OnlineExam.Models;
+@using MvcContrib.UI.Grid;
+@using MvcContrib.UI.Pager
+@using MvcContrib.Pagination
+@model PagedViewModel<UserDetail>
+<div class="row">
+    @using (Html.BeginForm("UserManagement", "Account", FormMethod.Get, new { id = "Search" }))
+    {
+        @Html.TextBox("searchWord", "", new { @class = "form-control col-xs-1 width200", placeholder = "查询关键字" })
+        @Html.DropDownList("SelectRole", (IEnumerable<SelectListItem>)(ViewBag.Roles), new { @class = "form-control col-xs-1 width100" })
+        <button value="搜索" class="btn btn-default col-xs-2  width80  glyphicon glyphicon-search " type="submit">搜索</button>
+        <button value="刷新" class="btn btn-default col-xs-2 width80   glyphicon  glyphicon-refresh" type="reset">重置</button>
+    }
+    <button class="btn btn-default col-xs-2 width90   glyphicon  glyphicon-edit" onclick="editRole();">编辑角色</button>
+    <button class="btn btn-default col-xs-2 width90   glyphicon  glyphicon-edit" onclick="editSubject();">科目管理</button>
+    @*<button class="btn btn-default col-xs-2 width80   glyphicon glyphicon-remove" onclick="deleteItem();">删除</button>*@
+</div>
+<div id="contentGrid" class="row">
+
+    @if (ViewData["ViewType"] == null || (DataView)ViewData["ViewType"] == DataView.GridView)
+    {
+        @Html.Grid(Model.PagedList).Columns(column =>
+   {
+
+       column.For(x => Html.ActionLink(x.UserName, "UserProfile", "Account", new { userId = x.UserName }, new { target = "_blank" })).SortColumnName("UserName").Named("用户ID");
+       column.For(x => x.Email).SortColumnName("Email").Named("邮箱");
+       column.For(x => x.Profile == null ? "" : x.Profile.RealName).Sortable(false).Named("真实姓名");
+       column.For(x => x.Profile == null ? "" : x.Profile.NickName).Sortable(false).Named("昵称");
+       column.For(x => x.GetRoleString()).Sortable(false).Named("角色");
+
+
+       //column.For(x => x.UserName).SortColumnName("UserName").Named("用户ID");
+       //column.For(x => x.UserName).SortColumnName("UserName").Named("用户ID");
+       //column.For(x => x.UserName).SortColumnName("UserName").Named("用户ID");
+       //column.For(x => x.UserName).SortColumnName("UserName").Named("用户ID");
+
+   }).Sort(Model.GridSortOptions).Attributes(new Func<object, object>
+            [] { @class => " table   table-hover " }).RowAttributes(data => new MvcContrib.Hash(new Func<object, object>
+                [] { onclick => "onGridRowClick(this)", alt => data.Item.UserName }));
+    }
+    else
+    {
+        <hr />
+        <div class="table table-hover">
+            @foreach (var m in Model.PagedList)
+            {
+                <img src="@(CUrl.UserPhoto+m.Profile.Photo)" />
+                <div>
+                    <label>
+                        用户ID:
+                    </label>@m.UserName
+                </div>
+                <div><label>真实姓名：</label>@m.Profile.RealName</div>
+                <div>
+                    邮箱：
+                    @m.Email
+                </div>
+
+                <hr />
+            }
+        </div>
+
+    }
+</div>
+<div class="row"><div id="page-selection"></div></div>
+@section Scripts {
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/jquery.address.js")"></script>
+    <script src="@Url.Content("~/Scripts/gridmvc.min.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/Scripts/jquery.bootpag.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/QueryString.js")"></script>
+    <script src="/Scripts/artDialog/dist/dialog-plus-min.js"></script>
+    <link rel="stylesheet" href="/Scripts/artDialog/css/ui-dialog.css">
+
+}
+<script>
+    Alerter.turnOff();
+    var dlg=null;
+    var subjectDlg=null;
+    var isMultiple="@ViewBag.questionType"
+    function OpenRoleDialog(name){
+        var url='@Url.Action("RoleAdmin")?name='+name;
+        if(dlg==null||dlg== undefined ){
+            dlg=dialog({
+                title:"编辑角色",
+                drag:true,
+                width:300,
+                height:300,
+                onclose:function(){dlg=null;}
+            });
+            dlg.content("<iframe id='irole' src='"+url+"' style='width:100%;height:100%;border-style:none'  ></iframe>" )
+            dlg.reset().show();
+        }
+        else
+            $("#irole").attr("src",url)
+    }
+    function OpenSubjectDialog(name){
+        var url='@Url.Action("TeacherSubjectAdmin")?name='+name;
+        if(subjectDlg==null||subjectDlg== undefined ){
+            subjectDlg=dialog({
+                title:"编辑教师所有科目",
+                drag:true,
+                width:500,
+                height:300,
+                onclose:function(){subjectDlg=null;}
+            });
+            subjectDlg.content("<iframe id='isubject' src='"+url+"' style='width:100%;height:100%;border-style:none'  ></iframe>" )
+            subjectDlg.reset().show();
+
+        }
+        else
+            $("#isubject").attr("src",url)
+    }
+    function editRole(){
+        var name=$(".SelectedItem").attr("alt");
+
+        if(name==undefined||name==null){alert("未选中用户");return;}
+        OpenRoleDialog(name);
+        Alerter.info("edRole")
+    }
+    function editSubject(){
+        var name=$(".SelectedItem").attr("alt");
+
+        if(name==undefined||name==null){alert("未选中用户");return;}
+        OpenSubjectDialog(name);
+    }
+    function createItem(){
+        window.open('@Url.Action("EditProfile",new { questionType = ViewBag.questionType })');
+    }
+    function viewItem(id){
+        window.open('@Url.Action("UserProfile")'+'/'+id);
+    }
+    function deleteItem(){
+        var id=$(".SelectedItem").attr("alt");
+        if(id==undefined||id==null){alert("未选中用户");return;}
+        if(confirm("确定要删除选中的用户吗?"))
+            $.ajax({
+                url:'@Url.Action("DeleteUser")',
+                type:'post',
+                data: { name:id},
+                dataType: "json",
+                success: function (data) {
+                    if (data.Success == 0) {
+                        alert("提交失败");
+                    } else {
+                        window.location.reload();
+                    }
+                }
+            });
+    }
+
+
+    function ReSetRowStyle(){
+        $("#contentGrid tr").removeClass("info");
+        $("#contentGrid tr").removeClass("SelectedItem");
+    }
+    //function deActive(e){
+    //    $(e).removeClass("info");
+    //    $(e).removeClass("SelectedItem");
+    //    //如果为未审核则添加warning类样式
+    //    $(e).find("img[alt='未审核']").parent().parent().addClass("warning")
+    //    $(e).find("img[alt='审核不通过']").parent().parent().addClass("warning")
+    //}
+
+    function onGridRowClick(e){
+        ReSetRowStyle();
+
+        $(e).addClass("info");
+        $(e).addClass("SelectedItem");
+        Alerter.list(dlg,subjectDlg)
+        if(dlg!=null&&dlg!= undefined)editRole();
+        if(subjectDlg!=null&&subjectDlg!= undefined)editSubject();
+    }
+
+    $(function () {
+        $('#page-selection'  ).bootpag({
+            total:
+            @ViewData["MaxPage"],
+            page:@ViewData["CurrentPage"],
+            maxVisible: 10,
+        }).on("page", function(event,num){
+            window.location.href= setUrlEncodedKey("page",num,window.location.search);
+        });
+        $("#SelectRole").val(@ViewData["SelectRole"])
+
+    })
+</script>
+<style>
+    .cell {
+        max-height: 100px;
+        overflow: hidden;
+    }
+
+    td {
+        /*max-width: 200px;*/
+        overflow-y: hidden;
+    }
+</style>

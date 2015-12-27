@@ -1,0 +1,328 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using NetOffice;
+using Word = NetOffice.WordApi;
+using NetOffice.WordApi.Enums;
+using System.Text;
+//using System.IO;
+//using DocumentFormat.OpenXml;
+//using DocumentFormat.OpenXml.Packaging;
+//using DocumentFormat.OpenXml.Wordprocessing;
+//using A = DocumentFormat.OpenXml.Drawing;
+//using DW = DocumentFormat.OpenXml.Drawing.Wordprocessing;
+//using PIC = DocumentFormat.OpenXml.Drawing.Pictures;
+//using System.IO.Packaging;
+using OnlineExam.Models;
+namespace OnlineExam.MyCode
+{
+    public class PaperImportHelper
+    {
+        bool isNum(char c)
+        {
+            return c >= '0' && c <= '9';
+        }
+        bool isBigNum(char c)
+        {
+            return bigNum.Contains(c);
+        }
+
+        static char[] mark = new char[] { '.', '、', ')', '）' };
+        static char[] bigNum = new char[] { '一', '二', '三', '四', '五', '六', '七', '八', '九', '十' };
+        static char[] bracket = new char[] { '【', '】' };
+        static char[] optionType1 = new char[] { 'A', 'B', 'C', 'D', 'E', 'F' };
+        static char[] optionType2 = new char[] { 'a', 'b', 'c', 'd', 'e', 'f' };
+        static char[] optionType3 = new char[] { '1', '2', '3', '4', '5' };
+
+        static string[] singleChoiceTitle = new string[] { "单选题", "单项选择题", "选择题" };
+        static string[] multipleChoiceTitle = new string[] { "多项选择题", "多选题", "选择题" };
+        static string[] shortAnswerTitle = new string[] { "简答题", "回答", "计算", "小题" };
+        static string[] completionTitle = new string[] { "填空题", "填空" };
+        static string[] discTitle = new string[] { "议论题", "应用题", "大题" };
+        static Dictionary<QuestionType, string[]> dictQtypeTitle = new Dictionary<QuestionType, string[]>();
+
+        char[] CurrentOptionType;
+        static string[] answer = new string[] { "答案", "参考答案", "回答", "解答" };
+        static string[] answerEnd = new string[] { " ","]","】",":","、"};
+        static string[] remark = new string[] { "解释", "解析", "解题思路", "提示", "备注", "解题方法", "方法" };
+        static string[] examType = new string[] { "模拟", "测试", "自测", "期末考试", "期中考试" };
+
+        static List<string> subjectList = new List<string>();
+        static List<string> subjectDetailList = new List<string>();
+        static PaperImportHelper()
+        {
+            subjectList.Add("语文");
+            subjectList.Add("数学");
+            subjectList.Add("英语");
+            subjectList.Add("政治");
+            subjectList.Add("物理");
+            subjectList.Add("体育");
+            subjectList.Add("生物");
+            subjectList.Add("历史");
+            subjectList.Add("地理");
+
+            dictQtypeTitle.Add(QuestionType.SingleChoice, singleChoiceTitle);
+            dictQtypeTitle.Add(QuestionType.MultipleChoice, multipleChoiceTitle);
+            dictQtypeTitle.Add(QuestionType.Completion, completionTitle);
+            dictQtypeTitle.Add(QuestionType.ShortAnswer, shortAnswerTitle);
+            dictQtypeTitle.Add(QuestionType.Discussion, discTitle);
+
+
+        }
+
+        //小题的开始形式为
+        //数字+"、"，如  1、下列题目正确的是
+        //数字+空格 如   1 下列题目正确的是
+        /// <summary>
+        /// 判读段落是否已经开始
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="num"></param>
+        /// <param name="contentStartIndex"></param>
+        /// <returns></returns>
+        public bool IsQuestion(string s, out int num)
+        {
+            num = -1;
+            string snum = "";
+            var temp = s.Replace(" ", "");
+            int i = 0;
+            while (isNum(s[i]))
+            {
+                snum += s[i];
+                i++;
+            }
+            if (i > 0 && mark.Contains(s[i])) { num = int.Parse(snum); return true; }
+            return false;
+        }
+   
+        bool IsOption(string s, out List<Option> ops)
+        {
+            ops = new List<Option>();
+            int i = 0;
+            var temp = s.Trim();
+            var c = temp[0];
+            if (CurrentOptionType == null)
+            {
+                if (optionType1.Contains(temp[0]) && mark.Contains(temp[2]))
+                {
+                    CurrentOptionType = optionType1;
+                }
+                else if (optionType2.Contains(temp[0]) && mark.Contains(temp[2]))
+                {
+                    CurrentOptionType = optionType2;
+                }
+                else if (optionType3.Contains(temp[0]) && mark.Contains(temp[2]))
+                {
+                    CurrentOptionType = optionType3;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+
+            if (CurrentOptionType.Contains(temp[0]) && mark.Contains(temp[2]))
+            {
+                bool hasAnotherOp = false;
+                int preIndex = 0;
+                string preOp = temp[0].ToString();
+                var preOptionContent = "";
+                do
+                {
+                    char nextOp = Convert.ToChar(preOp[0] + 1);
+                    var j = temp.IndexOf(" " + nextOp);//多个选项之间通常用空格分开
+                    if (j > 0)
+                    {
+                        if (j + 2 < temp.Length && mark.Contains(temp[j + 2]))
+                        {
+                            //在同一行字符串中找到另外一个选项
+                            hasAnotherOp = true;
+                            //将之前的选项添加到ops中
+                            preOptionContent = temp.Substring(preIndex + 2, j - preIndex - 2).TrimEnd();
+                            ops.Add(new Option(preOp, preOptionContent));
+                            preOp = temp[j].ToString();
+                            preIndex = j + 1;
+                        }
+                    }
+                } while (hasAnotherOp);
+                preOptionContent = temp.Substring(preIndex + 2).TrimEnd();
+                ops.Add(new Option(preOp, preOptionContent));
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //从第一行读取 科目、年级等数据
+        public void GetInfoFromTitle()
+        {
+
+        }
+        public bool IsBigQuestion(string s, out QuestionType q)
+        {
+            q = QuestionType.SingleChoice;
+            var temp = s.Trim();
+            if (isBigNum(temp[0]) && mark.Contains(temp[1]))
+            {
+                var keys = dictQtypeTitle.Keys;
+                //keys[0]
+                //判断是否包含大题；
+                //var a=from dict in dictQtypeTitle
+                //      where s.IndexOf()
+                foreach (var t in dictQtypeTitle.ToList())
+                {
+                    foreach (string s1 in t.Value)
+                    {
+                        if (s.IndexOf(s1) > 0)
+                        {
+                            q = t.Key;
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+
+        QuestionType tempQtype;
+        int tempNum;
+        List<Option> tempOps;
+        
+
+        public ImportQuestion ReadQuestion(NetOffice.WordApi.Paragraphs paras, ref int index)
+        {
+            ImportQuestion question = new ImportQuestion();
+            question.Question = paras[index].Range.Text.Substring(2);
+            bool end = true;
+            do
+            {
+                index++;
+                var temp = paras[index].Range.Text;
+                if (!IsBigQuestion(temp, out tempQtype) && !IsQuestion(temp, out tempNum) && !IsOption(temp, out tempOps))
+                {
+                    question.Question += temp;
+
+                }else if (tempOps.Count > 0)
+                {
+                    foreach(var o in tempOps)
+                    {
+                        question.Options.Add(o);
+                    }
+                }
+                else end = false;
+            } while (end);
+            index = index - 1;
+            return question;
+        }
+        public bool IsQuestionAnswer(string s)
+        {
+            var temp = s.Trim();
+            foreach(var t in answer)
+            {
+                if (3> temp.IndexOf(t) > 0)　　//在开始出有
+                {
+                    
+                }
+            }
+        }
+
+        public ImportPaper GetPaperFormFile(string file)
+        {
+            ImportPaper paper = new ImportPaper();
+
+            Word.Application wordApplication = new Word.Application();
+            wordApplication.DisplayAlerts = WdAlertLevel.wdAlertsNone;
+            // create a utils instance, not need for but helpful to keep the lines of code low
+            Word.Tools.CommonUtils utils = new Word.Tools.CommonUtils(wordApplication);
+
+            var doc = wordApplication.Documents.Open(file);
+            //MessageBox.Show(doc.Content.Text);
+            //+doc.Characters[0].Tables.Count.ToString()
+            //doc.Paragraphs.Count;
+            //txtOp1.Text = doc.Paragraphs.Count.ToString();
+            //var p = doc.Paragraphs[3].Range.Text;
+            //txtOp2.Text=doc
+            //txtOp2.Text = p;
+            //txtOp3.Text = doc.Paragraphs[1].Range.Start.ToString() + "-" + doc.Paragraphs[1].Range.End.ToString();
+            //txtOp4.Text = doc.Paragraphs[2].Range.Tables.Count.ToString();
+
+            QuestionType currentQt;//当前大题游标
+            int currentNum = 0;//当前题号
+            int nextNum = 0;//
+            QuestionType nextQt;//检索字符串保存的下一个大题类型
+            List<Option> ops;
+            StringBuilder sb = new StringBuilder();
+            int i = 0;
+            var paras = doc.Paragraphs;
+            string title = "";
+            while (title == "" && i < paras.Count)
+            {
+                title = paras[i++].Range.Text.Trim();
+                if (!IsQuestion(title, out nextNum) && !(IsBigQuestion(title, out nextQt)))
+                {
+                    paper.ExamTitle = title;
+                }
+
+            }
+            for (; i < paras.Count; i++)
+            {
+                var s = paras[i].Range.Text;
+                if (IsBigQuestion(s, out nextQt))
+                {
+                    currentQt = nextQt;
+                }
+                else if (IsQuestion(s, out nextNum))
+                {
+                    if (nextNum - currentNum > 20)
+                    {
+                        currentNum = nextNum;
+                        //读取题目
+
+                       string question= ReadQuestion(paras, ref i);
+                       
+
+
+
+
+                    }
+                }
+
+
+            }
+            if (!IsQuestion(s))
+
+                foreach (var p in doc.Paragraphs)
+                {
+                    string text = p.Range.Text;
+                    string num;
+                    int index;
+
+                    if (IsStartWithNumber(text, out num, out index))
+                    {
+
+
+                    }
+
+                }
+
+
+
+
+
+            //// save the document
+            //string documentFile = utils.File.Combine("e:\\", "Example01", Word.Tools.DocumentFormat.Normal);
+            //newDocument.SaveAs(documentFile);
+
+
+            // close word and dispose reference
+            wordApplication.Quit();
+            wordApplication.Dispose();
+            return null;
+        }
+
+    }
+}

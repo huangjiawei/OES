@@ -1,0 +1,89 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="ExamPage.master.cs" Inherits="User_ExamPage" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>在线考试</title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css" />
+		<link href="http://fonts.googleapis.com/css?family=Kreon" rel="stylesheet" type="text/css" />
+    <link href="~/App_Themes/style.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form2" runat="server"> 
+    <asp:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server">
+                 </asp:ToolkitScriptManager>
+    <div id="wrapper">
+         <div id="header">
+             <div id="logo"><h1>在线考试——<asp:Label ID="lbSubject" runat="server" Text="SubjectName"></h1></asp:Label></div>
+             
+             <div id="menu">  
+    <asp:Timer ID="TimerExam" runat="server" ontick="TimerExam_Tick">
+         </asp:Timer><h4>
+             <asp:Label ID="lbSubjectDetail" runat="server" Text="SubjectDetail"></asp:Label></h4>
+         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+             <ContentTemplate>
+                 <asp:Label ID="lbTime" runat="server" Text=""></asp:Label>
+             </ContentTemplate>
+             <Triggers>
+             <asp:AsyncPostBackTrigger ControlID="TimerExam" EventName="Tick" />
+             </Triggers>
+         </asp:UpdatePanel> </div>  
+         </div>             
+   
+         
+      
+  
+        <div id="page">
+          <div id="sidebar">
+           <div class="box">
+               
+               
+            <asp:TreeView ID="TreeView1" runat="server" 
+                   >
+                <Nodes>
+                    <asp:TreeNode Text="试卷" Value="试卷" Expanded="True" 
+                        NavigateUrl="~/User/OnlineExam_Default.aspx">
+                        <asp:TreeNode Text="单选题" Value="单选题" 
+                            NavigateUrl="~/User/OnlineExam_SingleChoice.aspx"></asp:TreeNode>
+                        <asp:TreeNode Text="多选题" Value="多选题" 
+                            NavigateUrl="~/User/OnlineExam_MultipleChoice.aspx"></asp:TreeNode>
+                        <asp:TreeNode Text="填空题" Value="填空题" 
+                            NavigateUrl="~/User/OnlineExam_Completion.aspx"></asp:TreeNode>
+                        <asp:TreeNode Text="简答题/计算题" Value="简答题/计算题" 
+                            NavigateUrl="~/User/OnlineExam_ShortAnswer.aspx"></asp:TreeNode>
+                        <asp:TreeNode Text="议论题/应用题" Value="议论题/应用题" 
+                            NavigateUrl="~/User/OnlineExam_Discussion.aspx"></asp:TreeNode>
+                    </asp:TreeNode>
+                </Nodes>
+            </asp:TreeView>
+            <div><p>
+                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   <asp:Button ID="btnSumit" runat="server" onclick="btnSumit_Click" 
+                       style="width: 40px" Text="交卷" /></p>
+                   <asp:ConfirmButtonExtender ID="btnSumit_ConfirmButtonExtender" runat="server" 
+                       ConfirmText="确认交卷吗？" Enabled="True" TargetControlID="btnSumit">
+                   </asp:ConfirmButtonExtender>
+               </div>
+            </div> 
+            </div>          
+           
+        <div id="content">                
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+       
+        
+         <br class="clearfix" />        
+    </div>
+     
+    </div>
+    </form>
+</body>
+</html>
+
+
+

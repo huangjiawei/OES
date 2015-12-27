@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Paper" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAJAAAAAQAAAA=</HashCode>
+      <FileName>App_Code\ExamControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExamControl">
+    <Position X="2.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAgABAAAIAACAAAAAAAAAAiAEAAAAAAgAAAAAA=</HashCode>
+      <FileName>App_Code\ExamControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExamineeAccess">
+    <Position X="5.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAABAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>App_Code\ExamineeAccess.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProfileCommon">
+    <Position X="5.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BCAAAAAABAAABCAAAKAAAAAAAAAIAQACAIAAAAAAAAA=</HashCode>
+      <FileName>C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\onlinecertification\920b6d27\43089ff5\Sources_App_Code\profile.cdcab7d2.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OnlineCertificationConfiguration">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAACAAAAAAECACABAgCBAAAACAA=</HashCode>
+      <FileName>App_Code\OnlineCertificationConfiguration.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utilities">
+    <Position X="3.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Code\Utilities.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="SubjectQuestionQuantity">
+    <Position X="1.25" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AgAAAgAAAAAAAAAAAEACAAQAAAAIAAAAAAAAAAACAAA=</HashCode>
+      <FileName>App_Code\ExamControl.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

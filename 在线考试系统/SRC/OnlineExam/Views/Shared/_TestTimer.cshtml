@@ -1,0 +1,26 @@
+﻿@using (Ajax.BeginForm("GetTime", "OnlineTest", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "timeLeft", OnComplete = "" }))
+{
+    <span id="timeLeft"></span>
+    <input id="btnGetTime" type="submit" style="display:none;" />
+}
+
+@*将以下javascript添加到框架页*@
+@this.ScriptBlock(
+    @<script>
+        $(function () {
+            setInterval(ajaxSubmit, 60000)
+        }
+        );
+        function ajaxSubmit() {
+            $("#btnGetTime").click();
+        }
+        function OnComplete(data) {
+            if (data =="@CKey.TestEnd") {
+                //提交考试试卷
+                $("form").submit();
+            }
+
+        }
+    </script>)
+
+

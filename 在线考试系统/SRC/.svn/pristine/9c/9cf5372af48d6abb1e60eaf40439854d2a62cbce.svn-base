@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace OnlineExam
+{
+    public class Utitlity
+    {
+        //对问题进行编码
+        public static string EncodeQuestionID(long id, QuestionType qtype)
+        {
+            string code = "000000000000000000000" + id.ToString();
+            code = code.Substring(code.Length -12);
+            string pre = Convert.ToChar((Convert.ToInt32('A') + Convert.ToInt32(qtype) - 1)).ToString();
+            code = pre + code;
+            return code;
+        }
+    }
+    public class CKey
+    {
+        public static readonly string DefaultSearchKeyWord = "查询关键字";
+        public static readonly int DefaultPageCount = 10;
+
+
+        //grid表格中的题目字段的最大长度
+        public static readonly int QuestionTitleSummaryLenght=5;
+        //grid表格中的题目的描述字段的最大长度
+        public static readonly int QuestionDescriptionSummaryLenght = 4;
+    }
+    public enum QuestionType
+    {
+        SingleChoice = 1,
+        MultipleChoice,
+        Completion,
+        ShortAnswer,
+        Discussion
+
+    }
+}

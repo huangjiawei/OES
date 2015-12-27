@@ -1,0 +1,194 @@
+﻿@model OnlineExam.Models.UserProfile
+@{  }
+<div class="row">
+    <div class="col-lg-12">
+        <h2>个人中心</h2>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                基本信息
+                @*@if (ViewBag.Self)
+                {
+                    <small class="flowright">
+                        @Html.ActionLink("编辑", "EditProfile")
+                    </small>
+                }*@
+            </div>
+            <div class="panel-body">
+                <div>
+                    <img src="@(ViewBag.Model)" class="s flowleft" />
+                    <dl class="dl-horizontal flowleft">
+                        <dt>
+                            @ViewBag.Title = model.NickName)
+                        </dt>
+                        <dd>
+                            @Url.Content(CUrl.UserPhoto+Model.Photo)
+                        </dd>
+                        <dt>
+                            @Url.Content(CUrl.UserPhoto+Model.Photo)
+                        </dt>
+
+                        <dd>
+                            @Url.Content(CUrl.UserPhoto+Model.Photo)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.NickName)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.NickName)
+                        </dd>
+                    </dl>
+
+                    <dl class="dl-horizontal  flowleft">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.RealName)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.RealName)
+                        </dd>
+
+                        <dt>
+                            @Html.Title = model.Birthday)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Birthday)
+                        </dd>
+
+
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Address)
+                        </dt>
+
+                        <dd>
+                            @  model.NickName);
+
+
+#line default
+#line hidden
+
+#line 7 "E:\云同步\我的文件\cloud\在线认证考试系统\SRC\OnlineExam\Views\Account\UserProfile.cshtml"
+                            __o = Html.DisplayFor(model => model.NickName);
+
+
+#line default
+#line hidden
+
+#line 8 "E:\云同步\我的文件\cloud\在线认证考试系统\SRC\OnlineExam\Views\Account\UserProfile.cshtml"
+                            __o = Html.DisplayNameFor(model => model.RealName);
+
+
+#line default
+#line hidden
+
+#line 9 "E:\云同步\我的文件\cloud\在线认证考试系统\SRC\OnlineExam\Views\Account\UserProfile.cshtml"
+                            __o = Html.DisplayFor(model => model.RealName);
+
+
+#line default
+#line hidden
+
+#line 7 "E:\云同步\我的文件\cloud\在线认证考试系统\SRC\OnlineExam\Views\Account\UserProfile.cshtml"
+                            __o = Html.DisplayFor(model => model.NickName);
+
+
+#line default
+#line hidden
+
+#line 8 "E:\云同步\我的文件\cloud\在线认证考试系统\SRC\OnlineExam\Views\Account\UserProfile.cshtml"
+                            __o = Html.DisplayNameFor(model => model.RealName)
+                        </dd>
+
+
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.School)
+                        </dt>
+
+                        <dd>
+                            @Url.Content(CUrl.UserPhoto+Model.Photo)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.NickName)
+                        </dt>
+
+                        <dd>
+                            @Url.Content(CUrl.UserPhoto+Model.Photo)
+                        </dd>
+
+                    </dl>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Primary Panel
+            </div>
+            <div class="panel-body">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut ante in sapien blandit luctus sed ut lacus. Phasellus urna est, faucibus nec ultrices placerat, feugiat et ligula. Donec vestibulum magna a dui pharetra molestie. Fusce et dui urna.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                Success Panel
+            </div>
+            <div class="panel-body">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut ante in sapien blandit luctus sed ut lacus. Phasellus urna est, faucibus nec ultrices placerat, feugiat et ligula. Donec vestibulum magna a dui pharetra molestie. Fusce et dui urna.</p>
+            </div>
+        </div>
+    </div>
+
+</div><!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+        <h2>Widget Panels</h2>
+    </div>
+
+    <div class="col-md-6">
+        <div class="panel panel-blue">
+            <div class="panel-heading dark-overlay">Blue Panel</div>
+            <div class="panel-body">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut ante in sapien blandit luctus sed ut lacus. Phasellus urna est, faucibus nec ultrices placerat, feugiat et ligula. Donec vestibulum magna a dui pharetra molestie. Fusce et dui urna.</p>
+            </div>
+        </div>
+    </div><!--/.col-->
+
+    <div class="col-md-6">
+        <div class="panel panel-teal">
+            <div class="panel-heading dark-overlay">Teal Panel</div>
+            <div class="panel-body">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut ante in sapien blandit luctus sed ut lacus. Phasellus urna est, faucibus nec ultrices placerat, feugiat et ligula. Donec vestibulum magna a dui pharetra molestie. Fusce et dui urna.</p>
+            </div>
+        </div>
+    </div><!--/.col-->
+
+    <div class="col-md-6">
+        <div class="panel panel-orange">
+            <div class="panel-heading dark-overlay">Orange Panel</div>
+            <div class="panel-body">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut ante in sapien blandit luctus sed ut lacus. Phasellus urna est, faucibus nec ultrices placerat, feugiat et ligula. Donec vestibulum magna a dui pharetra molestie. Fusce et dui urna.</p>
+            </div>
+        </div>
+    </div><!--/.col-->
+
+    <div class="col-md-6">
+        <div class="panel panel-red">
+            <div class="panel-heading dark-overlay">Red Panel</div>
+            <div class="panel-body">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut ante in sapien blandit luctus sed ut lacus. Phasellus urna est, faucibus nec ultrices placerat, feugiat et ligula. Donec vestibulum magna a dui pharetra molestie. Fusce et dui urna.</p>
+            </div>
+        </div>
+    </div><!--/.col-->
+</div><!--/.row-->

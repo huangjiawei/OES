@@ -1,0 +1,80 @@
+﻿@using OnlineExam.Models
+@{
+    UserProfile profile = null;
+    if ((bool)ViewBag.HasProfile) { profile = ViewBag.Profile as UserProfile; }
+    //var User = (ApplicationUser)ViewBag.AppUser;
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>用户角色管理</title>
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet">
+    <script src="@Url.Content("~/Scripts/jquery-2.1.4.min.js")"></script>
+    @*<script src="@Url.Content("~/Scripts/js/bootstrap.min.js")"></script>*@
+    <script src="/Scripts/Debugger/Alerter.js"></script>
+    <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="/Scripts/jquery.validate.min.js"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(function () {
+
+        })
+        function updateCallBack(data) {
+            if (data.Success == 1)
+                $("#info").text("修改成功!!").css("display", "block");
+            else
+                $("#info").text("提交失败!!" + data.Message).css("display", "block");
+        }
+        function hideMsg() {
+            $("#UserId").val("@ViewBag.ID");
+            var roles = ""
+            $(".Role").each(function () {
+                if ($(this).find("input").is(":checked")) {
+                    if ($(this).find("input").attr("name") != "all")
+                        roles += $(this).find("input").attr("name") + ",";
+                }
+            });
+            if (roles != "") roles = roles.substr(0, roles.length - 1)
+            $("#UserRoles").val(roles);
+            Alerter.info(roles);
+            $("#info").css("display", "none");
+        }
+        function reflash() {
+            location = location
+            //location.reload();
+        }
+    </script>
+</head>
+<body>
+    <h5>@ViewBag.UserName</h5>
+    @if ((bool)ViewBag.HasProfile)
+    {
+        <h5>
+            <img class="md-photo" src="@(CUrl.UserPhoto+profile.Photo)" alt="用户未上传照片" />
+        </h5>
+        <h5>真实姓名：@profile.RealName</h5>
+    }
+    @using (Ajax.BeginForm("SetUserRole", new AjaxOptions { HttpMethod = "POST", OnSuccess = "updateCallBack" }))
+    {
+        @Html.Hidden("UserId")
+        @Html.Hidden("UserRoles")
+        <div>
+            <ul class="list-group">
+                @foreach (var o in (IEnumerable<SelectListItem>)(ViewBag.Roles))
+                {
+                    <li class="Role list-group-item">
+                        <input type="checkbox" name="@o.Value" @(((List<string>)ViewBag.UserRole).Contains(o.Value) ? "checked='checked'" : "") /><span>@o.Text</span>
+                    </li>
+                }
+            </ul>
+            @*<input class="btn btn-default width80" onclick="reflash();" value="刷新" />*@
+            <input class="btn btn-primary width80" type="submit" onclick="hideMsg();" value="保存" />
+            <p id="info" class="alert-info"></p>
+        </div>
+
+    }
+</body>
+</html>

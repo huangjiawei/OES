@@ -1,0 +1,44 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" EnableViewState="false"  %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>认证考试</title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css" />
+		<link href="http://fonts.googleapis.com/css?family=Kreon" rel="stylesheet" type="text/css" />
+    <link href="App_Themes/style.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">    
+    <div id="wrapper">
+       <div id="header">
+       <div id="logo"><h1>
+           
+           在线认证考试</h1></div>  
+       <div id="menu">
+         <ul>
+             <li class="first" ><a href="~/Default.aspx" runat="server" >主页</a></li> 
+              <li><a runat="server" href="CertificationCategory.aspx">开考认证</a></li>        
+             <li><a runat="server" href="~/CertificateQuery.aspx" >证书查询</a></li>
+             <li><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/User/UserCenter.aspx">用户中心</asp:HyperLink></li> 
+             <li class="last"><a>帮助</a>              
+             </li>
+         </ul>
+          <br class="clearfix" />
+         </div>         
+    </div>
+       <div id="page">
+           <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+            </asp:ContentPlaceHolder>
+            <br class="clearfix" />
+        </div>
+    </div>
+    <div id="footer"></div>
+    </form>
+</body>
+</html>
