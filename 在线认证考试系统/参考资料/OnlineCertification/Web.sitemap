@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
-    <siteMapNode>
-      <siteMapNode url="" title="主页"></siteMapNode>
-      <siteMapNode title="报考">      </siteMapNode>
-      <siteMapNode title="考试"></siteMapNode>
-      <siteMapNode title="帮助"></siteMapNode>
-    </siteMapNode>
-</siteMap>
