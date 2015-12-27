@@ -1,6 +1,6 @@
 ﻿@this.ScriptBlock(
     @<script>
-        Alerter.turnOff();
+        Alerter.turnOn();
         $(function () {
             $("#MajorList").attr("onchange", "onSelect(this)")
             $("#MajorList").val(@ViewBag.MajorId);
@@ -37,8 +37,14 @@
             });
             //Alerter.info();
         }
+        function SetSubjectID(id) {
+
+            $("#SubjectList").val(id);
+        }
         function GetSubjectID() {
+            
             Alerter.info($("#SubjectList").val())
+            $("#SubjectID").val($("#SubjectList").val());
             return $("#SubjectList").val();
         }
         function GetSubjectName() {
@@ -80,4 +86,5 @@
 @Html.DropDownList("SubjectList", (IEnumerable<SelectListItem>)ViewBag.SubjectList, new {@class = "SubjectListStyle form-control flowleft" })
 @Html.Hidden("MajorName")
 @Html.Hidden("MajorId")
+@Html.Hidden("SubjectID")
 

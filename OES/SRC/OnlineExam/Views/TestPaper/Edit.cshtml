@@ -12,7 +12,18 @@
         <h4>@title</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         @Html.HiddenFor(model => model.ID)
+        @if (ViewBag.EditType == EditType.Edit)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DisplayFor(model => model.ID, new { htmlAttributes = new { @class = "form-control" } })
+                    @*@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })*@
+                </div>
+            </div>
+        }
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -33,6 +44,7 @@
             <div class="col-md-10">
                 @{Html.RenderPartial("_SubjectDropDownList");
                 }
+
             </div>
         </div>
 
@@ -137,7 +149,7 @@
                             <td class="col-md-1"><a class="bg-danger" onclick="delQuestionCate(this);">删除</a></td>
                         </tr>
                     }
-                </table><div><div><a class="btn btn-sm btn-success"  onclick="addQuestionCate();">添加</a></div></div>
+                </table><div><div><a class="btn btn-sm btn-success" onclick="addQuestionCate();">添加</a></div></div>
             </div>
 
             <div class="col-md-2">
@@ -180,7 +192,7 @@
     <script>
         var bigNum = "零一二三四五六七八九十";
         $(function () {
-            Alerter.turnOff();
+            Alerter.turnOn();
 
             $.datetimepicker.setLocale('zh');
             $("#ExamTime").datetimepicker(
@@ -193,6 +205,7 @@
                        }
                        )
             $("#ExamType").val("@Model.ExamType")
+            SetSubjectID(@Model.SubjectID)
 
             SetQtype();
         })
@@ -214,6 +227,7 @@
                 i++;
             })
             $("#QuestionCategory").val(result);
+               GetSubjectID()
             //result+=  JSON.stringify(data)+"\r\n";
             $("form").submit();
             //for (var j = 0; j < i; j++) Alerter.list(data[j].Sequence, data[j].Title, data[j].QuestionType, data[j].ScorePerQuestion)
@@ -242,13 +256,13 @@
         function addQuestionCate() {
             var index = $("#QList").find("tr").length;
             if (index > 10) alert("添加失败，题数过多！");
-            Alerter.info(index)
+            //Alerter.info(index)
             $("#temp").find("tr").find("td:first").text(bigNum[index]);
             var content = $("#temp").find("tr").html();
             var row = "<tr>" + content + "</tr>"
             $("#QList").append(row);
             $("#QList").find("tr:last").find("select").val("@QuestionType.ShortAnswer.ToString()");//默认选择简答题
-            Alerter.info(row);
+            //Alerter.info(row);
         }
         function delQuestionCate(e) {
             $(e).parent().parent().remove();

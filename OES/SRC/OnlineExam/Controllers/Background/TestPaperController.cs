@@ -87,17 +87,15 @@ namespace OnlineExam.Controllers.Background
         {
             var q = ee.TestPaper.Where(m => m.ID == id).SingleOrDefault();
             if (q == null || q.ID != id) return HttpNotFound();
-
-
-
             return View(q);
         }
 
         // GET: PaperClip/Create
-        public ActionResult ds()
+        public ActionResult EditQuestionList(string id)
         {
-
-            return View();
+            var q = ee.TestPaper.Where(m => m.ID == id).SingleOrDefault();
+            if (q == null || q.ID != id) return HttpNotFound();
+            return View(q);
         }
 
         // POST: PaperClip/Create
@@ -124,12 +122,13 @@ namespace OnlineExam.Controllers.Background
 
                         }
                         ee.TestPaper.Add(model);
-                      
+
                     }
-  ee.SaveChanges();
+                    ee.SaveChanges();
 
                 }
-                return View("Detail", model);
+                //return View("Details", model);
+                return RedirectToAction("Details", new { id = model.ID });
             }
             catch
             {
@@ -163,38 +162,50 @@ namespace OnlineExam.Controllers.Background
                 model.ModificationTeacher = SessionHelper.UserProfile.RealName;
                 model.ModificationTeacherID = SessionHelper.UserProfile.UserId;
                 model.ModificationDate = DateTime.Now;
+                model.Active = Activity.Active;
+                model.Audit = Auditing.Unreviewed;
+                //model.SubjectID; 
                 //model.ID = Guid.NewGuid().ToString();
-                if (string.IsNullOrWhiteSpace(model.Assessment)) model.Assessment = "";
+                if (model.Assessment == null)
+                    model.Assessment = "";
+                //model.Assessment = "";
+
                 if (ModelState.IsValid)
                 {
+                    ee.Entry(model).State = System.Data.Entity.EntityState.Modified;
+                    //ee.SaveChanges();
+
+
+                    //重新设置题型
                     ee.Paper_QuestionCategory.RemoveRange(ee.Paper_QuestionCategory.Where(m => m.PaperID == model.ID));
-                    //ee.Entry(ee.Paper_QuestionCategory.Where(m => m.PaperID == model.ID)).State = System.Data.Entity.EntityState.Deleted;
-                    ee.SaveChanges();
                     string cateList = Request.Params["QuestionCategory"] as string;
                     if (!string.IsNullOrWhiteSpace(cateList))
                     {
                         var list = cateList.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
                         foreach (var s in list)
                         {
-                            
+
                             Paper_QuestionCategory cate = JsonHelper.JsonDeserialize<Paper_QuestionCategory>(s);
                             cate.PaperID = model.ID;
-                            model.Paper_QuestionCategory.Add(cate);
+                            cate.Quantity = 5;
+
+                            ee.Paper_QuestionCategory.Add(cate);
                         }
-                       
+                        ee.SaveChanges();
                     }
-                   
-                    ee.Entry(model).State = System.Data.Entity.EntityState.Modified;
-                    //ee.Entry(model.Paper_QuestionCategory).State = System.Data.Entity.EntityState.Modified;
-                    ee.SaveChanges();
+
+                    return RedirectToAction("Details", new { id = model.ID });
                 }
-                return View("Detail", model);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ViewBag.EditType = EditType.Edit;
-                return View(model);
+
+#if DEBUG
+                throw ex;
+#endif
             }
+            return View(model);
         }
 
         // GET: PaperClip/Delete/5
@@ -203,8 +214,7 @@ namespace OnlineExam.Controllers.Background
         {
             try
             {
-                // TODO: Add delete logic here
-                string id =Request.Params["ID"];
+                string id = Request.Params["ID"];
                 //var q = ee.TestPaper.Where(m => m.ID == id).Single();
                 //ee.Paper_QuestionCategory.RemoveRange(q.Paper_QuestionCategory);
                 ee.TestPaper.RemoveRange(ee.TestPaper.Where(m => m.ID == id));
@@ -227,7 +237,7 @@ namespace OnlineExam.Controllers.Background
             try
             {
                 var fc = HttpContext.Request.Params;
-                string id =fc["ID"];
+                string id = fc["ID"];
                 int ad = Convert.ToInt16(fc["Audit"]);
                 string ass = Convert.ToString(fc["Assessment"]);
                 var q = ee.TestPaper.Where(u => u.ID == id).Single();

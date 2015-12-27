@@ -6,7 +6,7 @@
 
 
 <div class="form-horizontal">
-    <h4>@title</h4>
+    <h4 class="disabled">@title</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.ID)
@@ -14,15 +14,12 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2 " })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = " disable form-control   " } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            @Model.Name
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.ExamType, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-2">
-            @Html.DropDownList("ExamType", Utitlity.GetExamTypeSelectList().AsEnumerable(), new { @class = " disable form-control " })
-            @Html.ValidationMessageFor(model => model.ExamType, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
@@ -36,28 +33,23 @@
     <div class="form-group">
         @Html.LabelFor(model => model.ExamTime, new { @class = "control-label col-md-2" })
         <div class="col-md-2">
-            @Html.TextBoxFor(model => model.ExamTime, new { @class = " disable form-control " })
-            @Html.ValidationMessageFor(model => model.ExamTime, "", new { @class = "text-danger" })
+            @Model.ExamTime
         </div>
         @Html.LabelFor(model => model.TimeDuration, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-2">
-            @*<input name="TimeDuration" id="TimeDuration" value="@Model.TimeDuration" type="number" class=" disable form-control " min="5" max="2000" />*@
-            @Html.TextBoxFor(model => model.TimeDuration, new { @class = " disable form-control ", type = "number", min = "5", max = "1000" })
-            @Html.ValidationMessageFor(model => model.TimeDuration, "", new { @class = "text-danger" })
+            @Model.TimeDuration
         </div>
     </div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.Info, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.TextAreaFor(model => model.Info, new { @class = " disable form-control ", col = "100", row = "5" })
-            @Html.ValidationMessageFor(model => model.Info, "", new { @class = "text-danger" })
+            @Html.Raw(Model.Info)
         </div>
     </div>
     <div class="form-group">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            @Html.Hidden("QuestionCategory")
             <table class="table" id="QList">
 
                 <tr>
@@ -70,34 +62,35 @@
 
                 @foreach (var cate in Model.Paper_QuestionCategory)
                 {
-                <tr>
-                    <td class="col-md-1">@BigNum[cate.Sequence]</td>
-                    <td class="col-md-5">@Html.TextBox("qname1", Utitlity.ParseQuestionType(cate.QuestionType).GetInfo(), new { @class = " disable form-control  col-md-12" })</td>
-                    <td class="col-md-2">@Html.DropDownList("qtype1", Utitlity.GetQuestionTypeSelectList().AsEnumerable(), Utitlity.ParseQuestionType(cate.QuestionType).GetInfo(), new { @class = " disable form-control  col-md-12" })</td>
-                    <td class="col-md-1"><input type="number" value="@cate.ScorePerQuestion" min="1" max="100" class=" disable form-control  width80" /></td>
-                    <td class="col-md-1"><a class="bg-danger" onclick="delQuestionCate(this);">删除</a></td>
+                    <tr>
+                        <td class="col-md-1">@BigNum[cate.Sequence]</td>
+                        <td class="col-md-5">@cate.Title</td>
+                        <td class="col-md-2"> @Utitlity.ParseQuestionType(cate.QuestionType).GetInfo()</td>
+                        <td class="col-md-1">@cate.ScorePerQuestion</td>
 
-                </tr>
+                    </tr>
                 }
-
-            </table><div><div><a class="btn btn-sm btn-success" onclick="addQuestionCate();">添加</a></div></div>
+            </table>
         </div>
 
         <div class="col-md-2">
         </div>
     </div>
-    <div class="row">
-        @Html.LabelFor(model => model.Audit, htmlAttributes: new { @class = "  col-sm-1 " })
-        @Html.Partial("_AuditImage", Model.Audit)
+    <div class="form-group">
+        @Html.LabelFor(model => model.Audit, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.Partial("_AuditImage", Model.Audit)
+        </div>
     </div>
     @if (Model.Audit == Auditing.Fail)
     {
-        <div class="row">
-            @Html.LabelFor(model => model.Assessment, htmlAttributes: new { @class = "  col-sm-1 " })
-            <div class="col-sm-10">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Assessment, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
                 @Html.Raw(Model.Assessment)
             </div>
         </div>
+
     }
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
@@ -108,10 +101,6 @@
     </div>
 </div>
 
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @*<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />*@
@@ -200,7 +189,7 @@
                        }
                        )
             $("#ExamType").val("@Model.ExamType")
-
+            SetSubjectID(@Model.ID);
             SetQtype();
         })
         //function QcateSerialize() {

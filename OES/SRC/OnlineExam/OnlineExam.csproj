@@ -1942,6 +1942,7 @@
     <Content Include="Views\Shared\_QuestionTypeDropDownList.cshtml" />
     <Content Include="Views\Shared\_ExamTypeDropDownList.cshtml" />
     <Content Include="Views\TestPaper\Details.cshtml" />
+    <Content Include="Views\TestPaper\EditQuestionList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
