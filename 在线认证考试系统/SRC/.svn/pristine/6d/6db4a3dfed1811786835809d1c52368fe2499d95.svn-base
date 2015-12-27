@@ -1,0 +1,34 @@
+﻿@model string
+@using (Html.BeginForm("Index", Model, FormMethod.Get, new { id = "Search" }))
+{
+    @Html.TextBox("searchWord", "", new { @class = "form-control col-xs-1 width200", placeholder = "查询关键字" })
+
+    <select id="difficulty" name="difficulty" class="form-control  col-xs-1 width110">
+        <option value="-1">难度系数</option>
+        <option value="1">一级</option>
+        <option value="2">二级</option>
+        <option value="3">三级</option>
+        <option value="4">四级</option>
+        <option value="5">五级</option>
+    </select>
+    <select id="frequency" name="frequency" class="form-control col-xs-1 width110 ">
+        <option value="-1">考题频率</option>
+        <option value="1">一级</option>
+        <option value="2">二级</option>
+        <option value="3">三级</option>
+        <option value="4">四级</option>
+        <option value="5">五级</option>
+
+    </select>
+    <select id="audit" name="audit" class="form-control col-xs-1 width110">
+        <option value="-1">审核状态</option>
+        <option value="1">已审核</option>
+        <option value="0">未审核</option>
+    </select>
+    <button value="搜索" class="btn btn-default col-xs-2  width80  glyphicon glyphicon-search " type="submit">搜索</button>
+    <button value="刷新" class="btn btn-default col-xs-2 width80   glyphicon  glyphicon-refresh" type="reset">重置</button>
+}
+
+<button class="btn btn-default col-xs-2 width80   glyphicon  glyphicon-edit" onclick="editItem();">修改</button>
+<button class="btn btn-default col-xs-2 width80   glyphicon  glyphicon-plus" onclick="createItem()">添加</button>
+<button class="btn btn-default col-xs-2 width80   glyphicon glyphicon-remove" onclick="deleteItem();">删除</button>

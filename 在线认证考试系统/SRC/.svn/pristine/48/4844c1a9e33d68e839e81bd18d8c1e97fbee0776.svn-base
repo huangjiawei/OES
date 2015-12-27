@@ -1,0 +1,138 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using OnlineExam.Models;
+using MvcContrib.UI.Grid;
+
+namespace OnlineExam.Controllers.Background
+{
+    public class MultipleChoiceController : Controller
+    {
+        // GET: MultipleChoice
+        Models.ExamEntities ee = new ExamEntities();
+        int PageSize = CKey.DefaultPageCount;
+        public ActionResult Index(string searchWord, int? frequency, int? difficulty, int? audit, GridSortOptions gridSortOptions, int? page)
+        {
+             
+            var pagedViewModel = new PagedViewModel<QuestionMultipleChoice>
+            {
+                ViewData = ViewData,
+                Query = ee.QuestionMultipleChoice.AsQueryable(),
+                GridSortOptions = gridSortOptions,
+                DefaultSortColumn = "ID",
+                Page = page,
+                PageSize = CKey.DefaultPageCount,
+            }
+            .AddFilter("searchWord", searchWord, a => a.Question.Contains(searchWord) || a.ModificationTeacher.Contains(searchWord) || a.OptionA.Contains(searchWord) || a.OptionA.Contains(searchWord) || a.OptionB.Contains(searchWord) || a.OptionC.Contains(searchWord) || a.OptionD.Contains(searchWord))
+            //.AddFilter("genreId", genreId, a => a.GenreId == genreId, _service.GetGenres(), "Name")
+            //.AddFilter("artistId", artistId, a => a.ArtistId == artistId, _service.GetArtists(), "Name")
+        ;
+            if (frequency.HasValue && frequency.Value != -1) { pagedViewModel.AddFilter("frequency", frequency, a => a.Frequency == frequency.Value); }
+
+            if (difficulty.HasValue && difficulty.Value != -1) { pagedViewModel.AddFilter("difficulty", difficulty, a => a.Difficulty == difficulty.Value); }
+           
+            if (audit.HasValue && audit.Value != -1)
+            {
+                bool isCensor = audit.Value == 1 ? true : false;
+                pagedViewModel.AddFilter("audit", audit, a => a.Audit==isCensor);
+            }
+            pagedViewModel.Setup();
+            //ViewData = pagedViewModel.ViewData;
+            return View(pagedViewModel);
+        }
+        bool CheckAudit(bool? a, int? b)
+        {
+            //b=1
+            if (b.HasValue && b.Value == 1)
+            {
+                if (a.HasValue && a.Value == true) return true;
+                else return false;
+            }
+            //b!=1
+            else if (b.HasValue && b.Value != 1)
+            {
+                if (a.HasValue && a.Value == true) return false;
+                else return true;
+
+            }
+            //b is null
+            else
+            {
+                return true;
+            }
+
+        }
+
+        // GET: MultipleChoice/Details/5
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
+
+        // GET: MultipleChoice/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: MultipleChoice/Create
+        [HttpPost]
+        public ActionResult Create(FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add insert logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        // GET: MultipleChoice/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+        // POST: MultipleChoice/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add update logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: MultipleChoice/Delete/5
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        // POST: MultipleChoice/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+    }
+}

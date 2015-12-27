@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace OnlineExam.App_Code
+{
+    public class MyTool
+    {
+        //截取过长的字符串，并在后面加上"...";
+        public static string ToShortString(string s, int maxLength)
+        {
+            if (s == null) return "";
+            return s.Length < maxLength ? s : s.Substring(0, maxLength) + "...";
+
+        }
+        //将搜索字符串中的多个词组转换成字符串数组
+        public static string[] GetSearchStringList(string key)
+        {
+            string[] s = key.Split(' ').Where(m=>m.Trim()!="").ToArray();
+            return s;  
+        }
+
+    }
+    
+}

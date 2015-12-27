@@ -1,0 +1,219 @@
+﻿@model OnlineExam.Models.QuestionEssay
+@{
+
+    QuestionType qtype = Utitlity.ToQuestionType(Model.QuestionType);
+
+}
+<div class="form-horizontal">
+
+    <div class="row">
+        <div>
+            <h4>@qtype</h4>
+            <h5>
+                编号：
+
+                @Html.EncodeQuestionID(Model.ID, qtype)
+                &nbsp;  &nbsp;  &nbsp;  &nbsp;所属科目：
+                @if (ViewBag.RelateSubject != null)
+            {
+                foreach (var i in (List<OnlineExam.Models.Subject>)ViewBag.RelateSubject)
+                {
+                        <span id="@i.SubjectID" class="">@i.SubjectName</span>
+                    }
+                }
+            </h5>
+        </div>
+    </div>
+    @*<div class="row">
+        <div id="subjectlist" class="col-md-12">
+
+        </div>
+    </div>*@
+    <div class="row">
+        <div class="col-md-12">
+            @Html.Raw(Model.Question)
+        </div>
+    </div>
+    <hr /><div class="row">
+        <div class="col-md-12">
+            <b>答案：</b>  @Html.Raw(Model.Answer)
+        </div>
+    </div>
+    <hr />
+
+    <div class="row">
+        @Html.LabelFor(model => model.Difficulty, htmlAttributes: new { @class = "  col-sm-1" })
+        <div id="rd" class="ratebox col-sm-6" data-id="Difficulty" data-rating="0"></div>
+        @Html.HiddenFor(model => model.Difficulty)
+        @Html.LabelFor(model => model.Frequency, htmlAttributes: new { @class = "  col-sm-1 " })
+        <div id="rf" class="ratebox col-sm-5" data-id="Frequency" data-rating="0"></div>
+        @Html.HiddenFor(model => model.Frequency)
+    </div>
+    <hr />
+    <div class="row">
+        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "  col-sm-1 " })
+        <div class="col-sm-10">
+            @Html.Raw(Model.Description)
+        </div>
+    </div>
+    <div class="row">
+        @Html.LabelFor(model => model.Audit, htmlAttributes: new { @class = "  col-sm-1 " })
+        @Html.Partial("_AuditImage", Model.Audit)
+    </div>
+    @if (Model.Audit == Auditing.Fail)
+    {
+        <div class="row">
+            @Html.LabelFor(model => model.Assessment, htmlAttributes: new { @class = "  col-sm-1 " })
+            <div class="col-sm-10">
+                @Html.Raw(Model.Assessment)
+            </div>
+        </div>
+    }
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @Html.ActionLink("修改", "Edit", "Essay", new { id = Model.ID }, new { @class = "btn btn-default" })
+            <a class="btn btn-default" onclick="OpenAuditDlg()">审核</a>
+            <a class="btn btn-default" onclick="deleteItem()">删除</a>
+        </div>
+    </div>
+</div>
+<div id="auditDlgContent" style=" display:none">
+    @*@using (Ajax.BeginForm("SetAudit", "Essay", new object(), new AjaxOptions()
+        {
+            UpdateTargetId = "divPlaceholder",
+            InsertionMode = InsertionMode.Replace,
+            OnSuccess = "alert('OnSuccess')",
+            HttpMethod = "Post",
+            OnFailure = "alert('OnFailure')"
+        }, new { id = "AuditForm" }))
+        {
+            @Html.HiddenFor(m => m.ID)
+            @Html.HiddenFor(m => m.Audit)
+            @Html.TextAreaFor(m => m.Assessment, new { cols = "10", rows = "5" })
+        }*@
+
+</div>
+<style type="text/css">
+    label {
+        font-weight: normal;
+        font-size: small;
+    }
+
+    .cke_editor body, .cke_show_borders {
+        background-color: #ffffff;
+    }
+</style>
+<script type="text/javascript" language="javascript">
+    function deleteItem() {
+        var id = '@Model.ID'
+        if (confirm("确定要删除选中的题目吗?")) {
+            $.ajax({
+                url: '@Url.Action("Delete")',
+                data: { ID: id },
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    if (data.Success == 0) {
+                        alert("提交失败");
+                    } else {
+                        window.location.href = '@Url.Action("Index",new {questionType=qtype })'
+                    }
+                }
+            });
+        }
+    }
+    function SumitAudit(audit) {
+        var s1 = $("#txtAssessment").val();
+        if (s1 == null || s1 == undefined) s1 = $("#txtAssessment").text();
+
+        $.ajax({
+            url: '@Url.Content("~/Essay/Censor")',
+            data: { ID: '@Model.ID', Assessment: s1, Audit: audit },
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                if (data.Success == 0) {
+                    alert("提交失败");
+                } else {
+                    window.location.reload();
+                }
+            }
+        });
+    }
+    function OpenAuditDlg() {
+        var dlg = dialog({
+            title: '审核',
+            content: '<textarea id="txtAssessment" cols="100" rows="5"></textarea>',
+            button: [
+                      {
+                          value: '不通过',
+                          callback: function () {
+                              SumitAudit('@Auditing.Fail')
+                              return false;
+                          }
+                      }],
+            okValue: '通过',
+            ok: function () {
+                SumitAudit('@Auditing.Pass')
+                return false;
+            },
+            cancleDisplay: false
+        });
+        dlg.show();
+    }
+    function SetRateValue(id, value) {
+        $("#" + id).val(value);
+    }
+
+    function IsEditorTextEmpty(content) {
+        if (content == undefined) return true;
+        content = content.toString().replace(" ", "");
+        if (content == "" || content == "<p></p>" || content == "undefined") {
+            return true;
+        }
+        return false;
+    }
+    //初始化星号评级控件的值
+    function InitRateValue() {
+        $(".ratebox[data-id='Frequency']").attr("data-rating", $("#Frequency").val());
+        $(".ratebox[data-id='Difficulty']").attr("data-rating", $("#Difficulty").val());
+        //alert($(".ratebox[data-id='Frequency']").attr("data-rating"));
+    }
+
+    $(function () {
+        InitRateValue();
+
+        //CKEDITOR.config.extraPlugins = 'uploadimage,confighelper';
+        //CKEDITOR.config.uploadUrl = '/Api/QuestionBankResource/Upload?QuestionType='
+        //CKEDITOR.config.fontSize_sizes = "small"
+        //CKEDITOR.inline("Assessment");
+
+        $('.ratebox').raterater({
+            submitFunction: '',
+            allowChange: false,
+            starWidth: 18,
+            spaceWidth: 2,
+            isStatic: true,
+            numStars: 5,
+            step: 1
+        });
+    });
+</script>
+@section Scripts
+        {
+    <link href="@Url.Content("~/Content/raterater.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/css/font-awesome.min.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/raterater/raterater.jquery.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")"></script>
+    <link rel="stylesheet" href="/Scripts/artDialog/css/ui-dialog.css">
+    <script src="/Scripts/artDialog/dist/dialog-min.js"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+
+    @*<script src="//cdn.ckeditor.com/4.5.4/basic/ckeditor.js"></script>*@
+    @*<script src="//cdn.ckeditor.com/4.5.4/standard/ckeditor.js"></script>*@
+    @*<script src="//cdn.ckeditor.com/4.5.5/full/ckeditor.js"></script>*@
+
+
+}

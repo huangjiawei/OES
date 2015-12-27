@@ -1,0 +1,66 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Runtime;
+using System.ComponentModel.DataAnnotations;
+namespace OnlineExam.Models
+{
+    public partial class QuestionMultipleChoice
+    {
+        public QuestionMultipleChoice()
+        {
+            ID = -1;
+            Description = "";
+            Frequency = 0;
+            Difficulty = 0;
+            DateAdded = DateTime.Now;
+            ModificationDate = DateTime.Now;
+            Audit = 0;
+            OptionD = OptionE = OptionF = "";
+        }
+        [Display(Name = "编号")]
+        public long ID { get; set; }
+        [Required]
+        [Display(Name ="题目")]
+        public string Question { get; set; }
+        [Required]
+        [Display(Name = "选项A")]
+        public string OptionA { get; set; }
+        [Required]
+        [Display(Name = "选项B")]
+        public string OptionB { get; set; }
+        [Required]
+        [Display(Name = "选项C")]
+        public string OptionC { get; set; }
+        [Display(Name = "选项D")]
+        public string OptionD { get; set; }
+        [Display(Name = "选项E")]
+        public string OptionE { get; set; }
+        [Display(Name = "选项F")]
+        public string OptionF { get; set; }
+        public bool AisTrue { get; set; }
+        public bool BisTrue { get; set; }
+        public bool CisTrue { get; set; }
+        public bool DisTrue { get; set; }
+        public bool EisTrue { get; set; }
+        public bool FisTrue { get; set; }
+        [Display(Name = "修改教师")]
+        public string ModificationTeacher { get; set; }
+        [Display(Name = "修改时间")]
+        public Nullable<System.DateTime> ModificationDate { get; set; }
+        [Display(Name = "添加日期")]
+        public System.DateTime DateAdded { get; set; }
+        [Display(Name = "难度系数")]
+        public short Difficulty { get; set; }
+        [Display(Name = "考试频率")]
+        public short Frequency { get; set; }
+        [Display(Name = "相关描述")]
+        public string Description { get; set; }
+        [Display(Name = "审核状态")]
+        public int Audit { get; set; }
+        [Display(Name = "评价")]
+        public string Assessment { get; set; }
+    }
+}

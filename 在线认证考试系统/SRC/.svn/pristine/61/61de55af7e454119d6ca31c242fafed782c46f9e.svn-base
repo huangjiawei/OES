@@ -1,0 +1,196 @@
+﻿@model OnlineExam.Models.ImportPaper
+
+<div>
+    <h4>ImportPaper</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => Model.ExamTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.ExamTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.Grade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.Grade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.Year)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.Year)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.SubjectName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.SubjectName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.SubSubjectName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.SubSubjectName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.ExamType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.ExamType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.TotleScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.TotleScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.SingleChoiceQuantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.SingleChoiceQuantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.SingleChoiceGrade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.SingleChoiceGrade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.MultipleChoiceQuantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.MultipleChoiceQuantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.MultipleChoiceGrade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.MultipleChoiceGrade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.CompletionQuantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.CompletionQuantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.CompletionGrade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.CompletionGrade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.ShortAnswerQuantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.ShortAnswerQuantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.ShortAnswerGrade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.ShortAnswerGrade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.DiscussionQuantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.DiscussionQuantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.DiscussionGrade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.DiscussionGrade)
+        </dd>
+
+    </dl>
+</div>
+
+<div id="ques">
+
+
+
+</div>
+
+
+
+
+@foreach (var i in Model.Questions)
+{
+    <div id="@i.QuestionNum">
+        <p>大题号：@i.BigNum 题目类型：@i.QType.ToString()</p>
+        <p>
+            @i.QuestionNum
+            :
+            @i.Question
+        </p>
+        @if (i.Options != null && i.Options.Count > 0)
+        {
+            <hr />
+            foreach (var o in i.Options)
+            {
+                <p>
+                    @o.Op
+                    :
+                    @o.Content
+                </p>
+
+            }
+
+        }
+        <hr />
+        <p>@i.Info</p>
+        <hr />
+        <p>@i.Answer</p>
+
+    </div>
+}
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>

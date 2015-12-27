@@ -1,0 +1,3 @@
+﻿
+@Html.DropDownList("MajorList")
+@Html.DropDownList("SubjectList")

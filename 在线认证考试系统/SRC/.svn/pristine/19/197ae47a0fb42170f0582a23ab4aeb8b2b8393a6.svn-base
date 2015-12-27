@@ -1,0 +1,81 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using OnlineExam.Models;
+using System.Web.Mvc;
+namespace OnlineExam
+{
+    public class JsonPaser
+    {
+        ExamEntities ee = new ExamEntities();
+        public string GetSpan(string id, string css, string content)
+        {
+            string elem = "<span id='{0}' class='{1}'>{2}</span>";
+            return string.Format(elem, id, css, content);
+        }
+
+        public List<Node> GetSubjectTree(out List<Major> majors, out List<Subject> subjects)
+        {
+
+            List<Node> nodes = new List<Node>();
+            Node tree = new Node();
+            tree.text = GetSpan("0", "top", "专业分类");
+            majors = ee.Major.OrderBy(m => m.MajorName).ToList();
+            subjects = ee.Subject.OrderBy(m => m.SubjectName).ToList();
+            var mss = ee.Major_Subject.ToList();
+            foreach (var m in majors)
+            {
+                Node n = new Node();
+                n.text = GetSpan(m.MajorID.ToString(), "Major", m.MajorName);
+
+                n.tags.Add(m.MajorID.ToString());
+                n.tags.Add("Major");
+                var subSubjects = from s in subjects
+                                  from r in mss
+                                  where r.SubjectID == s.SubjectID && r.MajorID == m.MajorID
+                                  select s;
+
+                foreach (var sub in subSubjects)
+                {
+
+                    Node n1 = new Node();
+                    n1.text = GetSpan(sub.SubjectID.ToString(), "Subject", sub.SubjectName);
+                    n1.tags.Add(sub.SubjectID.ToString());
+                    n1.tags.Add("Subject");
+                    n1.tags.Add(sub.SubjectCode);
+                    n.nodes.Add(n1);
+                }
+                tree.nodes.Add(n);
+            }
+            nodes.Add(tree);
+            return nodes;
+        }
+
+
+
+
+
+    }
+    public class NodeState
+    {
+        bool check = true;
+        bool disabled = true;
+        bool expanded = true;
+        bool selected = true;
+    }
+    public class Node
+    {
+        public string text = "";
+        public string icon = "";
+        public string selectedIcon = "";
+        public string color = "#000000";
+        public string backColor = "#FFFFFF";
+        //public string href = "#node-1";
+        //public bool selectable = true;
+        //public NodeState state = new NodeState();
+        public List<string> tags = new List<string>();
+        public List<Node> nodes = new List<Node>();
+    }
+
+}

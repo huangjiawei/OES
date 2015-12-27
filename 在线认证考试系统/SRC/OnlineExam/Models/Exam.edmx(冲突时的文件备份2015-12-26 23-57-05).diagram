@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3932c2e7f9444c8ba00da84fc2bb0d13" Name="Diagram1" ZoomLevel="98">
+        <EntityTypeShape EntityType="ExamModel.C__MigrationHistory" Width="1.5" PointX="12.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.AspNetRoles" Width="1.5" PointX="10.75" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.AspNetUserClaims" Width="1.5" PointX="15.25" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.AspNetUserLogins" Width="1.5" PointX="15.25" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.AspNetUsers" Width="1.5" PointX="13" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.Grade" Width="1.5" PointX="12.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.Major" Width="1.5" PointX="7.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.Major_Subject" Width="1.5" PointX="10" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.Paper_AnswerList" Width="1.5" PointX="3" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.Paper_Choice" Width="1.5" PointX="5.25" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.Paper_Essay" Width="1.5" PointX="8.25" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.Paper_QuestionCategory" Width="1.5" PointX="3" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.PaperCollection" Width="1.5" PointX="3" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.Permission" Width="1.5" PointX="12.75" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.QuestionChoice" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.QuestionCollection" Width="1.5" PointX="14.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.QuestionEssay" Width="3" PointX="6" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.Resource" Width="1.5" PointX="14.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.Subject" Width="1.5" PointX="7.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.Subject_Choice" Width="1.5" PointX="14.75" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.Subject_Essay" Width="1.5" PointX="10.875" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.sysdiagrams" Width="1.5" PointX="16.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.Teacher_Subject" Width="1.5" PointX="10" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.TestPaper" Width="1.5" PointX="0.75" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.User_Subject" Width="1.5" PointX="10" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamModel.UserProfile" Width="1.5" PointX="16.75" PointY="6.875" IsExpanded="true" />
+        <AssociationConnector Association="ExamModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="ExamModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="ExamModel.FK_Major_Subject_Major" ManuallyRouted="false" />
+        <AssociationConnector Association="ExamModel.FK_Major_Subject_Subject" ManuallyRouted="false" />
+        <AssociationConnector Association="ExamModel.FK_Paper_AnswerList_TestPaper" ManuallyRouted="false" />
+        <AssociationConnector Association="ExamModel.FK_Paper_Choice_Paper_QuestionCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="ExamModel.FK_Paper_Choice_QuestionChoice" ManuallyRouted="false" />
+        <AssociationConnector Association="ExamModel.FK_Paper_Choice_TestPaper1" ManuallyRouted="false" />
+        <AssociationConnector Association="ExamModel.FK_Paper_Essay_Paper_QuestionCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="ExamModel.FK_Paper_Essay_QuestionEssay_" ManuallyRouted="false" />
+        <AssociationConnector Association="ExamModel.FK_Paper_Essay_TestPaper" ManuallyRouted="false" />
+        <AssociationConnector Association="ExamModel.FK_Paper_QuestionCategory_TestPaper" ManuallyRouted="false" />
+        <AssociationConnector Association="ExamModel.FK_PaperCollection_TestPaper" ManuallyRouted="false" />
+        <AssociationConnector Association="ExamModel.FK_Teacher_Subject_Subject" ManuallyRouted="false" />
+        <AssociationConnector Association="ExamModel.FK_User_Subject_Subject" ManuallyRouted="false" />
+        <AssociationConnector Association="ExamModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ExamModel.Paper_AnswerList_Item" Width="2.375" PointX="5" PointY="6.875" />
+        <AssociationConnector Association="ExamModel.FK_TestAnswerSubItem_TestAnswerList" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

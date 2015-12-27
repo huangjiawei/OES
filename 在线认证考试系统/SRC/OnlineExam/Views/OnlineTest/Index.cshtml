@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "在线测试";
+}
+<iframe src="/Subject/SubjectDropDown" onload="hideBtn();" style="width:700px; height:30px; border-style:none;overflow:hidden;"></iframe>
+<ul>
+    <li>
+        <input id="autoexam" type="radio" name="examtype" checked="checked" value="练习测试" onclick="HidePapers();" />练习测试
+    </li>
+
+    <li>
+        <input id="paperexam" type="radio" name="examtype" value="选择试卷" onclick="ShowPapers();" />指定试卷
+    </li>
+</ul>
+<ul id="paperlist" class="panel-body" style="display:none;"></ul>
+<a class="btn btn-default" onclick="begin()">开始测试</a>
+
+@section Scripts{
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet">
+    <script src="@Url.Content("~/Scripts/jquery-2.1.4.min.js")"></script>
+    @*<script src="@Url.Content("~/Scripts/js/bootstrap.min.js")"></script>*@
+    <script src="/Scripts/Debugger/Alerter.js"></script>
+    <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="/Scripts/jquery.validate.min.js"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+
+        function hideBtn() {
+            $("iframe").contents().find(".btn").css("display", "none");
+        }
+        function ShowPapers() {
+            var subjectid = $("iframe").contents().find("#SubjectList").val();
+            $.ajax({
+                url: '@Url.Action("GetPapers")',
+                data: { subjectId: subjectid, },
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    if (data.Success == 0) {
+                        $("#paperlist").append("<li>获取试卷列表失败</li>");
+                    } else {
+                        for (var i = 0; i < data.Data.lenght; i++) {
+                            var li = "<li id='" + data.Data[i].ID + "' > " + data.Data[i].Name + "</li>";
+                            $("#paperlist").append(li);
+                        }
+
+
+                    }
+                }
+            });
+
+            $("#paperlist").slideToggle(10);
+        }
+        function HidePapers() {
+            $("#paperlist").slideToggle(10);
+
+        }
+        function begin() {
+            var subjectid = $("iframe").contents().find("#SubjectList").val()
+            var paperid = "";
+            if ($("#autoexam").is(":checked")) {
+
+            } else if ($("#paperexam").is(":checked")) {
+                paperid = $(".SelectedItem").attr("id")
+            }
+            Alerter.list(subjectid, paperid);
+            window.open('@Url.Action("Test")' + "?subjectid=" + subjectid + "&paperid=" + paperid, "_blank");
+        }
+
+    </script>
+}

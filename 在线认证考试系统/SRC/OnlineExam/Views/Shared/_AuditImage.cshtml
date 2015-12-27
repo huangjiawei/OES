@@ -1,0 +1,14 @@
+﻿
+@model int
+    @if (Model == Auditing.Pass)
+    {
+        @Html.Image(Url.Content("~/Content/Image/valid.png"), new { @class = "small-img", alt = "已审核" })
+    }
+    else if (Model == Auditing.Unreviewed)
+    {
+        @Html.Image(Url.Content("~/Content/Image/unvalid.png"), new { @class = "small-img", alt = "未审核" })
+    }
+    else
+    {
+        @Html.Image(Url.Content("~/Content/Image/wrong.png"), new { @class = "small-img ", alt = "审核不通过" })
+    }

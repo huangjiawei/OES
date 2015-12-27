@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" />
+
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+    @*<script src="../Scripts/js/jquery-1.11.1.min.js"></script>*@
+    <script src="@Url.Content("~/Scripts/jquery-2.1.4.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/js/bootstrap.min.js")"></script>
+    @*<script src="~/Scripts/js/chart.min.js"></script>
+        <script src="~/Scripts/js/chart-data.js"></script>
+        <script src="~/Scripts/js/easypiechart.js"></script>
+        <script src="~/Scripts/js/easypiechart-data.js"></script>*@
+    <script src="@Url.Content("~/Scripts/js/bootstrap-datepicker.js")"></script>
+    @RenderSection("scripts", required: false)
+
+    <script>
+        //$('#calendar').datepicker({
+        //});
+
+        !function ($) {
+            $(document).on("click", "ul.nav li.parent > a > span.icon", function () {
+                $(this).find('em:first').toggleClass("glyphicon-minus");
+            });
+            $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+        }(window.jQuery);
+
+        $(window).on('resize', function () {
+            if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+        })
+        $(window).on('resize', function () {
+            if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+        })
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><span>后台</span>管理</a>
+                <ul class="user-menu">
+                    @if (System.Web.Security.Membership.GetUser() != null)
+                    {
+                        <li class="dropdown pull-right">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-user">System.Web.Security.Membership.GetUser()</span>
+
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#"><span class="glyphicon glyphicon-user"></span>我的资料</a></li>
+                                <li><a href="#"><span class="glyphicon glyphicon-cog"></span>设置</a></li>
+                                <li><a href="javascript:document.getElementById('logoutForm').submit()"><span class="glyphicon glyphicon-log-out"></span> 注销</a></li>
+                            </ul>
+                        </li>
+
+                    }
+                    else
+                    {
+                        @*<li class="dropdown pull-right">
+                                <a href="@Url.Content("~/Account/Register")">
+                                    <span class="dropdown-toggle" data-toggle="dropdown"></span>
+                                    注册
+                                </a>
+                            </li>*@
+                        <li class="dropdown pull-right">
+                            <a href="@Url.Content("~/Account/Login")"><span class="glyphicon glyphicon-user"></span> 登录</a>
+
+                        </li>
+
+                    }
+                </ul>
+            </div>
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+        @*<form role="search">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search">
+            </div>
+        </form>*@
+        <ul class="nav menu">
+            <li class="active"><a href="index.html"><span class="glyphicon glyphicon-dashboard"></span> 题库管理</a></li>
+            @*<li><a href="widgets.html"><span class="glyphicon glyphicon-th"></span> Widgets</a></li>
+            <li><a href="charts.html"><span class="glyphicon glyphicon-stats"></span> Charts</a></li>
+            <li><a href="tables.html"><span class="glyphicon glyphicon-list-alt"></span> Tables</a></li>
+            <li><a href="forms.html"><span class="glyphicon glyphicon-pencil"></span> Forms</a></li>
+            <li><a href="panels.html"><span class="glyphicon glyphicon-info-sign"></span> Alerts &amp; Panels</a></li>*@
+            <li>
+                <a class="" href="@Url.Action("Index", "SingleChoice")">
+                    <span class="glyphicon  glyphicon glyphicon-list"></span>单选题
+                </a>
+            </li>
+            <li>
+                <a class="" href="@Url.Action("Index", "MultipleChoice")">
+                    <span class="glyphicon  glyphicon glyphicon-list"></span>多选题
+                </a>
+            </li>
+            <li>
+                <a class="" href="@Url.Action("Index", "Completion")">
+                    <span class="glyphicon  glyphicon glyphicon-list"></span>填空题
+                </a>
+            </li>
+            <li>
+                <a class="" href="@Url.Action("Index", "ShortAnswer")">
+                    <span class=" glyphicon  glyphicon glyphicon-list">
+                    </span>简答题/计算题
+                </a>
+            </li>
+            <li>
+                <a class="" href="@Url.Action("Index", "Discussion")">
+                    <span class="glyphicon  glyphicon glyphicon-list"></span>应用题/议论题
+                </a>
+            </li>
+            <li class="parent ">
+                <a href="#">
+                    <span class="glyphicon glyphicon-list"></span> 题库管理 <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+                </a>
+                <ul class="children collapse" id="sub-item-1">
+                    <li>
+                        <a class="" href="@Url.Action("Index", "SingleChoice")">
+                            <span class="glyphicon glyphicon-share-alt"></span>单选题
+                        </a>
+                    </li>
+                    <li>
+                        <a class="" href="@Url.Action("Index", "MultipleChoice")">
+                            <span class="glyphicon glyphicon-share-alt"></span>多选题
+                        </a>
+                    </li>
+                    <li>
+                        <a class="" href="@Url.Action("Index", "Completion")">
+                            <span class="glyphicon glyphicon-share-alt"></span>填空题
+                        </a>
+                    </li>
+                    <li>
+                        <a class="" href="@Url.Action("Index", "ShortAnswer")">
+                            <span class=" glyphicon glyphicon-share-alt">
+                            </span>简答题/计算题
+                        </a>
+                    </li>
+                    <li>
+                        <a class="" href="@Url.Action("Index", "Discussion")">
+                            <span class="glyphicon glyphicon-share-alt"></span>应用题/议论题
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li role="presentation" class="divider"></li>
+            @*<li><a href="login.html"><span class="glyphicon glyphicon-user"></span> 登录</a></li>*@
+        </ul>
+    </div><!--/.sidebar-->
+
+    <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+        @RenderBody()
+    </div>	<!--/.main-->
+
+
+
+</body>
+
+</html>

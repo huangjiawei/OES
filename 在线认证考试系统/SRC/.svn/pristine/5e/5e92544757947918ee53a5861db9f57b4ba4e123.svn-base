@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace OnlineExam
+{
+    public class Utitlity
+    {
+        
+    }
+    public class CKey
+    {
+        public static readonly string DefaultSearchKeyWord = "查询关键字";
+        //public static readonly string KeyWord = "关键字";
+        //public static readonly string KeyWord = "关键字";
+
+        public static readonly int DefaultPageCount = 5;
+
+    }
+}

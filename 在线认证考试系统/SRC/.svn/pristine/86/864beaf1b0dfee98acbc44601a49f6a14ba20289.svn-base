@@ -1,0 +1,134 @@
+﻿<div class="row">
+    <div id="tree" class="col-md-6"></div>
+    <div id="subject" class="col-md-6">
+        <table class="table table-striped table-hover">
+            @foreach (var subject in (List<OnlineExam.Models.Subject>)ViewBag.Subjects)
+            {
+                <tr class="row">
+                    <td class="col-md-4">
+                        @subject.SubjectCode
+                    </td>
+                    <td class="col-md-8" draggable="true">
+                        @subject.SubjectName
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<script>
+
+    //var cols = document.querySelectorAll('.demo-box li');
+    //[].forEach.call(cols, function(col) {
+
+    //});
+
+    var dragSrcEl = null;
+    function handleDragStart(e) {
+        this.style.opacity = '0.8';  // this / e.target is the source node.
+        dragSrcEl = this;
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', this.innerHTML);
+    }
+    function ExChange(src, dest) {
+    }
+    function handleDrop(e) {
+        // this/e.target is current target element.
+        if (e.stopPropagation) {
+            e.stopPropagation(); // Stops some browsers from redirecting.
+        }
+        //alert("dsfaf")
+        // Don't do anything if dropping the same column we're dragging.
+        if (dragSrcEl != this) {
+            // Set the source column's HTML to the HTML of the columnwe dropped on.
+            var src = dragSrcEl.innerHTML
+            dragSrcEl.innerHTML = this.innerHTML;
+            this.innerHTML = src;
+        }
+        return false;
+    }
+
+    function handleDragOver(e) {
+        if (e.preventDefault) {
+            e.preventDefault(); // Necessary. Allows us to drop.
+        }
+        e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+        return false;
+    }
+
+    function handleDragEnter(e) {
+        // this / e.target is the current hover target.
+        this.classList.add('over');
+    }
+
+    function handleDragLeave(e) {
+        this.classList.remove('over');  // this / e.target is previous target element.
+    }
+    function HtmlEncode(str) {
+        var s = "";
+        if (str.length == 0)
+            return "";
+        s = str.replace(/&/g, "&gt;");
+        s = s.replace(/</g, "&lt;");
+        s = s.replace(/>/g, "&gt;");
+        s = s.replace(/\"/g, "&quot;");
+        s = s.replace(/\n/g, "<br>");
+        return s;
+    }
+    function HtmlDecode(str) {
+        var s = "";
+        if (str.length == 0) return "";
+        s = str.replace(/&gt;/g, "&");
+        s = s.replace(/&lt;/g, "<");
+        s = s.replace(/&gt;/g, ">");
+        s = s.replace(/&nbsp;/g, " ");
+        s = s.replace(/"/g, "\"");
+        s = s.replace(/&quot;/g, "\"");
+        s = s.replace(/<br>/g, "\n");
+        return s;
+    }
+    $(function () {
+        $("[draggable='true']").each(function () {
+            //$(this).bind('dragstart', handleDragStart, false);
+            //$(this).bind('dragenter', handleDragEnter, false);
+            //$(this).bind('dragover', handleDragOver, false);
+            //$(this).bind('dragleave', handleDragLeave, false);
+            this.addEventListener('dragstart', handleDragStart, false);
+            this.addEventListener('dragenter', handleDragEnter, false);
+            this.addEventListener('dragover', handleDragOver, false);
+            this.addEventListener('dragleave', handleDragLeave, false);
+            this.addEventListener('drop', handleDrop, false);
+        });
+        var data = HtmlDecode("@Json.Encode(ViewBag.Tree)");
+        //alert(data);
+        $('#tree').treeview({
+            data: data,
+            collapseIcon: "glyphicon glyphicon-chevron-right",
+            expandIcon: "glyphicon glyphicon-chevron-down",
+            showTags:true
+        });
+    })
+</script>
+<style>
+    #tree {
+        /*width: 15%;*/
+        font-size: small;
+    }
+
+    .over {
+        background-color: darkslateblue;
+    }
+
+    [draggable] {
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+</style>
+@section Scripts{
+
+    <script src="/Scripts/JSON2/json2.js"></script>
+    <script src="/Scripts/bootstrap-tree/js/bootstrap-treeview.js"></script>
+}

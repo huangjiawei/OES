@@ -1,0 +1,1700 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ExamModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="DisplayName" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Grade">
+          <Key>
+            <PropertyRef Name="GradeID" />
+          </Key>
+          <Property Name="GradeID" Type="int" Nullable="false" />
+          <Property Name="GradeName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Major">
+          <Key>
+            <PropertyRef Name="MajorID" />
+          </Key>
+          <Property Name="MajorID" Type="int" Nullable="false" />
+          <Property Name="MajorName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Major_Subject">
+          <Key>
+            <PropertyRef Name="MajorID" />
+            <PropertyRef Name="SubjectID" />
+          </Key>
+          <Property Name="MajorID" Type="int" Nullable="false" />
+          <Property Name="SubjectID" Type="int" Nullable="false" />
+          <Property Name="Socre" Type="int" />
+        </EntityType>
+        <EntityType Name="Paper_AnswerList">
+          <Key>
+            <PropertyRef Name="AnserListID" />
+          </Key>
+          <Property Name="AnserListID" Type="bigint" Nullable="false" />
+          <Property Name="PaperID" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="StudentID" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Paper_AnswerList_Item">
+          <Key>
+            <PropertyRef Name="AnswerListID" />
+            <PropertyRef Name="BigQuestionNumber" />
+            <PropertyRef Name="SmallQuestionNumber" />
+          </Key>
+          <Property Name="AnswerListID" Type="bigint" Nullable="false" />
+          <Property Name="BigQuestionNumber" Type="int" Nullable="false" />
+          <Property Name="SmallQuestionNumber" Type="int" Nullable="false" />
+          <Property Name="Answer" Type="nvarchar(max)" />
+          <Property Name="Score" Type="float" />
+          <Property Name="IsCorrect" Type="bit" />
+        </EntityType>
+        <EntityType Name="Paper_Choice">
+          <Key>
+            <PropertyRef Name="PaperID" />
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="PaperID" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="QuestionID" Type="bigint" Nullable="false" />
+          <Property Name="Score" Type="float" Nullable="false" />
+          <Property Name="BigQuestionNumber" Type="int" Nullable="false" />
+          <Property Name="SmallQuestionNumber" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Paper_Essay">
+          <Key>
+            <PropertyRef Name="PaperID" />
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="PaperID" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="QuestionID" Type="bigint" Nullable="false" />
+          <Property Name="Score" Type="float" />
+          <Property Name="BigQuestionNumber" Type="int" />
+          <Property Name="SmallQuestionNumber" Type="int" />
+        </EntityType>
+        <EntityType Name="Paper_QuestionCategory">
+          <Key>
+            <PropertyRef Name="PaperID" />
+            <PropertyRef Name="Sequence" />
+          </Key>
+          <Property Name="PaperID" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="Sequence" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="ScorePerQuestion" Type="float" Nullable="false" />
+          <Property Name="QuestionType" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaperCollection">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="PaperID" />
+          </Key>
+          <Property Name="UserID" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="PaperID" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="PermissionID" />
+          </Key>
+          <Property Name="PermissionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PermissionName" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="QuestionChoice">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Question" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="OptionA" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="OptionB" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="OptionC" Type="nvarchar" MaxLength="500" />
+          <Property Name="OptionD" Type="nvarchar" MaxLength="500" />
+          <Property Name="OptionE" Type="nvarchar" MaxLength="500" />
+          <Property Name="OptionF" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsMultiple" Type="bit" Nullable="false" />
+          <Property Name="AisTrue" Type="bit" Nullable="false" />
+          <Property Name="BisTrue" Type="bit" Nullable="false" />
+          <Property Name="CisTrue" Type="bit" Nullable="false" />
+          <Property Name="DisTrue" Type="bit" Nullable="false" />
+          <Property Name="EisTrue" Type="bit" Nullable="false" />
+          <Property Name="FisTrue" Type="bit" Nullable="false" />
+          <Property Name="ModificationTeacher" Type="nchar" MaxLength="100" />
+          <Property Name="ModificationDate" Type="datetime" />
+          <Property Name="DateAdded" Type="date" Nullable="false" />
+          <Property Name="Difficulty" Type="smallint" Nullable="false" />
+          <Property Name="Frequency" Type="smallint" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="Assessment" Type="nchar" MaxLength="1000" />
+          <Property Name="Info" Type="nvarchar" MaxLength="500" />
+          <Property Name="Audit" Type="int" Nullable="false" />
+          <Property Name="ModificationTeacherID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IsImport" Type="bit" Nullable="false" />
+          <Property Name="Auditor" Type="nvarchar" MaxLength="100" />
+          <Property Name="AuditorID" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="QuestionCollection">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="UserID" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="QuestionID" Type="bigint" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="QuestionEssay ">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Question" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Answer" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="QuestionType" Type="nvarchar" MaxLength="50" />
+          <Property Name="Info" Type="nvarchar" MaxLength="500" />
+          <Property Name="ModificationTeacher" Type="nchar" MaxLength="100" />
+          <Property Name="ModificationDate" Type="datetime" />
+          <Property Name="DateAdded" Type="date" Nullable="false" />
+          <Property Name="Difficulty" Type="smallint" Nullable="false" />
+          <Property Name="Frequency" Type="smallint" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="Assessment" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Audit" Type="int" Nullable="false" />
+          <Property Name="ModificationTeacherID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IsImport" Type="bit" Nullable="false" />
+          <Property Name="Auditor" Type="nvarchar" MaxLength="100" />
+          <Property Name="AuditorID" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="Resource">
+          <Key>
+            <PropertyRef Name="ResourceID" />
+          </Key>
+          <Property Name="ResourceID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Url" Type="nvarchar" MaxLength="500" />
+          <Property Name="Location" Type="nvarchar" MaxLength="500" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="1000" />
+          <Property Name="DateAdded" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Subject">
+          <Key>
+            <PropertyRef Name="SubjectID" />
+          </Key>
+          <Property Name="SubjectID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubjectCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="SubjectName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Term" Type="nvarchar" MaxLength="50" />
+          <Property Name="Grade" Type="nvarchar" MaxLength="50" />
+          <Property Name="Version" Type="nvarchar" MaxLength="50" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="PreSubject" Type="nvarchar" MaxLength="50" />
+          <Property Name="Book" Type="nvarchar" MaxLength="50" />
+          <Property Name="ExamType" Type="int" />
+        </EntityType>
+        <EntityType Name="Subject_Choice">
+          <Key>
+            <PropertyRef Name="SubjectID" />
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="SubjectID" Type="int" Nullable="false" />
+          <Property Name="QuestionID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Subject_Essay">
+          <Key>
+            <PropertyRef Name="SubjectID" />
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="SubjectID" Type="int" Nullable="false" />
+          <Property Name="QuestionID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Teacher_Subject">
+          <Key>
+            <PropertyRef Name="TeacherID" />
+            <PropertyRef Name="SubjectID" />
+          </Key>
+          <Property Name="TeacherID" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="SubjectID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TestPaper">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="varchar" MaxLength="256" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="Info" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsReady" Type="bit" Nullable="false" />
+          <Property Name="ExamType" Type="nvarchar" MaxLength="50" />
+          <Property Name="SubjectID" Type="int" Nullable="false" />
+          <Property Name="ExamTime" Type="datetime" Nullable="false" />
+          <Property Name="TimeDuration" Type="int" />
+          <Property Name="Active" Type="int" Nullable="false" />
+          <Property Name="Audit" Type="int" Nullable="false" />
+          <Property Name="ModificationTeacher" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ModificationTeacherID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ModificationDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User_Subject">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="SubjectID" />
+          </Key>
+          <Property Name="UserID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="SubjectID" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="NickName" Type="nvarchar" MaxLength="50" />
+          <Property Name="RealName" Type="nvarchar" MaxLength="250" />
+          <Property Name="Address" Type="nvarchar" MaxLength="250" />
+          <Property Name="School" Type="nvarchar" MaxLength="250" />
+          <Property Name="Birthday" Type="datetime" />
+          <Property Name="Company" Type="nvarchar" MaxLength="250" />
+          <Property Name="Photo" Type="nvarchar" MaxLength="1000" />
+          <Property Name="TelPhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="QQ" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Major_Subject_Major">
+          <End Role="Major" Type="Self.Major" Multiplicity="1" />
+          <End Role="Major_Subject" Type="Self.Major_Subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Major">
+              <PropertyRef Name="MajorID" />
+            </Principal>
+            <Dependent Role="Major_Subject">
+              <PropertyRef Name="MajorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Major_Subject_Subject">
+          <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+          <End Role="Major_Subject" Type="Self.Major_Subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subject">
+              <PropertyRef Name="SubjectID" />
+            </Principal>
+            <Dependent Role="Major_Subject">
+              <PropertyRef Name="SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--生成过程中发现错误:
+警告 6035: 关系“FK_Paper_AnswerList_AspNetUsers”在关系主端上有一些列不属于表的键的一部分。已排除了此关系。
+        <Association Name="FK_Paper_AnswerList_AspNetUsers" />-->
+        <Association Name="FK_Paper_AnswerList_TestPaper">
+          <End Role="TestPaper" Type="Self.TestPaper" Multiplicity="1" />
+          <End Role="Paper_AnswerList" Type="Self.Paper_AnswerList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestPaper">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paper_AnswerList">
+              <PropertyRef Name="PaperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_Choice_Paper_QuestionCategory">
+          <End Role="Paper_QuestionCategory" Type="Self.Paper_QuestionCategory" Multiplicity="1" />
+          <End Role="Paper_Choice" Type="Self.Paper_Choice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper_QuestionCategory">
+              <PropertyRef Name="PaperID" />
+              <PropertyRef Name="Sequence" />
+            </Principal>
+            <Dependent Role="Paper_Choice">
+              <PropertyRef Name="PaperID" />
+              <PropertyRef Name="BigQuestionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_Choice_QuestionChoice">
+          <End Role="QuestionChoice" Type="Self.QuestionChoice" Multiplicity="1" />
+          <End Role="Paper_Choice" Type="Self.Paper_Choice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuestionChoice">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paper_Choice">
+              <PropertyRef Name="QuestionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_Choice_TestPaper">
+          <End Role="TestPaper" Type="Self.TestPaper" Multiplicity="1" />
+          <End Role="Paper_Choice" Type="Self.Paper_Choice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestPaper">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paper_Choice">
+              <PropertyRef Name="PaperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_Essay_Paper_QuestionCategory">
+          <End Role="Paper_QuestionCategory" Type="Self.Paper_QuestionCategory" Multiplicity="0..1" />
+          <End Role="Paper_Essay" Type="Self.Paper_Essay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper_QuestionCategory">
+              <PropertyRef Name="PaperID" />
+              <PropertyRef Name="Sequence" />
+            </Principal>
+            <Dependent Role="Paper_Essay">
+              <PropertyRef Name="PaperID" />
+              <PropertyRef Name="BigQuestionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_Essay_QuestionEssay ">
+          <End Role="QuestionEssay " Type="Self.QuestionEssay " Multiplicity="1" />
+          <End Role="Paper_Essay" Type="Self.Paper_Essay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuestionEssay ">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paper_Essay">
+              <PropertyRef Name="QuestionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_Essay_TestPaper">
+          <End Role="TestPaper" Type="Self.TestPaper" Multiplicity="1" />
+          <End Role="Paper_Essay" Type="Self.Paper_Essay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestPaper">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paper_Essay">
+              <PropertyRef Name="PaperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_QuestionCategory_TestPaper">
+          <End Role="TestPaper" Type="Self.TestPaper" Multiplicity="1" />
+          <End Role="Paper_QuestionCategory" Type="Self.Paper_QuestionCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestPaper">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paper_QuestionCategory">
+              <PropertyRef Name="PaperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--生成过程中发现错误:
+警告 6035: 关系“FK_PaperCollection_AspNetUsers”在关系主端上有一些列不属于表的键的一部分。已排除了此关系。
+        <Association Name="FK_PaperCollection_AspNetUsers" />-->
+        <Association Name="FK_PaperCollection_TestPaper">
+          <End Role="TestPaper" Type="Self.TestPaper" Multiplicity="1" />
+          <End Role="PaperCollection" Type="Self.PaperCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestPaper">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PaperCollection">
+              <PropertyRef Name="PaperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--生成过程中发现错误:
+警告 6035: 关系“FK_QuestionCollection_AspNetUsers”在关系主端上有一些列不属于表的键的一部分。已排除了此关系。
+        <Association Name="FK_QuestionCollection_AspNetUsers" />-->
+        <!--生成过程中发现错误:
+警告 6035: 关系“FK_Teacher_Subject_AspNetUsers”在关系主端上有一些列不属于表的键的一部分。已排除了此关系。
+        <Association Name="FK_Teacher_Subject_AspNetUsers" />-->
+        <Association Name="FK_Teacher_Subject_Subject">
+          <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+          <End Role="Teacher_Subject" Type="Self.Teacher_Subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subject">
+              <PropertyRef Name="SubjectID" />
+            </Principal>
+            <Dependent Role="Teacher_Subject">
+              <PropertyRef Name="SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestAnswerSubItem_TestAnswerList">
+          <End Role="Paper_AnswerList" Type="Self.Paper_AnswerList" Multiplicity="1" />
+          <End Role="Paper_AnswerList_Item" Type="Self.Paper_AnswerList_Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper_AnswerList">
+              <PropertyRef Name="AnserListID" />
+            </Principal>
+            <Dependent Role="Paper_AnswerList_Item">
+              <PropertyRef Name="AnswerListID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Subject_Subject">
+          <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+          <End Role="User_Subject" Type="Self.User_Subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subject">
+              <PropertyRef Name="SubjectID" />
+            </Principal>
+            <Dependent Role="User_Subject">
+              <PropertyRef Name="SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExamModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Grade" EntityType="Self.Grade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Major" EntityType="Self.Major" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Major_Subject" EntityType="Self.Major_Subject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paper_AnswerList" EntityType="Self.Paper_AnswerList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paper_AnswerList_Item" EntityType="Self.Paper_AnswerList_Item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paper_Choice" EntityType="Self.Paper_Choice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paper_Essay" EntityType="Self.Paper_Essay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paper_QuestionCategory" EntityType="Self.Paper_QuestionCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaperCollection" EntityType="Self.PaperCollection" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Permission" EntityType="Self.Permission" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestionChoice" EntityType="Self.QuestionChoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestionCollection" EntityType="Self.QuestionCollection" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestionEssay " EntityType="Self.QuestionEssay " Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Resource" EntityType="Self.Resource" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subject_Choice" EntityType="Self.Subject_Choice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subject_Essay" EntityType="Self.Subject_Essay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teacher_Subject" EntityType="Self.Teacher_Subject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TestPaper" EntityType="Self.TestPaper" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_Subject" EntityType="Self.User_Subject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Major_Subject_Major" Association="Self.FK_Major_Subject_Major">
+            <End Role="Major" EntitySet="Major" />
+            <End Role="Major_Subject" EntitySet="Major_Subject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Major_Subject_Subject" Association="Self.FK_Major_Subject_Subject">
+            <End Role="Subject" EntitySet="Subject" />
+            <End Role="Major_Subject" EntitySet="Major_Subject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_AnswerList_TestPaper" Association="Self.FK_Paper_AnswerList_TestPaper">
+            <End Role="TestPaper" EntitySet="TestPaper" />
+            <End Role="Paper_AnswerList" EntitySet="Paper_AnswerList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_Choice_Paper_QuestionCategory" Association="Self.FK_Paper_Choice_Paper_QuestionCategory">
+            <End Role="Paper_QuestionCategory" EntitySet="Paper_QuestionCategory" />
+            <End Role="Paper_Choice" EntitySet="Paper_Choice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_Choice_QuestionChoice" Association="Self.FK_Paper_Choice_QuestionChoice">
+            <End Role="QuestionChoice" EntitySet="QuestionChoice" />
+            <End Role="Paper_Choice" EntitySet="Paper_Choice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_Choice_TestPaper" Association="Self.FK_Paper_Choice_TestPaper">
+            <End Role="TestPaper" EntitySet="TestPaper" />
+            <End Role="Paper_Choice" EntitySet="Paper_Choice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_Essay_Paper_QuestionCategory" Association="Self.FK_Paper_Essay_Paper_QuestionCategory">
+            <End Role="Paper_QuestionCategory" EntitySet="Paper_QuestionCategory" />
+            <End Role="Paper_Essay" EntitySet="Paper_Essay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_Essay_QuestionEssay " Association="Self.FK_Paper_Essay_QuestionEssay ">
+            <End Role="QuestionEssay " EntitySet="QuestionEssay " />
+            <End Role="Paper_Essay" EntitySet="Paper_Essay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_Essay_TestPaper" Association="Self.FK_Paper_Essay_TestPaper">
+            <End Role="TestPaper" EntitySet="TestPaper" />
+            <End Role="Paper_Essay" EntitySet="Paper_Essay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_QuestionCategory_TestPaper" Association="Self.FK_Paper_QuestionCategory_TestPaper">
+            <End Role="TestPaper" EntitySet="TestPaper" />
+            <End Role="Paper_QuestionCategory" EntitySet="Paper_QuestionCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaperCollection_TestPaper" Association="Self.FK_PaperCollection_TestPaper">
+            <End Role="TestPaper" EntitySet="TestPaper" />
+            <End Role="PaperCollection" EntitySet="PaperCollection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Teacher_Subject_Subject" Association="Self.FK_Teacher_Subject_Subject">
+            <End Role="Subject" EntitySet="Subject" />
+            <End Role="Teacher_Subject" EntitySet="Teacher_Subject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestAnswerSubItem_TestAnswerList" Association="Self.FK_TestAnswerSubItem_TestAnswerList">
+            <End Role="Paper_AnswerList" EntitySet="Paper_AnswerList" />
+            <End Role="Paper_AnswerList_Item" EntitySet="Paper_AnswerList_Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Subject_Subject" Association="Self.FK_User_Subject_Subject">
+            <End Role="Subject" EntitySet="Subject" />
+            <End Role="User_Subject" EntitySet="User_Subject" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ExamModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DisplayName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+        </EntityType>
+        <EntityType Name="Grade">
+          <Key>
+            <PropertyRef Name="GradeID" />
+          </Key>
+          <Property Name="GradeID" Type="Int32" Nullable="false" />
+          <Property Name="GradeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Major">
+          <Key>
+            <PropertyRef Name="MajorID" />
+          </Key>
+          <Property Name="MajorID" Type="Int32" Nullable="false" />
+          <Property Name="MajorName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Major_Subject" Relationship="Self.FK_Major_Subject_Major" FromRole="Major" ToRole="Major_Subject" />
+        </EntityType>
+        <EntityType Name="Major_Subject">
+          <Key>
+            <PropertyRef Name="MajorID" />
+            <PropertyRef Name="SubjectID" />
+          </Key>
+          <Property Name="MajorID" Type="Int32" Nullable="false" />
+          <Property Name="SubjectID" Type="Int32" Nullable="false" />
+          <Property Name="Socre" Type="Int32" />
+          <NavigationProperty Name="Major" Relationship="Self.FK_Major_Subject_Major" FromRole="Major_Subject" ToRole="Major" />
+          <NavigationProperty Name="Subject" Relationship="Self.FK_Major_Subject_Subject" FromRole="Major_Subject" ToRole="Subject" />
+        </EntityType>
+        <EntityType Name="Paper_AnswerList">
+          <Key>
+            <PropertyRef Name="AnserListID" />
+          </Key>
+          <Property Name="AnserListID" Type="Int64" Nullable="false" />
+          <Property Name="PaperID" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StudentID" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TestPaper" Relationship="Self.FK_Paper_AnswerList_TestPaper" FromRole="Paper_AnswerList" ToRole="TestPaper" />
+          <NavigationProperty Name="Paper_AnswerList_Item" Relationship="ExamModel.FK_TestAnswerSubItem_TestAnswerList" FromRole="Paper_AnswerList" ToRole="Paper_AnswerList_Item" />
+        </EntityType>
+        <EntityType Name="Paper_Choice">
+          <Key>
+            <PropertyRef Name="PaperID" />
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="PaperID" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="QuestionID" Type="Int64" Nullable="false" />
+          <Property Name="Score" Type="Double" Nullable="false" />
+          <Property Name="BigQuestionNumber" Type="Int32" Nullable="false" />
+          <Property Name="SmallQuestionNumber" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Paper_QuestionCategory" Relationship="Self.FK_Paper_Choice_Paper_QuestionCategory" FromRole="Paper_Choice" ToRole="Paper_QuestionCategory" />
+          <NavigationProperty Name="QuestionChoice" Relationship="Self.FK_Paper_Choice_QuestionChoice" FromRole="Paper_Choice" ToRole="QuestionChoice" />
+          <NavigationProperty Name="TestPaper" Relationship="Self.FK_Paper_Choice_TestPaper1" FromRole="Paper_Choice" ToRole="TestPaper" />
+        </EntityType>
+        <EntityType Name="Paper_Essay">
+          <Key>
+            <PropertyRef Name="PaperID" />
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="PaperID" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="QuestionID" Type="Int64" Nullable="false" />
+          <Property Name="Score" Type="Double" />
+          <Property Name="BigQuestionNumber" Type="Int32" />
+          <Property Name="SmallQuestionNumber" Type="Int32" />
+          <NavigationProperty Name="Paper_QuestionCategory" Relationship="Self.FK_Paper_Essay_Paper_QuestionCategory" FromRole="Paper_Essay" ToRole="Paper_QuestionCategory" />
+          <NavigationProperty Name="QuestionEssay_" Relationship="Self.FK_Paper_Essay_QuestionEssay_" FromRole="Paper_Essay" ToRole="QuestionEssay_" />
+          <NavigationProperty Name="TestPaper" Relationship="Self.FK_Paper_Essay_TestPaper" FromRole="Paper_Essay" ToRole="TestPaper" />
+        </EntityType>
+        <EntityType Name="Paper_QuestionCategory">
+          <Key>
+            <PropertyRef Name="PaperID" />
+            <PropertyRef Name="Sequence" />
+          </Key>
+          <Property Name="PaperID" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Sequence" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="ScorePerQuestion" Type="Double" Nullable="false" />
+          <Property Name="QuestionType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Paper_Choice" Relationship="Self.FK_Paper_Choice_Paper_QuestionCategory" FromRole="Paper_QuestionCategory" ToRole="Paper_Choice" />
+          <NavigationProperty Name="Paper_Essay" Relationship="Self.FK_Paper_Essay_Paper_QuestionCategory" FromRole="Paper_QuestionCategory" ToRole="Paper_Essay" />
+          <NavigationProperty Name="TestPaper" Relationship="Self.FK_Paper_QuestionCategory_TestPaper" FromRole="Paper_QuestionCategory" ToRole="TestPaper" />
+        </EntityType>
+        <EntityType Name="PaperCollection">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="PaperID" />
+          </Key>
+          <Property Name="UserID" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PaperID" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TestPaper" Relationship="Self.FK_PaperCollection_TestPaper" FromRole="PaperCollection" ToRole="TestPaper" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="PermissionID" />
+          </Key>
+          <Property Name="PermissionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PermissionName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="QuestionChoice">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Question" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OptionA" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OptionB" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OptionC" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="OptionD" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="OptionE" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="OptionF" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsMultiple" Type="Boolean" Nullable="false" />
+          <Property Name="AisTrue" Type="Boolean" Nullable="false" />
+          <Property Name="BisTrue" Type="Boolean" Nullable="false" />
+          <Property Name="CisTrue" Type="Boolean" Nullable="false" />
+          <Property Name="DisTrue" Type="Boolean" Nullable="false" />
+          <Property Name="EisTrue" Type="Boolean" Nullable="false" />
+          <Property Name="FisTrue" Type="Boolean" Nullable="false" />
+          <Property Name="ModificationTeacher" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="ModificationDate" Type="DateTime" Precision="3" />
+          <Property Name="DateAdded" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Difficulty" Type="Int16" Nullable="false" />
+          <Property Name="Frequency" Type="Int16" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Assessment" Type="String" MaxLength="1000" FixedLength="true" Unicode="true" />
+          <Property Name="Info" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Audit" Type="Int32" Nullable="false" />
+          <Property Name="ModificationTeacherID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsImport" Type="Boolean" Nullable="false" />
+          <Property Name="Auditor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AuditorID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Paper_Choice" Relationship="Self.FK_Paper_Choice_QuestionChoice" FromRole="QuestionChoice" ToRole="Paper_Choice" />
+        </EntityType>
+        <EntityType Name="QuestionCollection">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="UserID" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuestionID" Type="Int64" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="QuestionEssay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Question" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Answer" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="QuestionType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Info" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ModificationTeacher" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="ModificationDate" Type="DateTime" Precision="3" />
+          <Property Name="DateAdded" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Difficulty" Type="Int16" Nullable="false" />
+          <Property Name="Frequency" Type="Int16" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Assessment" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Audit" Type="Int32" Nullable="false" />
+          <Property Name="ModificationTeacherID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsImport" Type="Boolean" Nullable="false" />
+          <Property Name="Auditor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AuditorID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Paper_Essay" Relationship="Self.FK_Paper_Essay_QuestionEssay_" FromRole="QuestionEssay_" ToRole="Paper_Essay" />
+        </EntityType>
+        <EntityType Name="Resource">
+          <Key>
+            <PropertyRef Name="ResourceID" />
+          </Key>
+          <Property Name="ResourceID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Url" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="DateAdded" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Subject">
+          <Key>
+            <PropertyRef Name="SubjectID" />
+          </Key>
+          <Property Name="SubjectID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubjectCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SubjectName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Term" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Grade" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Version" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PreSubject" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Book" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ExamType" Type="Int32" />
+          <NavigationProperty Name="Major_Subject" Relationship="Self.FK_Major_Subject_Subject" FromRole="Subject" ToRole="Major_Subject" />
+          <NavigationProperty Name="Teacher_Subject" Relationship="Self.FK_Teacher_Subject_Subject" FromRole="Subject" ToRole="Teacher_Subject" />
+          <NavigationProperty Name="User_Subject" Relationship="Self.FK_User_Subject_Subject" FromRole="Subject" ToRole="User_Subject" />
+        </EntityType>
+        <EntityType Name="Subject_Choice">
+          <Key>
+            <PropertyRef Name="SubjectID" />
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="SubjectID" Type="Int32" Nullable="false" />
+          <Property Name="QuestionID" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Subject_Essay">
+          <Key>
+            <PropertyRef Name="SubjectID" />
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="SubjectID" Type="Int32" Nullable="false" />
+          <Property Name="QuestionID" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Teacher_Subject">
+          <Key>
+            <PropertyRef Name="TeacherID" />
+            <PropertyRef Name="SubjectID" />
+          </Key>
+          <Property Name="TeacherID" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SubjectID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Subject" Relationship="Self.FK_Teacher_Subject_Subject" FromRole="Teacher_Subject" ToRole="Subject" />
+        </EntityType>
+        <EntityType Name="TestPaper">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsReady" Type="Boolean" Nullable="false" />
+          <Property Name="ExamType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SubjectID" Type="Int32" Nullable="false" />
+          <Property Name="ExamTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TimeDuration" Type="Int32" />
+          <Property Name="Active" Type="Int32" Nullable="false" />
+          <Property Name="Audit" Type="Int32" Nullable="false" />
+          <Property Name="ModificationTeacher" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ModificationTeacherID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ModificationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Paper_AnswerList" Relationship="Self.FK_Paper_AnswerList_TestPaper" FromRole="TestPaper" ToRole="Paper_AnswerList" />
+          <NavigationProperty Name="Paper_Choice" Relationship="Self.FK_Paper_Choice_TestPaper1" FromRole="TestPaper" ToRole="Paper_Choice" />
+          <NavigationProperty Name="Paper_Essay" Relationship="Self.FK_Paper_Essay_TestPaper" FromRole="TestPaper" ToRole="Paper_Essay" />
+          <NavigationProperty Name="Paper_QuestionCategory" Relationship="Self.FK_Paper_QuestionCategory_TestPaper" FromRole="TestPaper" ToRole="Paper_QuestionCategory" />
+          <NavigationProperty Name="PaperCollection" Relationship="Self.FK_PaperCollection_TestPaper" FromRole="TestPaper" ToRole="PaperCollection" />
+        </EntityType>
+        <EntityType Name="User_Subject">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="SubjectID" />
+          </Key>
+          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SubjectID" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Int32" />
+          <NavigationProperty Name="Subject" Relationship="Self.FK_User_Subject_Subject" FromRole="User_Subject" ToRole="Subject" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NickName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RealName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="School" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Birthday" Type="DateTime" Precision="3" />
+          <Property Name="Company" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="TelPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="QQ" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Major_Subject_Major">
+          <End Role="Major" Type="Self.Major" Multiplicity="1" />
+          <End Role="Major_Subject" Type="Self.Major_Subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Major">
+              <PropertyRef Name="MajorID" />
+            </Principal>
+            <Dependent Role="Major_Subject">
+              <PropertyRef Name="MajorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Major_Subject_Subject">
+          <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+          <End Role="Major_Subject" Type="Self.Major_Subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subject">
+              <PropertyRef Name="SubjectID" />
+            </Principal>
+            <Dependent Role="Major_Subject">
+              <PropertyRef Name="SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_AnswerList_TestPaper">
+          <End Role="TestPaper" Type="Self.TestPaper" Multiplicity="1" />
+          <End Role="Paper_AnswerList" Type="Self.Paper_AnswerList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestPaper">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paper_AnswerList">
+              <PropertyRef Name="PaperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_Choice_Paper_QuestionCategory">
+          <End Role="Paper_QuestionCategory" Type="Self.Paper_QuestionCategory" Multiplicity="1" />
+          <End Role="Paper_Choice" Type="Self.Paper_Choice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper_QuestionCategory">
+              <PropertyRef Name="PaperID" />
+              <PropertyRef Name="Sequence" />
+            </Principal>
+            <Dependent Role="Paper_Choice">
+              <PropertyRef Name="PaperID" />
+              <PropertyRef Name="BigQuestionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_Choice_QuestionChoice">
+          <End Role="QuestionChoice" Type="Self.QuestionChoice" Multiplicity="1" />
+          <End Role="Paper_Choice" Type="Self.Paper_Choice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuestionChoice">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paper_Choice">
+              <PropertyRef Name="QuestionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_Choice_TestPaper1">
+          <End Role="TestPaper" Type="Self.TestPaper" Multiplicity="1" />
+          <End Role="Paper_Choice" Type="Self.Paper_Choice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestPaper">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paper_Choice">
+              <PropertyRef Name="PaperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_Essay_Paper_QuestionCategory">
+          <End Role="Paper_QuestionCategory" Type="Self.Paper_QuestionCategory" Multiplicity="0..1" />
+          <End Role="Paper_Essay" Type="Self.Paper_Essay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper_QuestionCategory">
+              <PropertyRef Name="PaperID" />
+              <PropertyRef Name="Sequence" />
+            </Principal>
+            <Dependent Role="Paper_Essay">
+              <PropertyRef Name="PaperID" />
+              <PropertyRef Name="BigQuestionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_Essay_QuestionEssay_">
+          <End Role="QuestionEssay_" Type="ExamModel.QuestionEssay" Multiplicity="1" />
+          <End Role="Paper_Essay" Type="Self.Paper_Essay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuestionEssay_">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paper_Essay">
+              <PropertyRef Name="QuestionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_Essay_TestPaper">
+          <End Role="TestPaper" Type="Self.TestPaper" Multiplicity="1" />
+          <End Role="Paper_Essay" Type="Self.Paper_Essay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestPaper">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paper_Essay">
+              <PropertyRef Name="PaperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_QuestionCategory_TestPaper">
+          <End Role="TestPaper" Type="Self.TestPaper" Multiplicity="1" />
+          <End Role="Paper_QuestionCategory" Type="Self.Paper_QuestionCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestPaper">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paper_QuestionCategory">
+              <PropertyRef Name="PaperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaperCollection_TestPaper">
+          <End Role="TestPaper" Type="Self.TestPaper" Multiplicity="1" />
+          <End Role="PaperCollection" Type="Self.PaperCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestPaper">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PaperCollection">
+              <PropertyRef Name="PaperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Teacher_Subject_Subject">
+          <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+          <End Role="Teacher_Subject" Type="Self.Teacher_Subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subject">
+              <PropertyRef Name="SubjectID" />
+            </Principal>
+            <Dependent Role="Teacher_Subject">
+              <PropertyRef Name="SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Subject_Subject">
+          <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+          <End Role="User_Subject" Type="Self.User_Subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subject">
+              <PropertyRef Name="SubjectID" />
+            </Principal>
+            <Dependent Role="User_Subject">
+              <PropertyRef Name="SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="ExamEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
+          <EntitySet Name="Grade" EntityType="Self.Grade" />
+          <EntitySet Name="Major" EntityType="Self.Major" />
+          <EntitySet Name="Major_Subject" EntityType="Self.Major_Subject" />
+          <EntitySet Name="Paper_AnswerList" EntityType="Self.Paper_AnswerList" />
+          <EntitySet Name="Paper_Choice" EntityType="Self.Paper_Choice" />
+          <EntitySet Name="Paper_Essay" EntityType="Self.Paper_Essay" />
+          <EntitySet Name="Paper_QuestionCategory" EntityType="Self.Paper_QuestionCategory" />
+          <EntitySet Name="PaperCollection" EntityType="Self.PaperCollection" />
+          <EntitySet Name="Permission" EntityType="Self.Permission" />
+          <EntitySet Name="QuestionChoice" EntityType="Self.QuestionChoice" />
+          <EntitySet Name="QuestionCollection" EntityType="Self.QuestionCollection" />
+          <EntitySet Name="QuestionEssay" EntityType="ExamModel.QuestionEssay" />
+          <EntitySet Name="Resource" EntityType="Self.Resource" />
+          <EntitySet Name="Subject" EntityType="Self.Subject" />
+          <EntitySet Name="Subject_Choice" EntityType="Self.Subject_Choice" />
+          <EntitySet Name="Subject_Essay" EntityType="Self.Subject_Essay" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Teacher_Subject" EntityType="Self.Teacher_Subject" />
+          <EntitySet Name="TestPaper" EntityType="Self.TestPaper" />
+          <EntitySet Name="User_Subject" EntityType="Self.User_Subject" />
+          <EntitySet Name="UserProfile" EntityType="Self.UserProfile" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Major_Subject_Major" Association="Self.FK_Major_Subject_Major">
+            <End Role="Major" EntitySet="Major" />
+            <End Role="Major_Subject" EntitySet="Major_Subject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Major_Subject_Subject" Association="Self.FK_Major_Subject_Subject">
+            <End Role="Subject" EntitySet="Subject" />
+            <End Role="Major_Subject" EntitySet="Major_Subject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_AnswerList_TestPaper" Association="Self.FK_Paper_AnswerList_TestPaper">
+            <End Role="TestPaper" EntitySet="TestPaper" />
+            <End Role="Paper_AnswerList" EntitySet="Paper_AnswerList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_Choice_Paper_QuestionCategory" Association="Self.FK_Paper_Choice_Paper_QuestionCategory">
+            <End Role="Paper_QuestionCategory" EntitySet="Paper_QuestionCategory" />
+            <End Role="Paper_Choice" EntitySet="Paper_Choice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_Choice_QuestionChoice" Association="Self.FK_Paper_Choice_QuestionChoice">
+            <End Role="QuestionChoice" EntitySet="QuestionChoice" />
+            <End Role="Paper_Choice" EntitySet="Paper_Choice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_Choice_TestPaper1" Association="Self.FK_Paper_Choice_TestPaper1">
+            <End Role="TestPaper" EntitySet="TestPaper" />
+            <End Role="Paper_Choice" EntitySet="Paper_Choice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_Essay_Paper_QuestionCategory" Association="Self.FK_Paper_Essay_Paper_QuestionCategory">
+            <End Role="Paper_QuestionCategory" EntitySet="Paper_QuestionCategory" />
+            <End Role="Paper_Essay" EntitySet="Paper_Essay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_Essay_QuestionEssay_" Association="Self.FK_Paper_Essay_QuestionEssay_">
+            <End Role="QuestionEssay_" EntitySet="QuestionEssay" />
+            <End Role="Paper_Essay" EntitySet="Paper_Essay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_Essay_TestPaper" Association="Self.FK_Paper_Essay_TestPaper">
+            <End Role="TestPaper" EntitySet="TestPaper" />
+            <End Role="Paper_Essay" EntitySet="Paper_Essay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_QuestionCategory_TestPaper" Association="Self.FK_Paper_QuestionCategory_TestPaper">
+            <End Role="TestPaper" EntitySet="TestPaper" />
+            <End Role="Paper_QuestionCategory" EntitySet="Paper_QuestionCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaperCollection_TestPaper" Association="Self.FK_PaperCollection_TestPaper">
+            <End Role="TestPaper" EntitySet="TestPaper" />
+            <End Role="PaperCollection" EntitySet="PaperCollection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Teacher_Subject_Subject" Association="Self.FK_Teacher_Subject_Subject">
+            <End Role="Subject" EntitySet="Subject" />
+            <End Role="Teacher_Subject" EntitySet="Teacher_Subject" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Subject_Subject" Association="Self.FK_User_Subject_Subject">
+            <End Role="Subject" EntitySet="Subject" />
+            <End Role="User_Subject" EntitySet="User_Subject" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <EntitySet Name="Paper_AnswerList_Item" EntityType="ExamModel.Paper_AnswerList_Item" />
+          <AssociationSet Name="FK_TestAnswerSubItem_TestAnswerList" Association="ExamModel.FK_TestAnswerSubItem_TestAnswerList">
+            <End Role="Paper_AnswerList" EntitySet="Paper_AnswerList" />
+            <End Role="Paper_AnswerList_Item" EntitySet="Paper_AnswerList_Item" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Paper_AnswerList_Item">
+          <Key>
+            <PropertyRef Name="AnswerListID" />
+            <PropertyRef Name="BigQuestionNumber" />
+            <PropertyRef Name="SmallQuestionNumber" />
+          </Key>
+          <Property Name="AnswerListID" Type="Int64" Nullable="false" />
+          <Property Name="BigQuestionNumber" Type="Int32" Nullable="false" />
+          <Property Name="SmallQuestionNumber" Type="Int32" Nullable="false" />
+          <Property Name="Answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Score" Type="Double" />
+          <Property Name="IsCorrect" Type="Boolean" />
+          <NavigationProperty Name="Paper_AnswerList" Relationship="ExamModel.FK_TestAnswerSubItem_TestAnswerList" FromRole="Paper_AnswerList_Item" ToRole="Paper_AnswerList" />
+        </EntityType>
+        <Association Name="FK_TestAnswerSubItem_TestAnswerList">
+          <End Type="ExamModel.Paper_AnswerList" Role="Paper_AnswerList" Multiplicity="1" />
+          <End Type="ExamModel.Paper_AnswerList_Item" Role="Paper_AnswerList_Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper_AnswerList">
+              <PropertyRef Name="AnserListID" />
+            </Principal>
+            <Dependent Role="Paper_AnswerList_Item">
+              <PropertyRef Name="AnswerListID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ExamModelStoreContainer" CdmEntityContainer="ExamEntities">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="ExamModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="ExamModel.AspNetRoles">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="ExamModel.AspNetUserClaims">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="ExamModel.AspNetUserLogins">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="ExamModel.AspNetUsers">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Grade">
+            <EntityTypeMapping TypeName="ExamModel.Grade">
+              <MappingFragment StoreEntitySet="Grade">
+                <ScalarProperty Name="GradeID" ColumnName="GradeID" />
+                <ScalarProperty Name="GradeName" ColumnName="GradeName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Major">
+            <EntityTypeMapping TypeName="ExamModel.Major">
+              <MappingFragment StoreEntitySet="Major">
+                <ScalarProperty Name="MajorID" ColumnName="MajorID" />
+                <ScalarProperty Name="MajorName" ColumnName="MajorName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Major_Subject">
+            <EntityTypeMapping TypeName="ExamModel.Major_Subject">
+              <MappingFragment StoreEntitySet="Major_Subject">
+                <ScalarProperty Name="MajorID" ColumnName="MajorID" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="Socre" ColumnName="Socre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paper_AnswerList">
+            <EntityTypeMapping TypeName="ExamModel.Paper_AnswerList">
+              <MappingFragment StoreEntitySet="Paper_AnswerList">
+                <ScalarProperty Name="AnserListID" ColumnName="AnserListID" />
+                <ScalarProperty Name="PaperID" ColumnName="PaperID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paper_Choice">
+            <EntityTypeMapping TypeName="ExamModel.Paper_Choice">
+              <MappingFragment StoreEntitySet="Paper_Choice">
+                <ScalarProperty Name="PaperID" ColumnName="PaperID" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="BigQuestionNumber" ColumnName="BigQuestionNumber" />
+                <ScalarProperty Name="SmallQuestionNumber" ColumnName="SmallQuestionNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paper_Essay">
+            <EntityTypeMapping TypeName="ExamModel.Paper_Essay">
+              <MappingFragment StoreEntitySet="Paper_Essay">
+                <ScalarProperty Name="PaperID" ColumnName="PaperID" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="BigQuestionNumber" ColumnName="BigQuestionNumber" />
+                <ScalarProperty Name="SmallQuestionNumber" ColumnName="SmallQuestionNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paper_QuestionCategory">
+            <EntityTypeMapping TypeName="ExamModel.Paper_QuestionCategory">
+              <MappingFragment StoreEntitySet="Paper_QuestionCategory">
+                <ScalarProperty Name="PaperID" ColumnName="PaperID" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ScorePerQuestion" ColumnName="ScorePerQuestion" />
+                <ScalarProperty Name="QuestionType" ColumnName="QuestionType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaperCollection">
+            <EntityTypeMapping TypeName="ExamModel.PaperCollection">
+              <MappingFragment StoreEntitySet="PaperCollection">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="PaperID" ColumnName="PaperID" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permission">
+            <EntityTypeMapping TypeName="ExamModel.Permission">
+              <MappingFragment StoreEntitySet="Permission">
+                <ScalarProperty Name="PermissionID" ColumnName="PermissionID" />
+                <ScalarProperty Name="PermissionName" ColumnName="PermissionName" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestionChoice">
+            <EntityTypeMapping TypeName="ExamModel.QuestionChoice">
+              <MappingFragment StoreEntitySet="QuestionChoice">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="OptionA" ColumnName="OptionA" />
+                <ScalarProperty Name="OptionB" ColumnName="OptionB" />
+                <ScalarProperty Name="OptionC" ColumnName="OptionC" />
+                <ScalarProperty Name="OptionD" ColumnName="OptionD" />
+                <ScalarProperty Name="OptionE" ColumnName="OptionE" />
+                <ScalarProperty Name="OptionF" ColumnName="OptionF" />
+                <ScalarProperty Name="IsMultiple" ColumnName="IsMultiple" />
+                <ScalarProperty Name="AisTrue" ColumnName="AisTrue" />
+                <ScalarProperty Name="BisTrue" ColumnName="BisTrue" />
+                <ScalarProperty Name="CisTrue" ColumnName="CisTrue" />
+                <ScalarProperty Name="DisTrue" ColumnName="DisTrue" />
+                <ScalarProperty Name="EisTrue" ColumnName="EisTrue" />
+                <ScalarProperty Name="FisTrue" ColumnName="FisTrue" />
+                <ScalarProperty Name="ModificationTeacher" ColumnName="ModificationTeacher" />
+                <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+                <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+                <ScalarProperty Name="Difficulty" ColumnName="Difficulty" />
+                <ScalarProperty Name="Frequency" ColumnName="Frequency" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Assessment" ColumnName="Assessment" />
+                <ScalarProperty Name="Info" ColumnName="Info" />
+                <ScalarProperty Name="Audit" ColumnName="Audit" />
+                <ScalarProperty Name="ModificationTeacherID" ColumnName="ModificationTeacherID" />
+                <ScalarProperty Name="IsImport" ColumnName="IsImport" />
+                <ScalarProperty Name="Auditor" ColumnName="Auditor" />
+                <ScalarProperty Name="AuditorID" ColumnName="AuditorID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestionCollection">
+            <EntityTypeMapping TypeName="ExamModel.QuestionCollection">
+              <MappingFragment StoreEntitySet="QuestionCollection">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestionEssay">
+            <EntityTypeMapping TypeName="ExamModel.QuestionEssay">
+              <MappingFragment StoreEntitySet="QuestionEssay ">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="QuestionType" ColumnName="QuestionType" />
+                <ScalarProperty Name="Info" ColumnName="Info" />
+                <ScalarProperty Name="ModificationTeacher" ColumnName="ModificationTeacher" />
+                <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+                <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+                <ScalarProperty Name="Difficulty" ColumnName="Difficulty" />
+                <ScalarProperty Name="Frequency" ColumnName="Frequency" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Assessment" ColumnName="Assessment" />
+                <ScalarProperty Name="Audit" ColumnName="Audit" />
+                <ScalarProperty Name="ModificationTeacherID" ColumnName="ModificationTeacherID" />
+                <ScalarProperty Name="IsImport" ColumnName="IsImport" />
+                <ScalarProperty Name="Auditor" ColumnName="Auditor" />
+                <ScalarProperty Name="AuditorID" ColumnName="AuditorID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Resource">
+            <EntityTypeMapping TypeName="ExamModel.Resource">
+              <MappingFragment StoreEntitySet="Resource">
+                <ScalarProperty Name="ResourceID" ColumnName="ResourceID" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subject">
+            <EntityTypeMapping TypeName="ExamModel.Subject">
+              <MappingFragment StoreEntitySet="Subject">
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="SubjectCode" ColumnName="SubjectCode" />
+                <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
+                <ScalarProperty Name="Term" ColumnName="Term" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PreSubject" ColumnName="PreSubject" />
+                <ScalarProperty Name="Book" ColumnName="Book" />
+                <ScalarProperty Name="ExamType" ColumnName="ExamType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subject_Choice">
+            <EntityTypeMapping TypeName="ExamModel.Subject_Choice">
+              <MappingFragment StoreEntitySet="Subject_Choice">
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subject_Essay">
+            <EntityTypeMapping TypeName="ExamModel.Subject_Essay">
+              <MappingFragment StoreEntitySet="Subject_Essay">
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ExamModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teacher_Subject">
+            <EntityTypeMapping TypeName="ExamModel.Teacher_Subject">
+              <MappingFragment StoreEntitySet="Teacher_Subject">
+                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TestPaper">
+            <EntityTypeMapping TypeName="ExamModel.TestPaper">
+              <MappingFragment StoreEntitySet="TestPaper">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Info" ColumnName="Info" />
+                <ScalarProperty Name="IsReady" ColumnName="IsReady" />
+                <ScalarProperty Name="ExamType" ColumnName="ExamType" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="ExamTime" ColumnName="ExamTime" />
+                <ScalarProperty Name="TimeDuration" ColumnName="TimeDuration" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Audit" ColumnName="Audit" />
+                <ScalarProperty Name="ModificationTeacher" ColumnName="ModificationTeacher" />
+                <ScalarProperty Name="ModificationTeacherID" ColumnName="ModificationTeacherID" />
+                <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_Subject">
+            <EntityTypeMapping TypeName="ExamModel.User_Subject">
+              <MappingFragment StoreEntitySet="User_Subject">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserProfile">
+            <EntityTypeMapping TypeName="ExamModel.UserProfile">
+              <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="NickName" ColumnName="NickName" />
+                <ScalarProperty Name="RealName" ColumnName="RealName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="School" ColumnName="School" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="TelPhone" ColumnName="TelPhone" />
+                <ScalarProperty Name="QQ" ColumnName="QQ" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="ExamModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Paper_AnswerList_Item">
+            <EntityTypeMapping TypeName="ExamModel.Paper_AnswerList_Item">
+              <MappingFragment StoreEntitySet="Paper_AnswerList_Item">
+                <ScalarProperty Name="IsCorrect" ColumnName="IsCorrect" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="SmallQuestionNumber" ColumnName="SmallQuestionNumber" />
+                <ScalarProperty Name="BigQuestionNumber" ColumnName="BigQuestionNumber" />
+                <ScalarProperty Name="AnswerListID" ColumnName="AnswerListID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,200 @@
+﻿<div class="row">
+    <div class="col-md-6">
+        <div id="tree" class="col-md-4"></div>
+    </div>
+    <div id="subject" class="col-md-6">
+        <table class="table table-striped table-hover">
+            @foreach (var subject in (List<OnlineExam.Models.Subject>)ViewBag.Subjects)
+            {
+                <tr class="row subject" draggable="true">
+                    <td class="col-md-1">
+                        <input id="subjectId" type="hidden" value="@subject.SubjectID" />
+                        @subject.SubjectID
+                    </td>
+                    <td class="col-md-6 ">
+                        @subject.SubjectCode
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+<script>
+    var treeData = "";
+
+    jQuery.fn.outerHTML = function (s) {
+        return (s)
+        ? this.before(s).remove()
+        : jQuery("&lt;p&gt;").append(this.eq(0).clone()).html();
+    }
+
+    var dragSrcEl = null;
+    function handleDragStart(e) {
+        this.style.opacity = '0.8';  // this / e.target is the source node.
+        dragSrcEl = this;
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', this.innerHTML);
+    }
+    function AppendSubjectToMajor(subjectId, majorId, destElem) {
+        $.ajax({
+            url: '@subject.SubjectName',
+            data: { subjectId: subjectId, majorId: majorId },
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                if (data.Success == 0) {
+                    alert("提交失败");
+                } else {
+
+                    for(int i=0;i<treeData.nodes.count;i++){
+
+                        if()
+                    }
+
+
+                    alert($(destElem).html())
+                    var content = $(destElem).outerHTML();
+                    $(destElem).after(content);
+                    var node = $(destElem).next("li");
+                    $(node).prepend($(node).first());
+
+
+                }
+            }
+        });
+    }
+    function handleDrop(e) {
+        // this/e.target is current target element.
+        if (e.stopPropagation) {
+            e.stopPropagation(); // Stops some browsers from redirecting.
+        }
+        //alert("dsfaf")
+        // Don't do anything if dropping the same column we're dragging.
+        var dest = this;
+        if (dragSrcEl != dest) {
+            if ($(dest).hasClass("tree-subject")) {
+
+            } else if ($(dest).children().is(".tree-major")) {
+
+                var sId = $(dragSrcEl).find("#subjectId").val();
+                var destElem = $(dest).find(".tree-major");
+                var mId = $(dest).find(".tree-major").attr("id");
+
+                alert("sid" + sId);
+                alert("mid" + mId);
+                AppendSubjectToMajor(sId, mId, destElem);
+            }
+
+            // Set the source column's HTML to the HTML of the columnwe dropped on.
+            //var src = dragSrcEl.innerHTML
+            //dragSrcEl.innerHTML = this.innerHTML;
+            //this.innerHTML = src;
+        }
+
+        this.classList.remove('over');
+        return false;
+    }
+
+    function handleDragOver(e) {
+        if (e.preventDefault) {
+            e.preventDefault(); // Necessary. Allows us to drop.
+        }
+        e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+        return false;
+    }
+
+    function handleDragEnter(e) {
+        // this / e.target is the current hover target.
+        this.classList.add('over');
+    }
+
+    function handleDragLeave(e) {
+        this.classList.remove('over');  // this / e.target is previous target element.
+    }
+    function HtmlEncode(str) {
+        var s = "";
+        if (str.length == 0)
+            return "";
+        s = str.replace(/&/g, "&gt;");
+        s = s.replace(/</g, "&lt;");
+        s = s.replace(/>/g, "&gt;");
+        s = s.replace(/\"/g, "&quot;");
+        s = s.replace(/\n/g, "<br>");
+        return s;
+    }
+    function HtmlDecode(str) {
+        var s = "";
+        if (str.length == 0) return "";
+        s = str.replace(/&gt;/g, "&");
+        s = s.replace(/&lt;/g, "<");
+        s = s.replace(/&gt;/g, ">");
+        s = s.replace(/&nbsp;/g, " ");
+        s = s.replace(/"/g, "\"");
+        s = s.replace(/&quot;/g, "\"");
+        s = s.replace(/<br>/g, "\n");
+        return s;
+    }
+    $(function () {
+        $(".subject").each(function () {
+            this.addEventListener('dragstart', handleDragStart, false);
+        });
+        treeData = HtmlDecode("@ViewBag.Tree");
+        //alert(data);
+        $('#tree').treeview({
+            data: treeData,
+            collapseIcon: "glyphicon glyphicon-chevron-down",
+            expandIcon: "glyphicon glyphicon-chevron-right",
+            showTags: tree
+        });
+        $("#tree").click(function () {
+            AddDropAttribute();
+        });
+
+        AddDropAttribute();
+
+    })
+    function AddDropAttribute() {
+        $(".tree-major").parent().attr("draggable", "true")
+        $(".tree-major").parent().each(function () {
+            AddDropHandler(this);
+        })
+        $(".tree-subject").parent().attr("draggable", "true");
+        $(".tree-subject").parent().each(function () {
+            AddDropHandler(this);
+        })
+    }
+    function AddDropHandler(e) {
+
+        e.addEventListener('drop', handleDrop, false);
+        e.addEventListener('dragenter', handleDragEnter, false);
+        e.addEventListener('dragover', handleDragOver, false);
+        e.addEventListener('dragleave', handleDragLeave, false);
+    }
+</script>
+<style>
+    #tree {
+        /*width: 15%;*/
+        font-size: small;
+        position: fixed;
+        height: 90%;
+        overflow-y: scroll;
+    }
+
+    .over {
+        /*background-color: darkslateblue;*/
+        border-style: solid;
+        border-color: greenyellow;
+    }
+
+    [draggable] {
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+</style>
+@section Scripts{
+
+    <script src="/Scripts/JSON2/json2.js"></script>
+    <script src="/Scripts/bootstrap-tree/js/bootstrap-treeview.js"></script>
+}

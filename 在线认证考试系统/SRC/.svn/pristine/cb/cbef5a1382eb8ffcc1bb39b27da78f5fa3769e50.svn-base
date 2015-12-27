@@ -1,0 +1,289 @@
+﻿<h4>专业与科目管理</h4>
+<div>
+
+    <h5 class="bg-info">想要添加科目到指定专业中，请通过拖动科目表中的科目到专业分类树中的指定专业</h5>
+    <a class="btn btn-default" onclick="removeSubject();">从专业中移除学科</a>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <ul id="tree" class="easyui-tree col-md-4"></ul>
+
+    </div>
+    <div class="col-md-3">
+
+        <div id="subject">
+            <table  class="">
+                <tr class="row"><th class="col-md-2">代号</th><th class="col-md-10">科目</th></tr>
+                @foreach (var subject in (List<OnlineExam.Models.Subject>)ViewBag.Subjects)
+            {
+                    <tr class="row subject" draggable="true">
+                        <td class="col-md-2">
+                            @subject.SubjectID
+                            <input id="subjectId" type="hidden" value="@subject.SubjectID" />
+                            @subject.SubjectCode
+                        </td>
+                        <td class="col-md-10 ">
+                            @subject.SubjectName
+                        </td>
+                    </tr>
+                }
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var treeData = "";
+    var DEBUG_ = false;
+    jQuery.fn.outerHTML = function (s) {
+        return (s)
+        ? this.before(s).remove()
+        : jQuery("&lt;p&gt;").append(this.eq(0).clone()).html();
+    }
+
+    var dragSrcEl = null;
+    function handleDragStart(e) {
+        this.style.opacity = '0.8';  // this / e.target is the source node.
+        dragSrcEl = this;
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', this.innerHTML);
+    }
+    function AppendSubjectToMajor(subjectId, majorId, subjectName) {
+        $.ajax({
+            url: '@Url.Action("AppendSubject")',
+            data: { subjectId: subjectId, majorId: majorId },
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                if (data.Success == 0) {
+                    alert("提交失败");
+                } else {
+                    var node = $('#tree').tree('find', majorId);
+
+                    $("#tree").tree('append', {
+                        parent: node.target,
+                        data: [{
+                            id: "subjectId" + subjectId,
+                            text: subjectName
+                        }]
+                    });
+
+                    if (DEBUG_) alert($(destElem).html())
+                    var content = $(destElem).outerHTML();
+                    $(destElem).after(content);
+                    var node = $(destElem).next("li");
+                    $(node).prepend($(node).first());
+
+
+                }
+            }
+        });
+    }
+    function handleDrop(e) {
+        // this/e.target is current target element.
+        if (e.stopPropagation) {
+            e.stopPropagation(); // Stops some browsers from redirecting.
+        }
+        //alert("dsfaf")
+        // Don't do anything if dropping the same column we're dragging.
+        var dest = this;
+        if (dragSrcEl != dest) {
+            if (DEBUG_) alert("")
+            if ($(dest).hasClass("tree-subject")) {
+
+            } else if ($(dest).find(".tree-major") != undefined) {
+
+                var sId = $(dragSrcEl).find("#subjectId").val();
+                var destElem = $(dest).find(".tree-major");
+                var mId = $(dest).find(".tree-major").attr("id");
+                var subjectName = $(dragSrcEl).children("td:eq(1)").text();
+                if (DEBUG_) alert("sid" + sId);
+                if (DEBUG_) alert("mid" + mId);
+                AppendSubjectToMajor(sId, mId, subjectName);
+            }
+
+            // Set the source column's HTML to the HTML of the columnwe dropped on.
+            //var src = dragSrcEl.innerHTML
+            //dragSrcEl.innerHTML = this.innerHTML;
+            //this.innerHTML = src;
+        }
+
+        this.classList.remove('over');
+        return false;
+    }
+
+    function handleDragOver(e) {
+        if (e.preventDefault) {
+            e.preventDefault(); // Necessary. Allows us to drop.
+        }
+        e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+        return false;
+    }
+
+    function handleDragEnter(e) {
+        // this / e.target is the current hover target.
+        this.classList.add('over');
+    }
+
+    function handleDragLeave(e) {
+        this.classList.remove('over');  // this / e.target is previous target element.
+    }
+    function HtmlEncode(str) {
+        var s = "";
+        if (str.length == 0)
+            return "";
+        s = str.replace(/&/g, "&gt;");
+        s = s.replace(/</g, "&lt;");
+        s = s.replace(/>/g, "&gt;");
+        s = s.replace(/\"/g, "&quot;");
+        s = s.replace(/\n/g, "<br>");
+        return s;
+    }
+    function HtmlDecode(str) {
+        var s = "";
+        if (str.length == 0) return "";
+        s = str.replace(/&gt;/g, "&");
+        s = s.replace(/&lt;/g, "<");
+        s = s.replace(/&gt;/g, ">");
+        s = s.replace(/&nbsp;/g, " ");
+        s = s.replace(/"/g, "\"");
+        s = s.replace(/&quot;/g, "\"");
+        s = s.replace(/<br>/g, "\n");
+        return s;
+    }
+    $(function () {
+        $(".subject").each(function () {
+            this.addEventListener('dragstart', handleDragStart, false);
+        });
+        treeData = HtmlDecode("@ViewBag.Tree");
+        //alert(data);
+        //$('#tree').treeview({
+        //    data: treeData,
+        //    collapseIcon: "glyphicon glyphicon-chevron-down",
+        //    expandIcon: "glyphicon glyphicon-chevron-right",
+        //    showTags: tree
+        //});
+        if (DEBUG_) alert(treeData);
+        $("#tree").tree(
+            {
+                data: eval("(" + treeData + ")"),
+                animate: true
+            }
+            );
+        $("#tree").click(function () {
+            AddDropAttribute();
+        });
+
+        AddDropAttribute();
+
+    })
+
+    function AddDropAttribute() {
+        $(".tree-major").parent().parent().parent().attr("draggable", "true")
+        $(".tree-major").parent().parent().parent().each(function () {
+            AddDropHandler(this);
+        })
+        //$(".tree-subject").parent().parent().parent().attr("draggable", "true");
+        //$(".tree-subject").parent().parent().parent().each(function () {
+        //    AddDropHandler(this);
+        //})
+    }
+    function AddDropHandler(e) {
+
+        e.addEventListener('drop', handleDrop, false);
+        e.addEventListener('dragenter', handleDragEnter, false);
+        e.addEventListener('dragover', handleDragOver, false);
+        e.addEventListener('dragleave', handleDragLeave, false);
+    }
+    function removeSubject() {
+        var node = $('#tree').tree('getSelected');
+        if (DEBUG_)
+            alert($(node.target).html());
+        if (DEBUG_) alert(node.id);
+
+        var subjectId = node.id;
+        if (subjectId.indexOf("subject") < 0) {
+            alert("请在专业目录下选择科目");
+            return;
+        }
+        subjectId = subjectId.replace("subject", "")
+        var parent = $('#tree').tree('getParent', node.target);
+        var majorId = parent.id;
+        if (DEBUG_) alert(parent.id);
+        $.ajax({
+            url: '@Url.Action("RemoveSubject")',
+            data: { subjectId: subjectId, majorId: majorId },
+            type: "POST",
+            dataType: "json",
+            success: function (data) {
+                if (data.Success == 0) {
+
+                    if (DEBUG_) alert(data.Message);
+                    else {
+                        alert("提交失败");
+                    }
+                } else {
+                    $('#tree').tree('remove', node.target);
+
+
+
+                }
+            }
+        });
+
+    }
+</script>
+<style>
+    #tree {
+        /*width: 15%;*/
+        /*font-size: large;*/
+        position: fixed;
+        height: 75%;
+        overflow-y: scroll;
+
+    }
+    #subject table tr td{
+        border-color:white;
+        border-style:solid;
+        border-width:thin;
+
+    }
+
+    #subject {
+        /*width: 15%;*/
+        /*font-size: large;*/
+        
+        position: fixed;
+        
+        height: 75%;
+        overflow-y: scroll;
+    }
+
+    .over {
+        /*background-color: darkslateblue;*/
+        /*border-style: solid;*/
+        color:lime;
+        border-color: aqua;
+    }
+
+    [draggable] {
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+</style>
+@section Scripts{
+
+    <script src="/Scripts/JSON2/json2.js"></script>
+    <link href="/Scripts/easyui14/themes/bootstrap/tree.css" rel="stylesheet" />
+    @*<link href="/Scripts/easyui14/themes/bootstrap/easyui.css" rel="stylesheet" />*@
+    <script src="/Scripts/easyui14/jquery.easyui.min.js"></script>
+
+    <script src="/Scripts/easyui14/locale/easyui-lang-zh_CN.js"></script>
+    @*<script src="/Scripts/bootstrap-tree/js/bootstrap-treeview.js"></script>*@
+}
+
+

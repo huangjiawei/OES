@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ExamModelStoreContainer" CdmEntityContainer="ExamEntities">
+    <EntitySetMapping Name="QuestionCompletion">
+      <EntityTypeMapping TypeName="ExamModel.QuestionCompletion">
+        <MappingFragment StoreEntitySet="QuestionCompletion">
+          <ScalarProperty Name="Audit" ColumnName="Audit" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Question" ColumnName="Question" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="Info" ColumnName="Info" />
+          <ScalarProperty Name="ModificationTeacher" ColumnName="ModificationTeacher" />
+          <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+          <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+          <ScalarProperty Name="Difficulty" ColumnName="Difficulty" />
+          <ScalarProperty Name="Frequency" ColumnName="Frequency" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuestionDiscussion">
+      <EntityTypeMapping TypeName="ExamModel.QuestionDiscussion">
+        <MappingFragment StoreEntitySet="QuestionDiscussion">
+          <ScalarProperty Name="Audit" ColumnName="Audit" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Question" ColumnName="Question" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="Info" ColumnName="Info" />
+          <ScalarProperty Name="ModificationTeacher" ColumnName="ModificationTeacher" />
+          <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+          <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+          <ScalarProperty Name="Difficulty" ColumnName="Difficulty" />
+          <ScalarProperty Name="Frequency" ColumnName="Frequency" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuestionMultipleChoice">
+      <EntityTypeMapping TypeName="ExamModel.QuestionMultipleChoice">
+        <MappingFragment StoreEntitySet="QuestionMultipleChoice">
+          <ScalarProperty Name="Audit" ColumnName="Audit" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Question" ColumnName="Question" />
+          <ScalarProperty Name="OptionA" ColumnName="OptionA" />
+          <ScalarProperty Name="OptionB" ColumnName="OptionB" />
+          <ScalarProperty Name="OptionC" ColumnName="OptionC" />
+          <ScalarProperty Name="OptionD" ColumnName="OptionD" />
+          <ScalarProperty Name="OptionE" ColumnName="OptionE" />
+          <ScalarProperty Name="AisTrue" ColumnName="AisTrue" />
+          <ScalarProperty Name="BisTrue" ColumnName="BisTrue" />
+          <ScalarProperty Name="CisTrue" ColumnName="CisTrue" />
+          <ScalarProperty Name="DisTrue" ColumnName="DisTrue" />
+          <ScalarProperty Name="EisTrue" ColumnName="EisTrue" />
+          <ScalarProperty Name="ModificationTeacher" ColumnName="ModificationTeacher" />
+          <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+          <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+          <ScalarProperty Name="Difficulty" ColumnName="Difficulty" />
+          <ScalarProperty Name="Frequency" ColumnName="Frequency" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuestionShortAnswer">
+      <EntityTypeMapping TypeName="ExamModel.QuestionShortAnswer">
+        <MappingFragment StoreEntitySet="QuestionShortAnswer">
+          <ScalarProperty Name="Audit" ColumnName="Audit" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Question" ColumnName="Question" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="Info" ColumnName="Info" />
+          <ScalarProperty Name="ModificationTeacher" ColumnName="ModificationTeacher" />
+          <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+          <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+          <ScalarProperty Name="Difficulty" ColumnName="Difficulty" />
+          <ScalarProperty Name="Frequency" ColumnName="Frequency" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuestionSingleChoice">
+      <EntityTypeMapping TypeName="ExamModel.QuestionSingleChoice">
+        <MappingFragment StoreEntitySet="QuestionSingleChoice">
+          <ScalarProperty Name="Audit" ColumnName="Audit" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Question" ColumnName="Question" />
+          <ScalarProperty Name="OptionA" ColumnName="OptionA" />
+          <ScalarProperty Name="OptionB" ColumnName="OptionB" />
+          <ScalarProperty Name="OptionC" ColumnName="OptionC" />
+          <ScalarProperty Name="OptionD" ColumnName="OptionD" />
+          <ScalarProperty Name="ModificationTeacher" ColumnName="ModificationTeacher" />
+          <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+          <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+          <ScalarProperty Name="AisTrue" ColumnName="AisTrue" />
+          <ScalarProperty Name="BisTrue" ColumnName="BisTrue" />
+          <ScalarProperty Name="CisTrue" ColumnName="CisTrue" />
+          <ScalarProperty Name="DisTrue" ColumnName="DisTrue" />
+          <ScalarProperty Name="Difficulty" ColumnName="Difficulty" />
+          <ScalarProperty Name="Frequency" ColumnName="Frequency" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Resource">
+      <EntityTypeMapping TypeName="ExamModel.Resource">
+        <MappingFragment StoreEntitySet="Resource">
+          <ScalarProperty Name="ResourceID" ColumnName="ResourceID" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Subject_CompletionQuestion">
+      <EntityTypeMapping TypeName="ExamModel.Subject_CompletionQuestion">
+        <MappingFragment StoreEntitySet="Subject_CompletionQuestion">
+          <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+          <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Subject_Discussion">
+      <EntityTypeMapping TypeName="ExamModel.Subject_Discussion">
+        <MappingFragment StoreEntitySet="Subject_Discussion">
+          <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+          <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Subject_MultipleChoice">
+      <EntityTypeMapping TypeName="ExamModel.Subject_MultipleChoice">
+        <MappingFragment StoreEntitySet="Subject_MultipleChoice">
+          <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+          <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Subject_ShortAnswer">
+      <EntityTypeMapping TypeName="ExamModel.Subject_ShortAnswer">
+        <MappingFragment StoreEntitySet="Subject_ShortAnswer">
+          <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+          <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Subject_SingleChoice">
+      <EntityTypeMapping TypeName="ExamModel.Subject_SingleChoice">
+        <MappingFragment StoreEntitySet="Subject_SingleChoice">
+          <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+          <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubjectExam_UserEnroll">
+      <EntityTypeMapping TypeName="ExamModel.SubjectExam_UserEnroll">
+        <MappingFragment StoreEntitySet="SubjectExam_UserEnroll">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+          <ScalarProperty Name="EnrollDate" ColumnName="EnrollDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TestSubjects">
+      <EntityTypeMapping TypeName="ExamModel.TestSubjects">
+        <MappingFragment StoreEntitySet="TestSubjects">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Info" ColumnName="Info" />
+          <ScalarProperty Name="SingleChoiceQuantity" ColumnName="SingleChoiceQuantity" />
+          <ScalarProperty Name="SingleChoiceGrade" ColumnName="SingleChoiceGrade" />
+          <ScalarProperty Name="MultipleChoiceQuantity" ColumnName="MultipleChoiceQuantity" />
+          <ScalarProperty Name="MultipleChoiceGrade" ColumnName="MultipleChoiceGrade" />
+          <ScalarProperty Name="CompletionQuantity" ColumnName="CompletionQuantity" />
+          <ScalarProperty Name="CompletionGrade" ColumnName="CompletionGrade" />
+          <ScalarProperty Name="ShortAnswerQuantity" ColumnName="ShortAnswerQuantity" />
+          <ScalarProperty Name="ShortAnswerGrade" ColumnName="ShortAnswerGrade" />
+          <ScalarProperty Name="DiscussionQuantity" ColumnName="DiscussionQuantity" />
+          <ScalarProperty Name="IsReady" ColumnName="IsReady" />
+          <ScalarProperty Name="DiscussionGrade" ColumnName="DiscussionGrade" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetRoles">
+      <EntityTypeMapping TypeName="ExamModel.AspNetRoles">
+        <MappingFragment StoreEntitySet="AspNetRoles">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUsers">
+      <EntityTypeMapping TypeName="ExamModel.AspNetUsers">
+        <MappingFragment StoreEntitySet="AspNetUsers">
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserProfile">
+      <EntityTypeMapping TypeName="ExamModel.UserProfile">
+        <MappingFragment StoreEntitySet="UserProfile">
+          <ScalarProperty Name="Company" ColumnName="Company" />
+          <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+          <ScalarProperty Name="School" ColumnName="School" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="RealName" ColumnName="RealName" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="AspNetUserRoles" TypeName="ExamModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+      <EndProperty Name="AspNetUsers">
+        <ScalarProperty Name="Id" ColumnName="UserId" />
+      </EndProperty>
+      <EndProperty Name="AspNetRoles">
+        <ScalarProperty Name="Id" ColumnName="RoleId" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>
