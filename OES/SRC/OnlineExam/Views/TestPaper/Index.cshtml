@@ -31,7 +31,8 @@
     <button value="刷新" class="btn btn-default col-xs-2 width80   glyphicon  glyphicon-refresh" type="reset">重置</button>
    }
 
-<button class="btn btn-default col-xs-2 width80   glyphicon  glyphicon-edit" onclick="editItem();">修改</button>
+    <button class="btn btn-default col-xs-2 width80   glyphicon  glyphicon-edit" onclick="editItem();">修改</button>
+    <button class="btn btn-default col-xs-2 width80   glyphicon  glyphicon-edit" onclick="ViewQuestions();">查看试题</button>
 <button class="btn btn-default col-xs-2 width80   glyphicon  glyphicon-plus" onclick="createItem()">添加</button>
 <button class="btn btn-default col-xs-2 width80   glyphicon glyphicon-remove" onclick="deleteItem();">删除</button>
 
@@ -41,7 +42,7 @@
     {
         @Html.Grid(Model.PagedList).Columns(column =>
    {
-       column.For(x => MvcHtmlString.Create("<a onclick='viewItem(" + x.ID + ");' >" + x.ID + "</a>")).SortColumnName("ID").Named("序号");
+       column.For(x => MvcHtmlString.Create("<a onclick='viewItem(\"" + x.ID + "\");' >" + x.ID + "</a>")).SortColumnName("ID").Named("序号");
        //column.For(x => Html.ActionLink(Html.Truncate(x.Question, CKey.QuestionTitleSummaryLenght), "Details", new { id = x.ID })).SortColumnName("Question").Named("题目");
        column.For(x => MvcHtmlString.Create("<div class='cell'>" + x.Name + "<div>")).SortColumnName("Name").Named("题目");
        column.For(x => x.TimeDuration).Named("考试时长（分钟）").SortColumnName("TimeDuration");
@@ -127,6 +128,12 @@
         var id=$(".SelectedItem").attr("alt");
         if(id==undefined||id==null){alert("未选中试题");return;}
         window.open('@Url.Action("Edit")'+'/'+id);
+    }
+    function ViewQuestions() {
+        var id=$(".SelectedItem").attr("alt");
+        if(id==undefined||id==null){alert("未选中试题");return;}
+        window.open('@Url.Action("EditQuestionList")'+'/'+id);
+        //window.location.
     }
     function createItem(){
         window.open('@Url.Action("Edit",new { })');

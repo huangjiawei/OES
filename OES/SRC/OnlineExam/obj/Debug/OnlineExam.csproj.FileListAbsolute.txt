@@ -147,7 +147,6 @@ E:\Git\OES\SRC\OnlineExam\bin\Microsoft.AspNet.Identity.Core.dll
 E:\Git\OES\SRC\OnlineExam\bin\Microsoft.AspNet.Identity.EntityFramework.dll
 E:\Git\OES\SRC\OnlineExam\bin\Microsoft.AspNet.Identity.Owin.dll
 E:\Git\OES\SRC\OnlineExam\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
-E:\Git\OES\SRC\OnlineExam\bin\Microsoft.Office.Tools.Word.v4.0.Utilities.dll
 E:\Git\OES\SRC\OnlineExam\bin\Microsoft.Owin.dll
 E:\Git\OES\SRC\OnlineExam\bin\Microsoft.Owin.Host.SystemWeb.dll
 E:\Git\OES\SRC\OnlineExam\bin\Microsoft.Owin.Security.Cookies.dll

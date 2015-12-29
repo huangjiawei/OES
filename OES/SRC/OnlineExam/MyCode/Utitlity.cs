@@ -9,6 +9,31 @@ namespace OnlineExam
 {
     public class Utitlity
     {
+        static ExamEntities ee = new ExamEntities();
+        static List<Subject> subjectList = ee.Subject.ToList();
+        public static Subject GetSubjct(int sid)
+        {
+            var s = subjectList.Where(m => m.SubjectID == sid).SingleOrDefault();
+            if (s == null)
+            {
+                subjectList = ee.Subject.ToList();
+                s = subjectList.Where(m => m.SubjectID == sid).SingleOrDefault();
+            }
+            return s;
+
+        }
+        public static string GetChoiceAnswer(QuestionChoice q)
+        {
+            string r = "";
+            if (q.AisTrue) r += "A";
+            if (q.BisTrue) r += "B";
+            if (q.CisTrue) r += "C";
+            if (q.DisTrue) r += "D";
+            if (q.EisTrue) r += "E";
+            if (q.FisTrue) r += "F";
+            return r;
+
+        }
         //将字符串转换成QuestionType类型
         public static QuestionType ParseQuestionType(string s)
         {
@@ -41,7 +66,7 @@ namespace OnlineExam
                 SelectListItem i2 = new SelectListItem();
                 SelectListItem i3 = new SelectListItem();
                 SelectListItem i4 = new SelectListItem();
-                               i1.Value = i1.Text = ExamType.练习题.ToString();
+                i1.Value = i1.Text = ExamType.练习题.ToString();
                 i2.Text = ExamType.自测题.ToString();
                 i2.Value = ExamType.自测题.ToString();
                 i3.Text = ExamType.模拟考试.ToString();

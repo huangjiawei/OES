@@ -16,7 +16,6 @@
         @Html.Grid(Model.PagedList).Columns(column =>
    {
        column.For(x => MvcHtmlString.Create("<a onclick='viewItem(" + x.ID + ");' >" + Html.EncodeQuestionID(x.ID, qtype) + "</a>")).SortColumnName("ID").Named("编号");
-       //column.For(x => Html.ActionLink(Html.Truncate(x.Question, CKey.QuestionTitleSummaryLenght), "Details", new { id = x.ID })).SortColumnName("Question").Named("题目");
        column.For(x => MvcHtmlString.Create("<div class='cell'>" + x.Question + "<div>")).SortColumnName("Question").Named("题目");
        column.For(x => Html.DivStarForRaterater(x.Difficulty, x.ID)).Named("难度系数").SortColumnName("Difficulty");
        column.For(x => Html.DivStarForRaterater(x.Frequency, x.ID)).Named("考试频率").SortColumnName("Frequency");

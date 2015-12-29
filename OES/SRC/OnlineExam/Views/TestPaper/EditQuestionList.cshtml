@@ -1,21 +1,220 @@
-﻿@model TestPaper
-@foreach (var item in Model) {
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Quantity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ScorePerQuestion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.QuestionType)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
+﻿@model OnlineExam.Models.TestPaper
+@{
+    OnlineExam.Models.ExamEntities ee = new OnlineExam.Models.ExamEntities();
+    var title = "试卷试题编辑";
+    string bigNum = "零一二三四五六七八九十";
+    var cids = Model.Paper_Choice.Select(m => m.QuestionID).ToList();
+    var Choice = (from q in ee.QuestionChoice
+                      //from c in Model.Paper_Choice
+                      //where q.ID == c.QuestionID
+                  where cids.Contains(q.ID)
+                  select q).ToList();
+    var eids = Model.Paper_Essay.Select(m => m.QuestionID).ToList();
+    var Essay = (from q in ee.QuestionEssay
+                     //from c in Model.Paper_Essay
+                     //where q.ID == c.QuestionID
+                 where eids.Contains(q.ID)
+                 select q).ToList();
+
+    int i = 1;
+    //int j = 1;
 }
 
+<div>
+    <span><input id="ckanswer" type="checkbox" onchange="onCkChange(this)" />显示答案</span>
+    <span><input id="ckinfo" type="checkbox" onchange="    onCkChange(this)" />显示解释</span><span>
+        <input id="ckoption" type="checkbox" onchange="onCkChange(this)" />显示选项
+    </span>
+    <span><input id="ckscore" type="checkbox" onchange="onCkChange(this)" />显示分数</span>
+</div>
+<div class="form-horizontal">
+    <h4 class="disabled">@title</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ID)
 
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2 " })
+        <div class="col-md-10">
+            @Model.Name
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ExamType, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-2">
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.SubjectID, new { @class = "control-label col-md-2" })
+        @{
+            var subject = Utitlity.GetSubjct(Model.SubjectID);
+            if (subject != null)
+            {
+                <div class="col-md-10">
+                    @subject.SubjectName
+                </div>
+            }
+            else
+            {
+                <span>@Model.SubjectID</span>
+            }
+        }
+
+
+
+
+
+    </div>
+    <div class="container">
+        @foreach (var cate in Model.Paper_QuestionCategory.OrderBy(m => m.Sequence))
+        {
+            if (cate.QuestionType == QuestionType.SingleChoice.ToString() || cate.QuestionType == QuestionType.MultipleChoice.ToString())
+            {
+                var qlist = cate.Paper_Choice.AsEnumerable();
+                if (cate.Quantity > 0 && qlist.Count() > 0)
+                {
+                    var type = QuestionType.MultipleChoice.ToString() == cate.QuestionType ? "multiple" : "single";
+                    var questions = from s in Choice
+                                    from y in qlist
+                                    where y.QuestionID == s.ID
+                                    orderby y.BigQuestionNumber, y.SmallQuestionNumber
+                                    select new { Q = s, P = y };
+                    <br />
+                    <h4 class="row big-title">
+                        @bigNum[cate.Sequence]
+                        、
+                        @cate.Title
+                        (@qlist.Count()
+                        题)
+                    </h4>
+                    foreach (var q in questions)
+                    {
+
+                        <div class="row ">
+                            <div class="flowleft">@q.P.SmallQuestionNumber、</div>
+                            <div class="flowleft question">
+                                @Html.Raw(q.Q.Question)
+                            </div>
+                            <span class="score">
+                                (
+                                @q.P.Score
+                                分)
+                            </span>
+                        </div>
+                        <div class="option-list @type">
+                            <div data="A" class="row"><div class="flowleft">A：</div><div class="flowleft">@Html.Raw(q.Q.OptionA)</div></div>
+                            <div data="B" class="row"><div class="flowleft">B：</div><div class="flowleft">@Html.Raw(q.Q.OptionB)</div></div>
+                            @if (!string.IsNullOrWhiteSpace(q.Q.OptionC))
+                            {
+                                <div data="C" class="row"><div class="flowleft">C：</div><div class="flowleft">@Html.Raw(q.Q.OptionC)</div></div>
+                                if (!string.IsNullOrWhiteSpace(q.Q.OptionD))
+                                {
+                                    <div data="D" class="row"><div class="flowleft">D：</div><div class="flowleft">@Html.Raw(q.Q.OptionD)</div></div>
+                                    if (!string.IsNullOrWhiteSpace(q.Q.OptionE))
+                                    {
+
+                                        <div data="E" class="row"><div class="flowleft">E：</div><div class="flowleft">@Html.Raw(q.Q.OptionE)</div></div>
+                                        if (!string.IsNullOrWhiteSpace(q.Q.OptionD))
+                                        {
+
+                                            <div data="F" class="row"><div class="flowleft">F：</div><div class="flowleft">@Html.Raw(q.Q.OptionF)</div></div>
+                                        }
+                                    }
+                                }
+                            }
+
+                        </div>
+                        <div class="row answer">
+                            <div class="flowleft">答案：</div>
+                            <div class="flowleft ">
+                                @Utitlity.GetChoiceAnswer(q.Q)
+                            </div>
+                        </div>
+                        <div class="row remark">
+                            <div class="flowleft">解释：</div>
+                            <div class="flowleft ">
+                                @Html.Raw(q.Q.Description)
+                            </div>
+                        </div>
+                        <br />
+                    }
+                }
+                else { }
+            }
+            else
+            {
+                var qlist = cate.Paper_Essay.AsEnumerable();
+
+                if (cate.Quantity > 0 && qlist.Count() > 0)
+                {
+
+                    //var type = QuestionType.MultipleChoice.ToString() == cate.QuestionType ? "multiple" : "single";
+                    var questions = from s in Essay
+                                    from y in qlist
+                                    where y.QuestionID == s.ID
+                                    orderby y.BigQuestionNumber, y.SmallQuestionNumber
+                                    select new { Q = s, P = y };
+                    <br />
+                    <h4 class="row  big-title">
+                        @bigNum[cate.Sequence]
+                        、
+                        @cate.Title
+                        (@qlist.Count()
+                        题)
+                    </h4>
+                    foreach (var q in questions)
+                    {
+                        <div class="row question">
+                            <div class="flowleft">@q.P.SmallQuestionNumber、</div>
+                            <div class="flowleft ">
+                                @Html.Raw(q.Q.Question) <span class="score">
+                                    (
+                                    @q.P.Score
+                                    分)
+                                </span>
+                            </div>
+
+                            <div class="row answer">
+                                <div class="flowleft">答案：</div>
+                                <div class="flowleft ">
+                                    @Html.Raw(q.Q.Answer)
+                                </div>
+                            </div>
+                            <div class="row remark">
+                                <div class="flowleft">解释：</div>
+                                <div class="flowleft ">
+                                    @Html.Raw(q.Q.Description)
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <br />
+                    }
+                }
+                else { }
+            }
+        }
+    </div>
+</div>
+@section Scripts
+{
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet">
+    <script src="@Url.Content("~/Scripts/jquery-2.1.4.min.js")"></script>
+    <script src="/Scripts/jquery.form.js"></script>
+    @*<script src="@Url.Content("~/Scripts/js/bootstrap.min.js")"></script>*@
+    <script src="/Scripts/Debugger/Alerter.js"></script>
+    <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="/Scripts/jquery.validate.min.js"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+
+        function onCkChange(e) {
+
+
+
+        }
+    </script>
+}
