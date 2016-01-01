@@ -60,7 +60,7 @@ namespace OnlineExam.Controllers.Background
             ViewBag.RelateSubject = GetRelateSubject(id);
 
             var q = ee.QuestionChoice.Where(m => m.ID == id).SingleOrDefault();
-            if (q == null || q.ID != id) RedirectToAction("");
+            if (q == null || q.ID != id) return HttpNotFound();
             Utitlity.ModelStandardize(q);
             return View(q);
         }
