@@ -7,11 +7,7 @@
     <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet">
     <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet">
 
-    <!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
-    <![endif]-->
-    @*<script src="../Scripts/js/jquery-1.11.1.min.js"></script>*@
+  
     <script src="@Url.Content("~/Scripts/jquery-2.1.4.min.js")"></script>
     <script src="@Url.Content("~/Scripts/js/bootstrap.min.js")"></script>
 
@@ -22,18 +18,20 @@
 
     <script>
 
-        !function ($) {
+        $(function ($) {
             $(document).on("click", "ul.nav li.parent > a > span.icon", function () {
                 $(this).find('em:first').toggleClass("glyphicon-minus");
             });
             $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
-        }(window.jQuery);
+        });
 
         $(window).on('resize', function () {
-            if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+            if ($(window).width() > 768) $('#sidebar-collapse').fadeIn(1000);
+            //if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
         })
         $(window).on('resize', function () {
-            if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+            if ($(window).width() <= 767) $('#sidebar-collapse').fadeOut(1000);
+            //if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
         })
     </script>
 </head>
@@ -90,18 +88,10 @@
     </nav>
 
     <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-        @*<form role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
-                </div>
-            </form>*@
+    
         <ul class="nav menu">
             <li class="active"><a href="index.html"><span class="glyphicon glyphicon-dashboard"></span> 题库管理</a></li>
-            @*<li><a href="widgets.html"><span class="glyphicon glyphicon-th"></span> Widgets</a></li>
-                <li><a href="charts.html"><span class="glyphicon glyphicon-stats"></span> Charts</a></li>
-                <li><a href="tables.html"><span class="glyphicon glyphicon-list-alt"></span> Tables</a></li>
-                <li><a href="forms.html"><span class="glyphicon glyphicon-pencil"></span> Forms</a></li>
-                <li><a href="panels.html"><span class="glyphicon glyphicon-info-sign"></span> Alerts &amp; Panels</a></li>*@
+           
             <li>
                 <a class="" href="@Url.Action("Index", "Choice",new  {isMultiple=false })">
                     <span class="glyphicon  glyphicon glyphicon-list"></span>单选题
@@ -157,11 +147,7 @@
                             </span>试卷管理
                         </a>
                     </li>
-                    @*<li>
-                        <a class="" href="@Url.Action("Index", "Subject")">
-                            <span class="glyphicon glyphicon-share-alt"></span>科目管理
-                        </a>
-                    </li>*@
+                   
                 </ul>
             </li>
             <li class="parent ">
@@ -182,7 +168,6 @@
                 </ul>
             </li>
             <li role="presentation" class="divider"></li>
-            @*<li><a href="login.html"><span class="glyphicon glyphicon-user"></span> 登录</a></li>*@
         </ul>
     </div><!--/.sidebar-->
 

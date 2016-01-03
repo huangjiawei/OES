@@ -94,7 +94,6 @@
             if ($(dest).hasClass("tree-subject")) {
 
             } else if ($(dest).find(".tree-major") != undefined) {
-
                 var sId = $(dragSrcEl).find("#subjectId").val();
                 var destElem = $(dest).find(".tree-major");
                 var mId = $(dest).find(".tree-major").attr("id");
@@ -103,7 +102,6 @@
                 if (DEBUG_) alert("mid" + mId);
                 AppendSubjectToMajor(sId, mId, subjectName);
             }
-
             // Set the source column's HTML to the HTML of the columnwe dropped on.
             //var src = dragSrcEl.innerHTML
             //dragSrcEl.innerHTML = this.innerHTML;
@@ -113,7 +111,6 @@
         this.classList.remove('over');
         return false;
     }
-
     function handleDragOver(e) {
         if (e.preventDefault) {
             e.preventDefault(); // Necessary. Allows us to drop.

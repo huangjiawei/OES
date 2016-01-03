@@ -38,11 +38,11 @@
 </div>
 <div class="tab-pane">
     <div class="form-horizontal">
-        <span><input id="ckanswer" type="checkbox" onchange="onCkChange(this)" />显示答案</span>
-        <span><input id="ckinfo" type="checkbox" onchange="    onCkChange(this)" />显示解释</span><span>
-            <input id="ckoption" type="checkbox" onchange="onCkChange(this)" />显示选项
+        <span><input id="ckanswer" checked="checked" type="checkbox" onchange="onCkChange()" />显示答案</span>
+        <span><input id="ckinfo" checked="checked" type="checkbox" onchange="    onCkChange()" />显示解释</span><span>
+            <input id="ckoption" checked="checked" type="checkbox" onchange="onCkChange()" />显示选项
         </span>
-        <span><input id="ckscore" type="checkbox" onchange="onCkChange(this)" />显示分数</span>
+        @*<span><input id="ckscore" type="checkbox" onchange="onCkChange()" />显示分数</span>*@
     </div>
 
 </div>
@@ -68,77 +68,81 @@
                 var qlist = cate.Paper_Choice.AsEnumerable();
                 <div class='tab-pane fade panel  @(cate.Sequence==1?" in acitve":"")' id="tab-@cate.Sequence">
                     <div class="panel-body">
+                        <h4 class="row big-title">
+                            @bigNum[cate.Sequence]
+                            、
+                            @cate.Title
+                            (每题默认
+                            @cate.ScorePerQuestion
+                            分
+                            )
+                        </h4>
                         @if (cate.Quantity > 0 && qlist.Count() > 0)
-                    {
-                        var type = QuestionType.MultipleChoice.ToString() == cate.QuestionType ? "multiple" : "single";
-                        var questions = from s in Choice
-                                        from y in qlist
-                                        where y.QuestionID == s.ID
-                                        orderby y.BigQuestionNumber, y.SmallQuestionNumber
-                                        select new { Q = s, P = y };
-                            <h4 class="row big-title">
-                                @bigNum[cate.Sequence]
-                                、
-                                @cate.Title
-                                (每题默认
-                                @cate.ScorePerQuestion
-                                分
-                                )
-                            </h4>
+                        {
+                            var type = QuestionType.MultipleChoice.ToString() == cate.QuestionType ? "multiple" : "single";
+                            var questions = from s in Choice
+                                            from y in qlist
+                                            where y.QuestionID == s.ID
+                                            orderby y.BigQuestionNumber, y.SmallQuestionNumber
+                                            select new { Q = s, P = y };
+
                             foreach (var q in questions)
                             {
-                                <div class="row ">
-                                    <div class="flowleft">@q.P.SmallQuestionNumber、</div>
-                                    <div class="flowleft question">
-                                        @Html.Raw(q.Q.Question)
+                                <div class=" panel-body question-content">
+                                    @Html.Hidden("QuestionID", q.Q.ID)
+                                    <div class="row ">
+                                        <div class="flowleft question-number">@q.P.SmallQuestionNumber、</div>
+                                        <div class="flowleft question">
+                                            @Html.Raw(q.Q.Question)
+                                        </div>
+                                        <span class="score">
+                                            (
+                                            @q.P.Score
+                                            分)
+                                        </span>
                                     </div>
-                                    <span class="score">
-                                        (
-                                        @q.P.Score
-                                        分)
-                                    </span>
-                                </div>
-                                <div class="option-list @type">
-                                    <div data="A" class="row"><div class="flowleft">A：</div><div class="flowleft">@Html.Raw(q.Q.OptionA)</div></div>
-                                    <div data="B" class="row"><div class="flowleft">B：</div><div class="flowleft">@Html.Raw(q.Q.OptionB)</div></div>
-                                    @if (!string.IsNullOrWhiteSpace(q.Q.OptionC))
-                                    {
-                                        <div data="C" class="row"><div class="flowleft">C：</div><div class="flowleft">@Html.Raw(q.Q.OptionC)</div></div>
-                                        if (!string.IsNullOrWhiteSpace(q.Q.OptionD))
+                                    <div class="option-list @type">
+                                        <div data="A" class="row"><div class="flowleft">A：</div><div class="flowleft">@Html.Raw(q.Q.OptionA)</div></div>
+                                        <div data="B" class="row"><div class="flowleft">B：</div><div class="flowleft">@Html.Raw(q.Q.OptionB)</div></div>
+                                        @if (!string.IsNullOrWhiteSpace(q.Q.OptionC))
                                         {
-                                            <div data="D" class="row"><div class="flowleft">D：</div><div class="flowleft">@Html.Raw(q.Q.OptionD)</div></div>
-                                            if (!string.IsNullOrWhiteSpace(q.Q.OptionE))
+                                            <div data="C" class="row"><div class="flowleft">C：</div><div class="flowleft">@Html.Raw(q.Q.OptionC)</div></div>
+                                            if (!string.IsNullOrWhiteSpace(q.Q.OptionD))
                                             {
-
-                                                <div data="E" class="row"><div class="flowleft">E：</div><div class="flowleft">@Html.Raw(q.Q.OptionE)</div></div>
-                                                if (!string.IsNullOrWhiteSpace(q.Q.OptionD))
+                                                <div data="D" class="row"><div class="flowleft">D：</div><div class="flowleft">@Html.Raw(q.Q.OptionD)</div></div>
+                                                if (!string.IsNullOrWhiteSpace(q.Q.OptionE))
                                                 {
 
-                                                    <div data="F" class="row"><div class="flowleft">F：</div><div class="flowleft">@Html.Raw(q.Q.OptionF)</div></div>
+                                                    <div data="E" class="row"><div class="flowleft">E：</div><div class="flowleft">@Html.Raw(q.Q.OptionE)</div></div>
+                                                    if (!string.IsNullOrWhiteSpace(q.Q.OptionD))
+                                                    {
+
+                                                        <div data="F" class="row"><div class="flowleft">F：</div><div class="flowleft">@Html.Raw(q.Q.OptionF)</div></div>
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
 
-                                </div>
-                                <div class="row answer">
-                                    <div class="flowleft">答案：</div>
-                                    <div class="flowleft ">
-                                        @Utitlity.GetChoiceAnswer(q.Q)
+                                    </div>
+                                    <div class="row answer">
+                                        <div class="flowleft">答案：</div>
+                                        <div class="flowleft ">
+                                            @Utitlity.GetChoiceAnswer(q.Q)
+                                        </div>
+                                    </div>
+                                    <div class="row remark">
+                                        <div class="flowleft">解释：</div>
+                                        <div class="flowleft ">
+                                            @Html.Raw(q.Q.Description)
+                                        </div>
+                                    </div>
+                                    <div class="toolbar row">
+                                        <a class="btn btn-primary btn-xs" target="_blank" href="@Url.Content("/Choice/Details?id="+ q.Q.ID)">查看</a>
+                                        <a class="btn btn-danger btn-xs" onclick="removeItem(this)">移除</a>
+                                        @*<a class="btn btn-warning btn-xs" onclick="moveItem(this)">转到</a>*@
                                     </div>
                                 </div>
-                                <div class="row remark">
-                                    <div class="flowleft">解释：</div>
-                                    <div class="flowleft ">
-                                        @Html.Raw(q.Q.Description)
-                                    </div>
-                                </div>
-                                <div class="toolbar row">
-                                    <a class="btn btn-primary" target="_blank" href="@Url.Content("/Choice/Details?id="+ q.Q.ID)">查看</a>
-                                    <a class="btn btn-danger" onclick="removeQ(this)">移除</a>
-                                    <a class="btn btn-danger" onclick="move(this)">转到</a>
-                                </div>
-
+                                <hr />
                             }
 
                         }
@@ -154,54 +158,75 @@
                 var qlist = cate.Paper_Essay.AsEnumerable();
                 <div class='tab-pane fade panel  @(cate.Sequence==1?" in acitve":"")' id="tab-@cate.Sequence">
                     <div class="panel-body">
+                        <h4 class="row  big-title">
+                            @bigNum[cate.Sequence]
+                            、
+                            @cate.Title
+                            (每题默认
+                            @cate.ScorePerQuestion
+                            分
+                            )
+                            <a class="btn btn-primary btn-xs">修改</a>
+                        </h4>
                         @if (cate.Quantity > 0 && qlist.Count() > 0)
-                    {
-                        //var type = QuestionType.MultipleChoice.ToString() == cate.QuestionType ? "multiple" : "single";
-                        var questions = from s in Essay
-                                        from y in qlist
-                                        where y.QuestionID == s.ID
-                                        orderby y.BigQuestionNumber, y.SmallQuestionNumber
-                                        select new { Q = s, P = y };
+                        {
+                            //var type = QuestionType.MultipleChoice.ToString() == cate.QuestionType ? "multiple" : "single";
+                            var questions = from s in Essay
+                                            from y in qlist
+                                            where y.QuestionID == s.ID
+                                            orderby y.BigQuestionNumber, y.SmallQuestionNumber
+                                            select new { Q = s, P = y };
 
-                            <h4 class="row  big-title">
-                                @bigNum[cate.Sequence]
-                                、
-                                @cate.Title
-                                (每题默认
-                                @cate.ScorePerQuestion
-                                分
-                                )
-                            </h4>
+
                             foreach (var q in questions)
                             {
-                                <div class="row question">
-                                    <div class="flowleft">@q.P.SmallQuestionNumber、</div>
-                                    <div class="flowleft ">
-                                        @Html.Raw(q.Q.Question) <span class="score">
-                                            (
-                                            @q.P.Score
-                                            分)
-                                        </span>
+                                <div class="panel-body question-content">
+                                    @Html.Hidden("QuestionID", q.P.SmallQuestionNumber)
+                                    <div class="row question">
+                                        <div class="flowleft question-number">@q.P.SmallQuestionNumber、</div>
+                                        <div class="flowleft ">
+                                            @Html.Raw(q.Q.Question) <span class="score">
+                                                (
+                                                @q.P.Score
+                                                分)
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>                    <div class="row answer">
-                                    <div class="flowleft">答案：</div>
-                                    <div class="flowleft ">
-                                        @Html.Raw(q.Q.Answer)
+                                    <div class="row answer">
+                                        <div class="flowleft">答案：</div>
+                                        <div class="flowleft ">
+                                            @Html.Raw(q.Q.Answer)
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row remark">
-                                    <div class="flowleft">解释：</div>
-                                    <div class="flowleft ">
-                                        @Html.Raw(q.Q.Description)
+                                    <div class="row remark">
+                                        <div class="flowleft">解释：</div>
+                                        <div class="flowleft ">
+                                            @Html.Raw(q.Q.Description)
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="toolbar row">
-                                    @*@Html.ActionLink("查看","Details", "Choice", new { id = q.Q.ID, target = "_blank", @class = "btn btn-default" })*@
-                                    <a class="btn btn-primary" target="_blank" href="@Url.Content("/Essay/Details?id="+ q.Q.ID)">查看</a>
-                                    <a class="btn btn-danger" onclick="removeQ(this)">移除</a>
-                                    <a class="btn btn-danger" onclick="move(this)">转到</a>
-                                </div>
+                                    <div class="toolbar row">
+                                        @*@Html.ActionLink("查看","Details", "Choice", new { id = q.Q.ID, target = "_blank", @class = "btn btn-default" })*@
+                                        <a class="glyphicon glyphicon-arrow-up"></a>
+                                        <a class="glyphicon glyphicon-arrow-down"></a>
 
+                                        <a class="btn btn-primary btn-xs" target="_blank" href="@Url.Content("/Essay/Details?id="+ q.Q.ID)">查看</a>
+                                        <a class="btn btn-danger btn-xs" onclick="removeItem(this)">移除</a>
+                                        @*<a class="btn btn-danger btn-xs" onclick="move(this)">转到</a>*@
+                                        <div class="btn-group">
+                                            <button onmousedown="generateMenu()" type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                转移到 <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a onclick=""></a></li>
+                                                <li><a href="#">Another action</a></li>
+                                                <li><a href="#">Something else here</a></li>
+                                            </ul>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <hr />
                             }
 
                         }
@@ -217,27 +242,192 @@
     <div class="container">
     </div>
 </div>
+<div id="menu" class="hidden">
+    <ul>
+        <li><a>试题候选区</a></li>
+        <li><a>收藏夹</a></li>
+        <li><a>试题候选区</a></li>
+        <li><a>试题候选区</a></li>
+    </ul>
+</div>
 @section Scripts
 {
-    <link href="@Url.Content(" ~/Content/bootstrap.min.css")" rel="stylesheet">
-    <link href="@Url.Content(" ~/Content/styles.css")" rel="stylesheet">
-    <script src="@Url.Content(" ~/Scripts/jquery-2.1.4.min.js")"></script>
-    <script src="/Scripts/bootstrap.min.js"></script>
-    @*
-        <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>*@
+    @*<link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet">
+        <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet">
+        <script src="@Url.Content("~/Scripts/jquery-2.1.4.min.js")"></script>
+        <script src="/Scripts/bootstrap.min.js"></script>*@
+
+    @*<script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>*@
     @*
         <script src="/Scripts/jquery.form.js"></script>*@
     @*
         <script src="@Url.Content(" ~/Scripts/js/bootstrap.min.js")"></script>*@
-    <script src="/Scripts/Debugger/Alerter.js"></script>
+    @*<script src="/Scripts/Debugger/Alerter.js"></script>*@
     @*
         <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
         <script src="/Scripts/jquery.validate.min.js"></script>
         <script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
+
     <script>
+        jQuery.fn.outerHTML = function (s) {
+            return (s)
+            ? this.before(s).remove()
+            : jQuery("&lt;p&gt;").append(this.eq(0).clone()).html();
+        }
 
-        function onCkChange(e) {
+        var dragSrcEl = null;
+        function handleDragStart(e) {
+            this.style.opacity = '0.8';  // this / e.target is the source node.
+            dragSrcEl = this;
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.innerHTML);
+        }
+        function AppendSubjectToMajor(subjectId, majorId, subjectName) {
+            $.ajax({
+                url: '@Url.Action("AppendSubject")',
+                data: { subjectId: subjectId, majorId: majorId },
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    if (data.Success == 0) {
+                        alert("提交失败");
+                    } else {
+                        var node = $('#tree').tree('find', majorId);
 
+                        $("#tree").tree('append', {
+                            parent: node.target,
+                            data: [{
+                                id: "subjectId" + subjectId,
+                                text: subjectName
+                            }]
+                        });
+
+                        if (DEBUG_) alert($(destElem).html())
+                        var content = $(destElem).outerHTML();
+                        $(destElem).after(content);
+                        var node = $(destElem).next("li");
+                        $(node).prepend($(node).first());
+
+
+                    }
+                }
+            });
+        }
+        function handleDrop(e) {
+            // this/e.target is current target element.
+            if (e.stopPropagation) {
+                e.stopPropagation(); // Stops some browsers from redirecting.
+            }
+            //alert("dsfaf")
+            // Don't do anything if dropping the same column we're dragging.
+            var dest = this;
+            if (dragSrcEl != dest) {
+            
+                // Set the source column's HTML to the HTML of the columnwe dropped on.
+                //var src = dragSrcEl.innerHTML
+                //dragSrcEl.innerHTML = this.innerHTML;
+                //this.innerHTML = src;
+            }
+
+            this.classList.remove('over');
+            return false;
+        }
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault(); // Necessary. Allows us to drop.
+            }
+            e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
+            return false;
+        }
+
+        function handleDragEnter(e) {
+            // this / e.target is the current hover target.
+            this.classList.add('over');
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('over');  // this / e.target is previous target element.
+        }
+    
+        $(function () {
+            $(".subject").each(function () {
+                this.addEventListener('dragstart', handleDragStart, false);
+            });
+         
+
+            AddDropAttribute();
+
+        })
+
+        function AddDropAttribute() {
+            $(".tree-major").parent().parent().parent().attr("draggable", "true")
+            $(".tree-major").parent().parent().parent().each(function () {
+                AddDropHandler(this);
+            })
+            //$(".tree-subject").parent().parent().parent().attr("draggable", "true");
+            //$(".tree-subject").parent().parent().parent().each(function () {
+            //    AddDropHandler(this);
+            //})
+        }
+        function AddDropHandler(e) {
+
+            e.addEventListener('drop', handleDrop, false);
+            e.addEventListener('dragenter', handleDragEnter, false);
+            e.addEventListener('dragover', handleDragOver, false);
+            e.addEventListener('dragleave', handleDragLeave, false);
+        }
+
+    </script>
+    <script>
+        var bigNum = "零一二三四五六七八九十";
+        Alerter.turnOn();
+        $(function () {
+            //Alerter.info($("#myTab").find("li:eq(0)").children().attr("href"))
+            $("#myTab").find("li:eq(0)").find("a").click();;
+            $(".tab-pane").find("hr:last").remove();
+
+        })
+        function generateMenu(e) {
+            var elem = "<li><</li>"
+            $(e).parent().find("ul").append(elem)
+
+        }
+        function removeItem(e) {
+            var qlist = $(e).parent().parent().parent()
+            $(e).parent().parent().remove();
+            //reOrder($(e).parent().parent().parent());
+
+            var i = 1;
+            $(qlist).children("div").each(function () {
+                Alerter.info($(this).html());
+                $(this).find(".question").find(".question-number").text(i + "、");
+                i += 1;
+            })
+        }
+        function reOrder(e) {
+            var i = 1;
+            Alerter.info($(e).html())
+
+        }
+        function moveItem(e) {
+            //$("#menu").removeClass("hidden").
+
+        }
+
+        function onCkChange() {
+            if ($("#ckoption").is(":checked")) { $(".option-list").removeClass("hidden") }
+            else { $(".option-list").addClass("hidden") }
+
+            if ($("#ckanswer").is(":checked")) { $(".answer").removeClass("hidden") }
+            else { $(".answer").addClass("hidden") }
+
+            if ($("#ckinfo").is(":checked")) { $(".remark").removeClass("hidden") }
+            else { $(".remark").addClass("hidden") }
+
+
+
+            //if ($("#ckoption").is(":checked")) { $(".option").addClass("hidden") }
+            //else { $(".option").removeClass("hidden") }
 
 
         }
