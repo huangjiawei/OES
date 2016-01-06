@@ -89,7 +89,10 @@
                             <tr>
                                 <td class="col-md-1">@BigNum[cate.Sequence]</td>
                                 <td class="col-md-5">@Html.TextBox("qname1", Utitlity.ParseQuestionType(cate.QuestionType).GetInfo(), new { @class = "form-control col-md-12" })</td>
-                                <td class="col-md-2">@Html.DropDownList("qtype1", Utitlity.GetQuestionTypeSelectList().AsEnumerable(), Utitlity.ParseQuestionType(cate.QuestionType).GetInfo(), new { @class = "form-control col-md-12" })</td>
+                                <td class="col-md-2">
+                                    @Html.Hidden("selectOption", Utitlity.ParseQuestionType(cate.QuestionType))
+                                    @Html.DropDownList("qtype1", Utitlity.GetQuestionTypeSelectList().AsEnumerable(), new { @class = "form-control col-md-12" })
+                                </td>
                                 <td class="col-md-1"><input type="number" value="@cate.ScorePerQuestion" min="1" max="100" class="form-control width80" /></td>
                                 <td class="col-md-1"><a class="bg-danger" onclick="delQuestionCate(this);">删除</a></td>
 
@@ -227,7 +230,7 @@
                 i++;
             })
             $("#QuestionCategory").val(result);
-               GetSubjectID()
+            GetSubjectID()
             //result+=  JSON.stringify(data)+"\r\n";
             $("form").submit();
             //for (var j = 0; j < i; j++) Alerter.list(data[j].Sequence, data[j].Title, data[j].QuestionType, data[j].ScorePerQuestion)
@@ -246,13 +249,14 @@
                 )
             $("#QList").find("tr").has(":hidden").each(
                 function () {
-                    //Alerter.info($(this).html());
-                    //Alerter.info($(this).find(":hidden").val())
+                    Alerter.info($(this).html());
+                    Alerter.info($(this).find(":hidden").val())
                     $(this).find("select").val($(this).find(":hidden").val());
                 }
                 )
 
         }
+
         function addQuestionCate() {
             var index = $("#QList").find("tr").length;
             if (index > 10) alert("添加失败，题数过多！");
@@ -265,8 +269,10 @@
             //Alerter.info(row);
         }
         function delQuestionCate(e) {
-            $(e).parent().parent().remove();
-            reOrder();
+            if (confirm("删除题目可能会影响已添加到试卷中的试题设置，确定要继续删除吗？")) {
+                $(e).parent().parent().remove();
+                reOrder();
+            }
         }
         function reOrder() {
             var index = 1;

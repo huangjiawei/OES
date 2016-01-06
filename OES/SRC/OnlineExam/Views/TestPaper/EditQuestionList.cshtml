@@ -12,6 +12,43 @@
                  where eids.Contains(q.ID)
                  select q).ToList();
 }
+
+
+
+<div id="QuestionCategoryDlgTemplate">
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("sequence", "大题号", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class=" col-md-8">
+                <select class="form-control" id="sequence">
+                    @for (int i = 1; i < 10; i++)
+                    {
+                        <option value="@i">@bigNum[i]</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("categoryName", "名称", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class=" col-md-8">
+                <input type="text" class="form-control " id="categoryName">
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("qtype", "试题类型", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class=" col-md-8">
+                @Html.DropDownList("qtype", Utitlity.GetQuestionTypeSelectList().AsEnumerable(), new { @class = " form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("score", "每题默认分数", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class=" col-md-8">
+                <input type="number" value="5" class=" form-control " max="100" min="1" id="score">
+            </div>
+        </div>
+    </div>
+
+</div>
 <div class="form-horizontal">
     <h4 class="disabled">
         @title
@@ -44,13 +81,14 @@
         </span>
         @*<span><input id="ckscore" type="checkbox" onchange="onCkChange()" />显示分数</span>*@
     </div>
+    <a class="glyphicon glyphicon-plus" onclick="showQuestionCategoryModel(this)"></a>
 
 </div>
 <div class=" panel">
 
     <ul id="myTab" class="nav nav-tabs">
         @foreach (var cate in Model.Paper_QuestionCategory.OrderBy(m => m.Sequence))
-        {
+            {
             <li class='dropdown  @(cate.Sequence==1?"  acitve":"")'>
                 <a href="#tab-@cate.Sequence" data-toggle="tab">
                     @bigNum[cate.Sequence]、
@@ -62,10 +100,10 @@
     <div id="myTabContent" class="tab-content">
 
         @foreach (var cate in Model.Paper_QuestionCategory.OrderBy(m => m.Sequence))
-        {
-            if (cate.QuestionType == QuestionType.SingleChoice.ToString() || cate.QuestionType == QuestionType.MultipleChoice.ToString())
             {
-                var qlist = cate.Paper_Choice.AsEnumerable();
+                if (cate.QuestionType == QuestionType.SingleChoice.ToString() || cate.QuestionType == QuestionType.MultipleChoice.ToString())
+                {
+                    var qlist = cate.Paper_Choice.AsEnumerable();
                 <div class='tab-pane fade panel  @(cate.Sequence==1?" in acitve":"")' id="tab-@cate.Sequence">
                     <div class="panel-body">
                         <h4 class="row big-title">
@@ -138,7 +176,7 @@
                                     </div>
                                     <div class="toolbar row">
                                         <a class="btn btn-primary btn-xs" target="_blank" href="@Url.Content("/Choice/Details?id="+ q.Q.ID)">查看</a>
-                                        <a class="btn btn-danger btn-xs" onclick="removeItem(this)">移除</a>
+                                        <a class="btn btn-danger btn-xs" onclick="removeQuestion(this)">移除</a>
                                         @*<a class="btn btn-warning btn-xs" onclick="moveItem(this)">转到</a>*@
                                     </div>
                                 </div>
@@ -166,7 +204,12 @@
                             @cate.ScorePerQuestion
                             分
                             )
-                            <a class="btn btn-primary btn-xs">修改</a>
+                            <a class="btn btn-primary btn-sm" onclick="editCategory(this)">修改</a>
+                            <a class="btn btn-primary btn-sm" onclick="addQuestion(this)">添加试题</a>
+                            <a class="btn btn-danger btn-sm" onclick="removeCategory(this)">删除</a>
+                            <a class="btn btn-danger btn-sm" onclick="clearQuestion(this)">清空试题</a>
+
+
                         </h4>
                         @if (cate.Quantity > 0 && qlist.Count() > 0)
                         {
@@ -180,7 +223,7 @@
 
                             foreach (var q in questions)
                             {
-                                <div class="panel-body question-content">
+                                <div class="panel-body question-content ">
                                     @Html.Hidden("QuestionID", q.P.SmallQuestionNumber)
                                     <div class="row question">
                                         <div class="flowleft question-number">@q.P.SmallQuestionNumber、</div>
@@ -210,7 +253,7 @@
                                         <a class="glyphicon glyphicon-arrow-down"></a>
 
                                         <a class="btn btn-primary btn-xs" target="_blank" href="@Url.Content("/Essay/Details?id="+ q.Q.ID)">查看</a>
-                                        <a class="btn btn-danger btn-xs" onclick="removeItem(this)">移除</a>
+                                        <a class="btn btn-danger btn-xs" onclick="removeQuestion(this)">移除</a>
                                         @*<a class="btn btn-danger btn-xs" onclick="move(this)">转到</a>*@
                                         <div class="btn-group">
                                             <button onmousedown="generateMenu()" type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -252,132 +295,9 @@
 </div>
 @section Scripts
 {
-    @*<link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet">
-        <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet">
-        <script src="@Url.Content("~/Scripts/jquery-2.1.4.min.js")"></script>
-        <script src="/Scripts/bootstrap.min.js"></script>*@
-
-    @*<script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>*@
-    @*
-        <script src="/Scripts/jquery.form.js"></script>*@
-    @*
-        <script src="@Url.Content(" ~/Scripts/js/bootstrap.min.js")"></script>*@
-    @*<script src="/Scripts/Debugger/Alerter.js"></script>*@
-    @*
-        <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-        <script src="/Scripts/jquery.validate.min.js"></script>
-        <script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
-
-    <script>
-        jQuery.fn.outerHTML = function (s) {
-            return (s)
-            ? this.before(s).remove()
-            : jQuery("&lt;p&gt;").append(this.eq(0).clone()).html();
-        }
-
-        var dragSrcEl = null;
-        function handleDragStart(e) {
-            this.style.opacity = '0.8';  // this / e.target is the source node.
-            dragSrcEl = this;
-            e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/html', this.innerHTML);
-        }
-        function AppendSubjectToMajor(subjectId, majorId, subjectName) {
-            $.ajax({
-                url: '@Url.Action("AppendSubject")',
-                data: { subjectId: subjectId, majorId: majorId },
-                type: "POST",
-                dataType: "json",
-                success: function (data) {
-                    if (data.Success == 0) {
-                        alert("提交失败");
-                    } else {
-                        var node = $('#tree').tree('find', majorId);
-
-                        $("#tree").tree('append', {
-                            parent: node.target,
-                            data: [{
-                                id: "subjectId" + subjectId,
-                                text: subjectName
-                            }]
-                        });
-
-                        if (DEBUG_) alert($(destElem).html())
-                        var content = $(destElem).outerHTML();
-                        $(destElem).after(content);
-                        var node = $(destElem).next("li");
-                        $(node).prepend($(node).first());
-
-
-                    }
-                }
-            });
-        }
-        function handleDrop(e) {
-            // this/e.target is current target element.
-            if (e.stopPropagation) {
-                e.stopPropagation(); // Stops some browsers from redirecting.
-            }
-            //alert("dsfaf")
-            // Don't do anything if dropping the same column we're dragging.
-            var dest = this;
-            if (dragSrcEl != dest) {
-            
-                // Set the source column's HTML to the HTML of the columnwe dropped on.
-                //var src = dragSrcEl.innerHTML
-                //dragSrcEl.innerHTML = this.innerHTML;
-                //this.innerHTML = src;
-            }
-
-            this.classList.remove('over');
-            return false;
-        }
-        function handleDragOver(e) {
-            if (e.preventDefault) {
-                e.preventDefault(); // Necessary. Allows us to drop.
-            }
-            e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
-            return false;
-        }
-
-        function handleDragEnter(e) {
-            // this / e.target is the current hover target.
-            this.classList.add('over');
-        }
-
-        function handleDragLeave(e) {
-            this.classList.remove('over');  // this / e.target is previous target element.
-        }
-    
-        $(function () {
-            $(".subject").each(function () {
-                this.addEventListener('dragstart', handleDragStart, false);
-            });
-         
-
-            AddDropAttribute();
-
-        })
-
-        function AddDropAttribute() {
-            $(".tree-major").parent().parent().parent().attr("draggable", "true")
-            $(".tree-major").parent().parent().parent().each(function () {
-                AddDropHandler(this);
-            })
-            //$(".tree-subject").parent().parent().parent().attr("draggable", "true");
-            //$(".tree-subject").parent().parent().parent().each(function () {
-            //    AddDropHandler(this);
-            //})
-        }
-        function AddDropHandler(e) {
-
-            e.addEventListener('drop', handleDrop, false);
-            e.addEventListener('dragenter', handleDragEnter, false);
-            e.addEventListener('dragover', handleDragOver, false);
-            e.addEventListener('dragleave', handleDragLeave, false);
-        }
-
-    </script>
+    <link rel="stylesheet" href="/Scripts/artDialog/css/ui-dialog.css">
+    <script src="/Scripts/artDialog/dist/dialog-plus-min.js"></script>
+    <script src="/Scripts/vue.min.js"></script>
     <script>
         var bigNum = "零一二三四五六七八九十";
         Alerter.turnOn();
@@ -392,7 +312,7 @@
             $(e).parent().find("ul").append(elem)
 
         }
-        function removeItem(e) {
+        function removeQuestion(e) {
             var qlist = $(e).parent().parent().parent()
             $(e).parent().parent().remove();
             //reOrder($(e).parent().parent().parent());
@@ -404,9 +324,9 @@
                 i += 1;
             })
         }
-        function reOrder(e) {
+        function reOrderTab() {
             var i = 1;
-            Alerter.info($(e).html())
+            $()
 
         }
         function moveItem(e) {
@@ -430,6 +350,56 @@
             //else { $(".option").removeClass("hidden") }
 
 
+        }
+
+
+        function removeCategory(e) {
+
+            if (confirm("确定要删除当前的大题吗？")) {
+                $(e).parent()
+
+            }
+        }
+        function clearQuestion(e) {
+
+
+        }
+        function clearQuestion(e) {
+
+
+        }
+        function editCategory(e) {
+
+
+        }
+        function showQuestionCategoryModel(num) {
+            if (num == null || num == undefined) {
+
+
+
+            }
+            if (num < 0 || num > 9) { alert("错误"); return; }
+
+
+        }
+        function AddCateogry() {
+
+
+        }
+        function OpenAuditDlg() {
+            var dlgCotnet = "<div id='QuestionCategoryDlg'>" + $("#QuestionCategoryDlgTemplate").html() + "</div>";
+            var dlg = dialog({
+                title: '添加大题',
+                content: dlgCotnet,
+                okValue: '通过',
+                ok: function () {
+                    SumitAudit('@Auditing.Pass')
+                    return false;
+                },
+                cancleDisplay: ture
+
+            });
+            dlg.show();
         }
     </script>
 }
