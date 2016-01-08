@@ -11,9 +11,8 @@
     var Essay = (from q in ee.QuestionEssay
                  where eids.Contains(q.ID)
                  select q).ToList();
+
 }
-
-
 
 <div id="QuestionCategoryDlgTemplate">
     <div class="form-horizontal">
@@ -75,43 +74,55 @@
 </div>
 <div class="tab-pane">
     <div class="form-horizontal">
-        <span><input id="ckanswer" checked="checked" type="checkbox" onchange="onCkChange()" />显示答案</span>
-        <span><input id="ckinfo" checked="checked" type="checkbox" onchange="    onCkChange()" />显示解释</span><span>
-            <input id="ckoption" checked="checked" type="checkbox" onchange="onCkChange()" />显示选项
+        <span><input id="ckanswer" type="checkbox" v-model="ShowAnswer" />显示答案</span>
+        <span><input id="ckinfo" type="checkbox" v-model="ShowInfo" />显示解释</span><span>
+            <input id="ckoption" type="checkbox" v-model="ShowOption" value="{{ShowOption}}" />{{ShowOption}}显示选项
         </span>
         @*<span><input id="ckscore" type="checkbox" onchange="onCkChange()" />显示分数</span>*@
     </div>
     <a class="glyphicon glyphicon-plus" onclick="showQuestionCategoryModel(this)"></a>
 
 </div>
-<div class=" panel">
-
+<div class=" panel" id="MainContent">
+    {{CategorytList[0].RandomKey}}
     <ul id="myTab" class="nav nav-tabs">
-        @foreach (var cate in Model.Paper_QuestionCategory.OrderBy(m => m.Sequence))
-            {
-            <li class='dropdown  @(cate.Sequence==1?"  acitve":"")'>
-                <a href="#tab-@cate.Sequence" data-toggle="tab">
-                    @bigNum[cate.Sequence]、
-                    @Html.Truncate(cate.Title, 10)
+        @*@foreach (var cate in Model.Paper_QuestionCategory.OrderBy(m => m.Sequence))
+                {
+                <li class='dropdown  @(cate.Sequence==1?"  acitve":"")'>
+                    <a href="#tab-@cate.Sequence" data-toggle="tab">
+                        @bigNum[cate.Sequence]、
+                        @Html.Truncate(cate.Title, 10)
+                    </a>
+                </li>
+            }*@
+        <template v-for="cate in CategoryList | orderBy 'Sequence'">
+            <li class="dropdown {{cate.Sequence==1?'  acitve':''}}">
+                @*<a href='{{cate.RandomKey}}' data-toggle="tab">{{bigNum[cate.Sequence]}}、
+                    {{cate.Title}}
+                                </a>*@
+                <a href="#tab-{{cate.RandomKey}}" data-toggle="tab">
+                    {{bigNum[cate.Sequence]}}、
+                    {{cate.Title}}
                 </a>
+
             </li>
-        }
+        </template>
     </ul>
     <div id="myTabContent" class="tab-content">
 
         @foreach (var cate in Model.Paper_QuestionCategory.OrderBy(m => m.Sequence))
+        {
+            if (cate.QuestionType == QuestionType.SingleChoice.ToString() || cate.QuestionType == QuestionType.MultipleChoice.ToString())
             {
-                if (cate.QuestionType == QuestionType.SingleChoice.ToString() || cate.QuestionType == QuestionType.MultipleChoice.ToString())
-                {
-                    var qlist = cate.Paper_Choice.AsEnumerable();
-                <div class='tab-pane fade panel  @(cate.Sequence==1?" in acitve":"")' id="tab-@cate.Sequence">
+                var qlist = cate.Paper_Choice.AsEnumerable();
+                <div class='tab-pane fade panel  @(cate.Sequence == 1 ? " in acitve" : "")' id="tab-@cate.RandomKey">
                     <div class="panel-body">
                         <h4 class="row big-title">
-                            @bigNum[cate.Sequence]
+                            {{GetCategory(@(cate.RandomKey)).Sequence}}
                             、
-                            @cate.Title
+                            {{GetCategory(@(cate.RandomKey)).Title}}
                             (每题默认
-                            @cate.ScorePerQuestion
+                            {{GetCategory(@(cate.RandomKey)).ScorePerQuestion}}
                             分
                             )
                         </h4>
@@ -139,7 +150,7 @@
                                             分)
                                         </span>
                                     </div>
-                                    <div class="option-list @type">
+                                    <div class="option-list @type" v-show="ShowOption">
                                         <div data="A" class="row"><div class="flowleft">A：</div><div class="flowleft">@Html.Raw(q.Q.OptionA)</div></div>
                                         <div data="B" class="row"><div class="flowleft">B：</div><div class="flowleft">@Html.Raw(q.Q.OptionB)</div></div>
                                         @if (!string.IsNullOrWhiteSpace(q.Q.OptionC))
@@ -162,13 +173,13 @@
                                         }
 
                                     </div>
-                                    <div class="row answer">
+                                    <div class="row answer" v-show="ShowAnswer">
                                         <div class="flowleft">答案：</div>
                                         <div class="flowleft ">
                                             @Utitlity.GetChoiceAnswer(q.Q)
                                         </div>
                                     </div>
-                                    <div class="row remark">
+                                    <div class="row remark " v-show="ShowInfo">
                                         <div class="flowleft">解释：</div>
                                         <div class="flowleft ">
                                             @Html.Raw(q.Q.Description)
@@ -235,13 +246,13 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="row answer">
+                                    <div class="row answer" v-show="ShowAnswer">
                                         <div class="flowleft">答案：</div>
                                         <div class="flowleft ">
                                             @Html.Raw(q.Q.Answer)
                                         </div>
                                     </div>
-                                    <div class="row remark">
+                                    <div class="row remark" v-show="ShowInfo">
                                         <div class="flowleft">解释：</div>
                                         <div class="flowleft ">
                                             @Html.Raw(q.Q.Description)
@@ -298,13 +309,155 @@
     <link rel="stylesheet" href="/Scripts/artDialog/css/ui-dialog.css">
     <script src="/Scripts/artDialog/dist/dialog-plus-min.js"></script>
     <script src="/Scripts/vue.min.js"></script>
+    <script src="/Scripts/JSON2/json2.js"></script>
+
     <script>
+        @{
+            var temp =
+                from c in Model.Paper_QuestionCategory
+                select new
+                {
+                    Quantity = c.Quantity,
+                    RandomKey = c.RandomKey,
+                    ScorePerQuestion = c.ScorePerQuestion,
+                    Sequence = c.Sequence,
+                    Title = c.Title,
+                    QuestionType = c.QuestionType,
+                    ChoiceList = (from k in Choice
+                                  from s in c.Paper_Choice
+                                  where k.ID == s.QuestionID
+                                  select new
+                                  {
+                                      ID = k.ID,
+                                      Question = k.Question == null ? "" : k.Question.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                                      Info = k.Info == null ? "" : k.Info.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                                      Description = k.Description == null ? "" : k.Description.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                                      //Answer = k.Answer == null ? "" : k.Answer.Replace("\r\n", "").Replace("\r", "").Replace("\n", "")
+
+                                      OptionA = k.OptionA == null ? "" : k.OptionA.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                                      OptionB = k.OptionB == null ? "" : k.OptionB.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                                      OptionC = k.OptionC == null ? "" : k.OptionC.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                                      OptionD = k.OptionD == null ? "" : k.OptionD.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                                      OptionE = k.OptionE == null ? "" : k.OptionE.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                                      OptionF = k.OptionF == null ? "" : k.OptionF.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                                      AisTrue = k.AisTrue,
+                                      BisTrue = k.BisTrue,
+                                      CisTrue = k.CisTrue,
+                                      DisTrue = k.DisTrue,
+                                      EisTrue = k.EisTrue,
+                                      FisTrue = k.FisTrue,
+                                      IsMultiple = k.IsMultiple
+                                  }).ToList(),
+                    EssayList = (from k in Essay
+                                 from s in c.Paper_Essay
+                                 where k.ID == s.QuestionID
+                                 select new
+                                 {
+                                     ID = k.ID
+                                     ,
+                                     Question = k.Question == null ? "" : k.Question.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                                     Info = k.Info == null ? "" : k.Info.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                                     Description = k.Description == null ? "" : k.Description.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                                     Answer = k.Answer == null ? "" : k.Answer.Replace("\r\n", "").Replace("\r", "").Replace("\n", "")
+                                 }).ToList()
+
+                };
+            //var temp = (from k in Essay
+            //                //from s in Model.Paper_Essay
+            //                //where k.ID == s.QuestionID
+            //            select new
+            //            {
+            //                ID = k.ID
+            //                ,
+            //                Question = k.Question == null ? "" : k.Question.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+            //                Info = k.Info == null ? "" : k.Info.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+            //                Description = k.Description == null ? "" : k.Description.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+            //                Answer = k.Answer == null ? "" : k.Answer.Replace("\r\n", "").Replace("\r", "").Replace("\n", "")
+            //            }).ToList()
+            //;
+            var jsonData = System.Web.Helpers.Json.Encode(temp.ToArray());
+
+        }
+
+
+        function HtmlEncode(str) {
+            var s = "";
+            if (str.length == 0)
+                return "";
+            s = str.replace(/&/g, "&gt;");
+            s = s.replace(/</g, "&lt;");
+            s = s.replace(/>/g, "&gt;");
+            s = s.replace(/\"/g, "&quot;");
+            s = s.replace(/\n/g, "<br>");
+            return s;
+        }
+        function HtmlDecode(str) {
+            var s = "";
+            if (str.length == 0) return "";
+            s = str.replace(/&gt;/g, "&");
+            s = s.replace(/&lt;/g, "<");
+            s = s.replace(/&gt;/g, ">");
+            s = s.replace(/&nbsp;/g, " ");
+            s = s.replace(/"/g, "\"");
+            s = s.replace(/&quot;/g, "\"");
+            s = s.replace(/<br>/g, "\n");
+            return s;
+        }
+
+        //var s=  HtmlDecode("@System.Web.Helpers.Json.Encode(temp.ToArray())")
+        var s= HtmlDecode("@jsonData")
+        @*Alerter.info("@System.Web.Helpers.Json.Encode(temp.ToArray())")*@
+        Alerter.info(s.split("\r").length)
+
+        var clist = eval("(" +s +")");
+
+        alert(JSON.stringify(clist))
+        //Alerter.info(clist[0].ID)
+
+        var index=@Model.Paper_QuestionCategory.Count();
+
+
         var bigNum = "零一二三四五六七八九十";
         Alerter.turnOn();
         $(function () {
             //Alerter.info($("#myTab").find("li:eq(0)").children().attr("href"))
             $("#myTab").find("li:eq(0)").find("a").click();;
             $(".tab-pane").find("hr:last").remove();
+
+            //            var vm2=      new Vue(
+            //{
+            //    el: "html",
+            //    data: {
+            //        ShowAnswer:true,
+            //        ShowInfo:true,
+            //        ShowOption:true,
+            //    }
+
+            //})
+            var vm=  new Vue(
+     {
+         el: "html",
+         data: {
+             CategoryList:clist,
+             Index:index,
+             bigNum:"零一二三四五六七八九十",
+             ShowAnswer:true,
+             ShowInfo:true,
+             ShowOption:true,
+         },
+         methods: {
+             GetCategory: function (randomKey) {
+                 for(var i=0;i<CategoryList.lenght;i++){
+                     if(CategoryList[i].RandomKey==randomKey){
+                         alert("find");
+                         return CategoryList[i];
+                     }
+
+                 }
+             }
+         }
+     })
+
 
         })
         function generateMenu(e) {

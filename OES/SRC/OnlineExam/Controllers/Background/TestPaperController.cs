@@ -95,6 +95,12 @@ namespace OnlineExam.Controllers.Background
         {
             var q = ee.TestPaper.Where(m => m.ID == id).SingleOrDefault();
             if (q == null || q.ID != id) return HttpNotFound();
+            int k = 0;
+            foreach(var i in q.Paper_QuestionCategory.OrderBy(m=>m.Sequence))
+            {
+                i.RandomKey = ++k;
+
+            }           
             return View(q);
         }
 

@@ -7,7 +7,11 @@ using System.Runtime;
 using System.ComponentModel.DataAnnotations;
 namespace OnlineExam.Models
 {
+    public partial class Paper_QuestionCategory
+    {
 
+        public int RandomKey { get; set; }
+    }
     public partial class QuestionChoice
     {
 

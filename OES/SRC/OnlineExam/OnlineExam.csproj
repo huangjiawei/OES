@@ -1257,6 +1257,7 @@
     <Content Include="Scripts\JSON2\json_parse.js" />
     <Content Include="Scripts\JSON2\json_parse_state.js" />
     <Content Include="Scripts\MyJS.js" />
+    <Content Include="Scripts\vue.min.js" />
     <Content Include="T4MVC.tt.settings.xml" />
     <Content Include="Views\PaperImport\UploadFile.cshtml" />
   </ItemGroup>
