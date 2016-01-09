@@ -449,8 +449,6 @@
             '"text": "Parent 5"' +
           '}' +
         ']';
-
-
         $('#treeview1').treeview({
           data: defaultData
         });
@@ -532,8 +530,6 @@
           data: defaultData
         });
 
-
-
         var $searchableTree = $('#treeview-searchable').treeview({
           data: defaultData,
         });
@@ -562,8 +558,6 @@
           $('#input-search').val('');
           $('#search-output').html('');
         });
-
-
         var initSelectableTree = function() {
           return $('#treeview-selectable').treeview({
             data: defaultData,
@@ -606,8 +600,6 @@
         $('#btn-toggle-selected.select-node').on('click', function (e) {
           $selectableTree.treeview('toggleNodeSelected', [ selectableNodes, { silent: $('#chk-select-silent').is(':checked') }]);
         });
-
-
 
         var $expandibleTree = $('#treeview-expandible').treeview({
           data: defaultData,
@@ -653,8 +645,6 @@
           $expandibleTree.treeview('collapseAll', { silent: $('#chk-expand-silent').is(':checked') });
         });
 
-
-
         var $checkableTree = $('#treeview-checkable').treeview({
           data: defaultData,
           showIcon: false,
@@ -698,8 +688,6 @@
         $('#btn-uncheck-all').on('click', function (e) {
           $checkableTree.treeview('uncheckAll', { silent: $('#chk-check-silent').is(':checked') });
         });
-
-
 
         var $disabledTree = $('#treeview-disabled').treeview({
           data: defaultData,
@@ -751,8 +739,6 @@
         $('#btn-enable-all').on('click', function (e) {
           $disabledTree.treeview('enableAll', { silent: $('#chk-disable-silent').is(':checked') });
         });
-
-
 
         var $tree = $('#treeview12').treeview({
           data: json

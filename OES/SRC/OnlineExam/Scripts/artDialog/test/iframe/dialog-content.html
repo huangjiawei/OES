@@ -34,8 +34,6 @@ seajs.use(['jquery'], function ($) {
 		dialog.width(550);
 		dialog.height($(document).height());
 		dialog.reset();     // 重置对话框位置
-
-
 		$('#remove').on('click', function () {
 			dialog.close($('#input').val()); // 关闭（隐藏）对话框
 			dialog.remove();				 // 主动销毁对话框

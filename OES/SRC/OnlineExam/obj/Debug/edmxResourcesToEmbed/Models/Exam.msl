@@ -104,17 +104,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Paper_Essay">
-      <EntityTypeMapping TypeName="ExamModel.Paper_Essay">
-        <MappingFragment StoreEntitySet="Paper_Essay">
-          <ScalarProperty Name="PaperID" ColumnName="PaperID" />
-          <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
-          <ScalarProperty Name="Score" ColumnName="Score" />
-          <ScalarProperty Name="BigQuestionNumber" ColumnName="BigQuestionNumber" />
-          <ScalarProperty Name="SmallQuestionNumber" ColumnName="SmallQuestionNumber" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Paper_QuestionCategory">
       <EntityTypeMapping TypeName="ExamModel.Paper_QuestionCategory">
         <MappingFragment StoreEntitySet="Paper_QuestionCategory">
@@ -337,6 +326,17 @@
           <ScalarProperty Name="Info" ColumnName="Info" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Paper_Essay">
+      <EntityTypeMapping TypeName="ExamModel.Paper_Essay">
+        <MappingFragment StoreEntitySet="Paper_Essay">
+          <ScalarProperty Name="SmallQuestionNumber" ColumnName="SmallQuestionNumber" />
+          <ScalarProperty Name="BigQuestionNumber" ColumnName="BigQuestionNumber" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+          <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+          <ScalarProperty Name="PaperID" ColumnName="PaperID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

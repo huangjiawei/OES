@@ -6,7 +6,6 @@
 //     如果重新生成代码，将覆盖对此文件的手动更改。
 // </auto-generated>
 //------------------------------------------------------------------------------
-
 namespace OnlineExam.Models
 {
     using System;
@@ -30,8 +29,8 @@ namespace OnlineExam.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Paper_Choice> Paper_Choice { get; set; }
+        public virtual TestPaper TestPaper { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Paper_Essay> Paper_Essay { get; set; }
-        public virtual TestPaper TestPaper { get; set; }
     }
 }

@@ -101,8 +101,6 @@ if (typeof JSON.decycle !== 'function') {
         }(object, '$'));
     };
 }
-
-
 if (typeof JSON.retrocycle !== 'function') {
     JSON.retrocycle = function retrocycle($) {
         'use strict';

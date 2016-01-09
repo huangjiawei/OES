@@ -367,8 +367,6 @@
 .ui-popup-right-bottom .ui-dialog-arrow-b {
     bottom: 15px;
 }
-
-
 @-webkit-keyframes ui-dialog-loading {
     0% {
         -webkit-transform: rotate(0deg);

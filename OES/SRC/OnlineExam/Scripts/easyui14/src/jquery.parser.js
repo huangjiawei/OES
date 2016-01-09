@@ -11,7 +11,6 @@
  * parser - jQuery EasyUI
  * 
  */
-
 (function($){
 	$.parser = {
 		auto: true,
@@ -283,7 +282,6 @@
 	};
 	
 })(jQuery);
-
 /**
  * support for mobile devices
  */

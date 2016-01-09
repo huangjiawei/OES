@@ -393,7 +393,6 @@
 		onProgress: function(name){},
 		onLoad: function(name){}
 	};
-
 	var scripts = document.getElementsByTagName('script');
 	for(var i=0; i<scripts.length; i++){
 		var src = scripts[i].src;
@@ -403,7 +402,6 @@
 			easyloader.base = src.substring(0, m.index);
 		}
 	}
-
 	window.using = easyloader.load;
 	
 	if (window.jQuery){

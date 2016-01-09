@@ -259,7 +259,6 @@
 			}
 		}
 	});
-
 	$.extend($.fn.datagrid.methods, {
 	    expandGroup:function(jq, groupIndex){
 	        return jq.each(function(){

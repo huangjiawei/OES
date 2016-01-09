@@ -1,16 +1,13 @@
 ﻿@model OnlineExam.Models.QuestionChoice
 @{
     string qtype = Model.IsMultiple ? "多项选择题" : "单项选择题";
-
 }
 <div class="form-horizontal">
-
     <div class="row">
         <div>
             <h4>@qtype</h4>
             <h5>
                 编号：
-
                 @Html.EncodeQuestionID(Model.ID, Model.IsMultiple ?QuestionType.MultipleChoice:QuestionType.SingleChoice)
                 &nbsp;  &nbsp;  &nbsp;  &nbsp;所属科目：
                 @if (ViewBag.RelateSubject != null)
@@ -23,7 +20,6 @@
             </h5>
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-12">
             @Html.Raw(Model.Question)
@@ -127,14 +123,12 @@
             @Html.HiddenFor(m => m.Audit)
             @Html.TextAreaFor(m => m.Assessment, new { cols = "10", rows = "5" })
         }*@
-
 </div>
 <style type="text/css">
     label {
         font-weight: normal;
         font-size: small;
     }
-
     .cke_editor body, .cke_show_borders {
         background-color: #ffffff;
     }
@@ -161,7 +155,6 @@
     function SumitAudit(audit) {
         var s1 = $("#txtAssessment").val();
         if (s1 == null || s1 == undefined) s1 = $("#txtAssessment").text();
-
         $.ajax({
             url: '@Url.Content("~/Choice/Censor")',
             data: { ID: '@Model.ID', Assessment: s1, Audit: audit },
@@ -200,7 +193,6 @@
     function SetRateValue(id, value) {
         $("#" + id).val(value);
     }
-
     function IsEditorTextEmpty(content) {
         if (content == undefined) return true;
         content = content.toString().replace(" ", "");
@@ -215,15 +207,12 @@
         $(".ratebox[data-id='Difficulty']").attr("data-rating", $("#Difficulty").val());
         //alert($(".ratebox[data-id='Frequency']").attr("data-rating"));
     }
-
     $(function () {
         InitRateValue();
-
         //CKEDITOR.config.extraPlugins = 'uploadimage,confighelper';
         //CKEDITOR.config.uploadUrl = '/Api/QuestionBankResource/Upload?QuestionType='
         //CKEDITOR.config.fontSize_sizes = "small"
         //CKEDITOR.inline("Assessment");
-
         $('.ratebox').raterater({
             submitFunction: '',
             allowChange: false,
@@ -245,10 +234,7 @@
     <link rel="stylesheet" href="/Scripts/artDialog/css/ui-dialog.css">
     @*<script src="/Scripts/artDialog/dist/dialog-min.js"></script>*@
 <script src="/Scripts/artDialog/dist/dialog-plus-min.js"></script>
-
     @*<script src="//cdn.ckeditor.com/4.5.4/basic/ckeditor.js"></script>*@
     @*<script src="//cdn.ckeditor.com/4.5.4/standard/ckeditor.js"></script>*@
     @*<script src="//cdn.ckeditor.com/4.5.5/full/ckeditor.js"></script>*@
-
-
 }

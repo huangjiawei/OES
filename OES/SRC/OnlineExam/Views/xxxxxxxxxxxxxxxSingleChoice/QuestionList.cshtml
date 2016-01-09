@@ -1,6 +1,5 @@
 ﻿@{
     Layout = "";
-
 }
 @model IEnumerable<OnlineExam.Models.QuestionChoice>
 @using OnlineExam.App_Code;
@@ -30,7 +29,6 @@
         <th>
             @Html.DisplayNameFor(model => model.DateAdded)
         </th>
-
         <th>
             @Html.DisplayNameFor(model => model.Difficulty)
         </th>
@@ -69,7 +67,6 @@
             <td>
                 @Html.DisplayFor(modelItem => item.DateAdded)
             </td>
-
             <td>
                 @Html.DisplayFor(modelItem => item.Difficulty)
             </td>
@@ -80,7 +77,6 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
                 @Html.ActionLink("Details", "Details", new { id = item.ID }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.ID })

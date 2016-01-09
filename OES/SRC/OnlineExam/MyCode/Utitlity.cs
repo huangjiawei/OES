@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using OnlineExam.Models;
 using System.Web.Mvc;
-
 namespace OnlineExam
 {
     public class Utitlity
@@ -20,7 +19,6 @@ namespace OnlineExam
                 s = subjectList.Where(m => m.SubjectID == sid).SingleOrDefault();
             }
             return s;
-
         }
         public static string GetChoiceAnswer(QuestionChoice q)
         {
@@ -32,7 +30,6 @@ namespace OnlineExam
             if (q.EisTrue) r += "E";
             if (q.FisTrue) r += "F";
             return r;
-
         }
         //将字符串转换成QuestionType类型
         public static QuestionType ParseQuestionType(string s)
@@ -53,7 +50,6 @@ namespace OnlineExam
             code = pre + code;
             return code;
         }
-
         private static List<SelectListItem> ExamTypeSelectList;
         //获取考试类型类型列表，用于填充前端页面
         public static List<SelectListItem> GetExamTypeSelectList()
@@ -118,7 +114,6 @@ namespace OnlineExam
         {
             if (txt == null || txt.Trim() == "" || txt.Trim() == "<p></p>") return true;
             return false;
-
         }
         public static QuestionChoice ModelStandardize(QuestionChoice q)
         {
@@ -126,19 +121,15 @@ namespace OnlineExam
             if (IsEditorEmpty(q.Description)) q.Description = "";
             if (IsEditorEmpty(q.OptionA)) q.OptionA = null;
             if (IsEditorEmpty(q.OptionB)) q.OptionB = null;
-
             //List<OptionItem> list = new List<OptionItem>();
             //if (!IsEditorEmpty(q.OptionD)) list.Add(new OptionItem(q.OptionD, q.DisTrue));
             //if (!IsEditorEmpty(q.OptionE)) list.Add(new OptionItem(q.OptionE, q.DisTrue));
             //if (!IsEditorEmpty(q.OptionF)) list.Add(new OptionItem(q.OptionF, q.DisTrue));
-
             #region 用于重组可选选项
             if (IsEditorEmpty(q.OptionD))
             {
-
                 if (IsEditorEmpty(q.OptionE))
                 {
-
                     if (IsEditorEmpty(q.OptionF))
                     {
                         //三个可选答案皆为空，不需重组
@@ -150,7 +141,6 @@ namespace OnlineExam
                         q.OptionF = "";
                         q.FisTrue = false;
                     }
-
                 }
                 else
                 {
@@ -160,10 +150,8 @@ namespace OnlineExam
                     q.EisTrue = false;
                 }
             }
-
             if (IsEditorEmpty(q.OptionE))
             {
-
                 if (!IsEditorEmpty(q.OptionF))
                 {
                     q.OptionE = q.OptionF;
@@ -193,7 +181,6 @@ namespace OnlineExam
                 case "Discussion":
                     t = QuestionType.Discussion;
                     break;
-
                 case "Completion":
                     t = QuestionType.Completion;
                     break;
@@ -206,11 +193,8 @@ namespace OnlineExam
                 default:
                     t = QuestionType.ShortAnswer;
                     break;
-
-
             }
             return t;
-
         }
     }
     public class OptionItem
@@ -222,7 +206,6 @@ namespace OnlineExam
             Answer = answer;
             IsRight = isRight;
         }
-
     }
     public enum ExamType
     {
@@ -231,27 +214,19 @@ namespace OnlineExam
         模拟考试,
         练习题, 期中考试
     }
-
     public class CKey
     {
         public static readonly string DefaultSearchKeyWord = "查询关键字";
         public static readonly string TestEnd = "测试时间已到";
-
         public static readonly int DefaultPageCount = 10;
-
         public static readonly int DataListPageCount = 10;
         public static readonly int GridViewPageCount = 20;
-
         //grid表格中的题目字段的最大长度
         public static readonly int QuestionTitleSummaryLenght = 5;
         //grid表格中的题目的描述字段的最大长度
         public static readonly int QuestionDescriptionSummaryLenght = 4;
-
         //考试时缓存答案的间隔
         public static readonly int SaveAnswerInterval = 1000 * 60;
-
-
-
     }
     public class SessionString
     {
@@ -266,7 +241,6 @@ namespace OnlineExam
         public static readonly string Student = "Student";
         public static readonly string Auditor = "Auditor";
         public static readonly string Admin = "Admin";
-
     }
     class PermissionList
     {
@@ -276,21 +250,17 @@ namespace OnlineExam
         //教师、编辑者
         public static readonly string Edit_Question = "Edit_Question";
         public static readonly string Edit_Paper = "Edit_Paper";
-
         //审核者
         public static readonly string Audit_Question = "Audit_Question";
         public static readonly string Audit_Paper = "Audit_Paper";
         public static readonly string Read_Question = "Read_Question";
         public static readonly string Read_Paper = "Read_Paper";
-
-
     }
     public class SessionHelper
     {
         public static readonly string _StrImportPaper = "ImportPaper";
         public static readonly string _StrProfile = "Profile";
         public static readonly string _testPaper = "TestPaper";
-
         //public ImportPaper ImportPaper(string key)
         //{
         //    get { return (ImportPaper)HttpContext.Current.Session[_StrImportPaper]; }
@@ -301,15 +271,12 @@ namespace OnlineExam
         //        else throw new Exception("类型错误");
         //    }
         //}
-
         //用于保存测试试题
         public static PaperGenerate TestPaper
         {
             get
             {
                 return (PaperGenerate)HttpContext.Current.Session[_testPaper];
-
-
             }
             set
             {
@@ -359,22 +326,18 @@ namespace OnlineExam
         //        else throw new Exception("类型错误");
         //    }
         //}
-
     }
-
     public class Auditing
     {
         public static readonly int Pass = 1;//审核通过
         public static readonly int Fail = -1;//审核不通过i        
         public static readonly int Unreviewed = 0;//暂未审核
-
     }
     //判断是否处于激活可用状态
     public class Activity
     {
         public static readonly int Active = 1;
         public static readonly int Inactive = -1;
-
     }
     public enum EditType
     {
@@ -388,11 +351,9 @@ namespace OnlineExam
         public static readonly string ImportPaper = "/QuestionBankResource/ImportPaper/";
         public static readonly string UserPhoto = "/Resource/UserPhoto/";
         public static readonly string ImportPaperImage = ImportPaper + "Image/";
-
         public static string MapPath(string path)
         {
             return HttpContext.Current.Server.MapPath(path);
-
         }
     }
     public enum QuestionType
@@ -403,14 +364,11 @@ namespace OnlineExam
         Completion,
         ShortAnswer,
         Discussion
-
     }
     public static class QuestionTypeExtensions
     {
-
         public static string GetInfo(this QuestionType me)
         {
-
             switch (me)
             {
                 case QuestionType.UnKnown:
@@ -429,7 +387,6 @@ namespace OnlineExam
                     return "";
             }
         }
-
     }
     public enum DataView
     {

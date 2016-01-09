@@ -1,17 +1,13 @@
 ﻿@model OnlineExam.Models.QuestionEssay
 @{
-
     QuestionType qtype = Utitlity.ToQuestionType(Model.QuestionType);
-
 }
 <div class="form-horizontal">
-
     <div class="row">
         <div>
             <h4>@qtype.GetInfo()</h4>
             <h5>
                 编号：
-
                 @Html.EncodeQuestionID(Model.ID, qtype)
                 &nbsp;  &nbsp;  &nbsp;  &nbsp;所属科目：
                 @if (ViewBag.RelateSubject != null)
@@ -26,7 +22,6 @@
     </div>
     @*<div class="row">
             <div id="subjectlist" class="col-md-12">
-
             </div>
         </div>*@
     <div class="row">
@@ -40,7 +35,6 @@
         </div>
     </div>
     <hr />
-
     <div class="row">
         @Html.LabelFor(model => model.Difficulty, htmlAttributes: new { @class = "  col-sm-1" })
         <div id="rd" class="ratebox col-sm-6" data-id="Difficulty" data-rating="0"></div>
@@ -91,14 +85,12 @@
             @Html.HiddenFor(m => m.Audit)
             @Html.TextAreaFor(m => m.Assessment, new { cols = "10", rows = "5" })
         }*@
-
 </div>
 <style type="text/css">
     label {
         font-weight: normal;
         font-size: small;
     }
-
     .cke_editor body, .cke_show_borders {
         background-color: #ffffff;
     }
@@ -125,7 +117,6 @@
     function SumitAudit(audit) {
         var s1 = $("#txtAssessment").val();
         if (s1 == null || s1 == undefined) s1 = $("#txtAssessment").text();
-
         $.ajax({
             url: '@Url.Content("~/Essay/Censor")',
             data: { ID: '@Model.ID', Assessment: s1, Audit: audit },
@@ -164,7 +155,6 @@
     function SetRateValue(id, value) {
         $("#" + id).val(value);
     }
-
     function IsEditorTextEmpty(content) {
         if (content == undefined) return true;
         content = content.toString().replace(" ", "");
@@ -179,15 +169,12 @@
         $(".ratebox[data-id='Difficulty']").attr("data-rating", $("#Difficulty").val());
         //alert($(".ratebox[data-id='Frequency']").attr("data-rating"));
     }
-
     $(function () {
         InitRateValue();
-
         //CKEDITOR.config.extraPlugins = 'uploadimage,confighelper';
         //CKEDITOR.config.uploadUrl = '/Api/QuestionBankResource/Upload?QuestionType='
         //CKEDITOR.config.fontSize_sizes = "small"
         //CKEDITOR.inline("Assessment");
-
         $('.ratebox').raterater({
             submitFunction: '',
             allowChange: false,
@@ -201,7 +188,6 @@
 </script>
 @section Scripts
         {
-
     <link href="@Url.Content("~/Content/raterater.css")" rel="stylesheet" />
     <link href="@Url.Content("~/css/font-awesome.min.css")" rel="stylesheet" />
     <script src="@Url.Content("~/Scripts/raterater/raterater.jquery.js")"></script>
@@ -209,11 +195,7 @@
     <script src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")"></script>
     <link rel="stylesheet" href="/Scripts/artDialog/css/ui-dialog.css">
     <script src="/Scripts/artDialog/dist/dialog-plus-min.js"></script>
-
-
     @*<script src="//cdn.ckeditor.com/4.5.4/basic/ckeditor.js"></script>*@
     @*<script src="//cdn.ckeditor.com/4.5.4/standard/ckeditor.js"></script>*@
     @*<script src="//cdn.ckeditor.com/4.5.5/full/ckeditor.js"></script>*@
-
-
 }

@@ -4,12 +4,10 @@ using System.Linq;
 using System.Web;
 //using System.Web.WebPages.Html;
 using System.Web.Mvc;
-
 namespace OnlineExam
 {
     public static class HtmlHelpers
     {
-
         public static string Truncate(this HtmlHelper helper, string s, int maxLength)
         {
             if (s == null) return "";
@@ -40,7 +38,6 @@ namespace OnlineExam
         //    TagBuilder tb5 = new TagBuilder("option");
         //    tb5.Attributes.Add("value", helper.Encode(ExamType.期中考试));
         //    tb5.InnerHtml = ExamType.期中考试.ToString();
-
             
         //    top.InnerHtml = tb1.ToString(TagRenderMode.SelfClosing) + tb1.ToString(TagRenderMode.SelfClosing);
         //    return MvcHtmlString.Create(tb.ToString(TagRenderMode.SelfClosing));
@@ -51,7 +48,6 @@ namespace OnlineExam
         {
             TagBuilder tb = new TagBuilder("img");
             tb.Attributes.Add("src", helper.Encode(check ? imgCheck : imgUnCheck));
-
             var dict = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttribute);
             foreach (var attr in dict)
             {
@@ -72,11 +68,9 @@ namespace OnlineExam
         //    HtmlHelper.AnonymousObjectToHtmlAttributes()
         //    foreach (var attr in htmlAttribute)
         //    {
-
         //    }
         //    return tb.ToString(TagRenderMode.SelfClosing);
         //}
-
         public static MvcHtmlString Image(this HtmlHelper helper, string src, object htmlAttribute)
         {
             TagBuilder tb = new TagBuilder("img");
@@ -90,7 +84,6 @@ namespace OnlineExam
             }
             return MvcHtmlString.Create(tb.ToString(TagRenderMode.SelfClosing));
         }
-
         /// <summary>
         /// 用与生成评分
         /// </summary>
@@ -105,8 +98,6 @@ namespace OnlineExam
             tb.Attributes.Add("class", "ratebox");
             return MvcHtmlString.Create(tb.ToString(TagRenderMode.SelfClosing));
         }
-
-
         /// <summary>
         /// 对问题编号进行编码
         /// </summary>

@@ -76,13 +76,11 @@
             object = $this;
 	       	 
         	var id = dataId( $this );
-	
 	         /* Uh oh... We really need a data-id or bad things happen
 	          */
 	         if( !id ) {
 	             throw "Error: Each raterater element needs a unique data-id attribute.";
 	         }
-	
 	         /* This is where we store our important data for each rating box
 	          */
 	         data[id] = {

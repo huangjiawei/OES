@@ -6,25 +6,20 @@
     <title>@ViewBag.Title</title>
     <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet">
     <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet">
-
   
     <script src="@Url.Content("~/Scripts/jquery-2.1.4.min.js")"></script>
     <script src="@Url.Content("~/Scripts/js/bootstrap.min.js")"></script>
-
     <script src="/Scripts/Debugger/Alerter.js"></script>
     @RenderSection("scripts", required: false)
     @RenderSection("sub", required: false)
     @this.WriteScriptBlocks()
-
     <script>
-
         $(function ($) {
             $(document).on("click", "ul.nav li.parent > a > span.icon", function () {
                 $(this).find('em:first').toggleClass("glyphicon-minus");
             });
             $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
         });
-
         $(window).on('resize', function () {
             if ($(window).width() > 768) $('#sidebar-collapse').fadeIn(1000);
             //if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
@@ -35,7 +30,6 @@
         })
     </script>
 </head>
-
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container-fluid">
@@ -57,7 +51,6 @@
                         <li class="dropdown pull-right">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="glyphicon glyphicon-user">@System.Web.HttpContext.Current.User.Identity.Name</span>
-
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
@@ -66,7 +59,6 @@
                                 <li><a href="javascript:document.getElementById('logoutForm').submit()"><span class="glyphicon glyphicon-log-out"></span> 注销</a></li>
                             </ul>
                         </li>
-
                     }
                     else
                     {
@@ -78,15 +70,12 @@
                             </li>*@
                         <li class="dropdown pull-right">
                             <a href="@Url.Content("~/Account/Login")"><span class="glyphicon glyphicon-user"></span> 登录</a>
-
                         </li>
-
                     }
                 </ul>
             </div>
         </div><!-- /.container-fluid -->
     </nav>
-
     <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
     
         <ul class="nav menu">
@@ -130,19 +119,16 @@
                     </li>
                     <li>
                         <a class="" href="@Url.Action("Index", "OnlineTest")">
-
                             <span class="glyphicon glyphicon-share-alt"></span>练习/测试
                         </a>
                     </li>
                     <li>
                         <a class="" href="@Url.Action("Index", "TestPaper")">
-
                             <span class="glyphicon glyphicon-share-alt"></span>组卷夹管理
                         </a>
                     </li>
                     <li>
                         <a class="" href="@Url.Action("Index", "TestPaper")">
-
                             <span class=" glyphicon glyphicon-share-alt">
                             </span>试卷管理
                         </a>
@@ -170,15 +156,10 @@
             <li role="presentation" class="divider"></li>
         </ul>
     </div><!--/.sidebar-->
-
     <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
         <div class="container-fluid">
             @RenderBody()
         </div>
     </div>	<!--/.main-->
-
-
-
 </body>
-
 </html>

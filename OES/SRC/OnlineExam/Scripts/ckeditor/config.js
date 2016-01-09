@@ -21,6 +21,5 @@ CKEDITOR.editorConfig = function (config) {
         { name: 'others', groups: ['others'] },
         { name: 'about', groups: ['about'] }
     ];
-
     config.removeButtons = 'Save,NewPage,Preview,Print,Templates,Source,Find,SelectAll,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CreateDiv,Language,Smiley,Iframe,About';
 };

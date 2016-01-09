@@ -16,24 +16,19 @@
     @*<button class="btn btn-default col-xs-2 width80   glyphicon glyphicon-remove" onclick="deleteItem();">删除</button>*@
 </div>
 <div id="contentGrid" class="row">
-
     @if (ViewData["ViewType"] == null || (DataView)ViewData["ViewType"] == DataView.GridView)
     {
         @Html.Grid(Model.PagedList).Columns(column =>
    {
-
        column.For(x => Html.ActionLink(x.UserName, "UserProfile", "Account", new { userId = x.UserName }, new { target = "_blank" })).SortColumnName("UserName").Named("用户ID");
        column.For(x => x.Email).SortColumnName("Email").Named("邮箱");
        column.For(x => x.Profile == null ? "" : x.Profile.RealName).Sortable(false).Named("真实姓名");
        column.For(x => x.Profile == null ? "" : x.Profile.NickName).Sortable(false).Named("昵称");
        column.For(x => x.GetRoleString()).Sortable(false).Named("角色");
-
-
        //column.For(x => x.UserName).SortColumnName("UserName").Named("用户ID");
        //column.For(x => x.UserName).SortColumnName("UserName").Named("用户ID");
        //column.For(x => x.UserName).SortColumnName("UserName").Named("用户ID");
        //column.For(x => x.UserName).SortColumnName("UserName").Named("用户ID");
-
    }).Sort(Model.GridSortOptions).Attributes(new Func<object, object>
             [] { @class => " table   table-hover " }).RowAttributes(data => new MvcContrib.Hash(new Func<object, object>
                 [] { onclick => "onGridRowClick(this)", alt => data.Item.UserName }));
@@ -55,11 +50,9 @@
                     邮箱：
                     @m.Email
                 </div>
-
                 <hr />
             }
         </div>
-
     }
 </div>
 <div class="row"><div id="page-selection"></div></div>
@@ -71,7 +64,6 @@
     <script src="@Url.Content("~/Scripts/QueryString.js")"></script>
     <script src="/Scripts/artDialog/dist/dialog-plus-min.js"></script>
     <link rel="stylesheet" href="/Scripts/artDialog/css/ui-dialog.css">
-
 }
 <script>
     Alerter.turnOff();
@@ -106,21 +98,18 @@
             });
             subjectDlg.content("<iframe id='isubject' src='"+url+"' style='width:100%;height:100%;border-style:none'  ></iframe>" )
             subjectDlg.reset().show();
-
         }
         else
             $("#isubject").attr("src",url)
     }
     function editRole(){
         var name=$(".SelectedItem").attr("alt");
-
         if(name==undefined||name==null){alert("未选中用户");return;}
         OpenRoleDialog(name);
         Alerter.info("edRole")
     }
     function editSubject(){
         var name=$(".SelectedItem").attr("alt");
-
         if(name==undefined||name==null){alert("未选中用户");return;}
         OpenSubjectDialog(name);
     }
@@ -148,8 +137,6 @@
                 }
             });
     }
-
-
     function ReSetRowStyle(){
         $("#contentGrid tr").removeClass("info");
         $("#contentGrid tr").removeClass("SelectedItem");
@@ -161,17 +148,14 @@
     //    $(e).find("img[alt='未审核']").parent().parent().addClass("warning")
     //    $(e).find("img[alt='审核不通过']").parent().parent().addClass("warning")
     //}
-
     function onGridRowClick(e){
         ReSetRowStyle();
-
         $(e).addClass("info");
         $(e).addClass("SelectedItem");
         Alerter.list(dlg,subjectDlg)
         if(dlg!=null&&dlg!= undefined)editRole();
         if(subjectDlg!=null&&subjectDlg!= undefined)editSubject();
     }
-
     $(function () {
         $('#page-selection'  ).bootpag({
             total:
@@ -182,7 +166,6 @@
             window.location.href= setUrlEncodedKey("page",num,window.location.search);
         });
         $("#SelectRole").val(@ViewData["SelectRole"])
-
     })
 </script>
 <style>
@@ -190,7 +173,6 @@
         max-height: 100px;
         overflow: hidden;
     }
-
     td {
         /*max-width: 200px;*/
         overflow-y: hidden;

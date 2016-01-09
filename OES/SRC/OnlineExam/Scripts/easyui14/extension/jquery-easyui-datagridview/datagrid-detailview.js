@@ -254,7 +254,6 @@ var detailview = $.extend({}, $.fn.datagrid.defaults.view, {
 				td.prependTo(t.find('tr:first'));
 			}
 		}
-
 		if (!state.bindDetailEvents){
 			state.bindDetailEvents = true;
 			var that = this;
@@ -314,7 +313,6 @@ var detailview = $.extend({}, $.fn.datagrid.defaults.view, {
 		$(target).datagrid('resize');
 	}
 });
-
 $.extend($.fn.datagrid.methods, {
 	fixDetailRowHeight: function(jq, index){
 		return jq.each(function(){

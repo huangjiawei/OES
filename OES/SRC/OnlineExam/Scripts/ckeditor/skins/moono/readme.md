@@ -1,25 +1,19 @@
 "Moono" Skin
 ====================
-
 This skin has been chosen for the **default skin** of CKEditor 4.x, elected from the CKEditor
 [skin contest](http://ckeditor.com/blog/new_ckeditor_4_skin) and further shaped by
 the CKEditor team. "Moono" is maintained by the core developers.
-
 For more information about skins, please check the [CKEditor Skin SDK](http://docs.cksource.com/CKEditor_4.x/Skin_SDK)
 documentation.
-
 Features
 -------------------
 "Moono" is a monochromatic skin, which offers a modern look coupled with gradients and transparency.
 It comes with the following features:
-
 - Chameleon feature with brightness,
 - high-contrast compatibility,
 - graphics source provided in SVG.
-
 Directory Structure
 -------------------
-
 CSS parts:
 - **editor.css**: the main CSS file. It's simply loading several other files, for easier maintenance,
 - **mainui.css**: the file contains styles of entire editor outline structures,
@@ -34,16 +28,12 @@ it's not loaded until the first menu open up,
 - **reset.css**: the file defines the basis of style resets among all editor UI spaces,
 - **preset.css**: the file defines the default styles of some UI elements reflecting the skin preference,
 - **editor_XYZ.css** and **dialog_XYZ.css**: browser specific CSS hacks.
-
 Other parts:
 - **skin.js**: the only JavaScript part of the skin that registers the skin, its browser specific files and its icons and defines the Chameleon feature,
 - **icons/**: contains all skin defined icons,
 - **images/**: contains a fill general used images,
 - **dev/**: contains SVG source of the skin icons.
-
 License
 -------
-
 Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
-
 For licensing, see LICENSE.md or [http://ckeditor.com/license](http://ckeditor.com/license)

@@ -13,10 +13,8 @@ namespace OnlineExam.Controllers
         // GET: OnlineTest
         public ActionResult Index()
         {
-
             return View();
         }
-
         // GET: OnlineTest/Details/5
         public ActionResult Details(int id)
         {
@@ -54,7 +52,6 @@ namespace OnlineExam.Controllers
             for (int i = 1; i < count; i++)
             {
                 SessionHelper.TestAnswerList[i - 1] = Request.Params["answer" + i.ToString()];
-
             }
         }
         [HttpPost]
@@ -68,7 +65,6 @@ namespace OnlineExam.Controllers
             }
            var answerlist=   pg.GenerateAnswerList(SessionHelper.TestAnswerList);
             pg.Score_Choice(answerlist);
-
         }
         // GET: OnlineTest/Create
         public ActionResult Test(int
@@ -81,7 +77,6 @@ namespace OnlineExam.Controllers
                 pg.DefaultSetting();
                 //pg.Paper.TimeDuration = 120;
                 pg.Paper.SubjectID = subjectid;
-
                 pg.AutoGenerate();
 #if !DEBUG
                 if (Session[SessionString.TestEndTime] == null)
@@ -103,12 +98,9 @@ namespace OnlineExam.Controllers
             }
             else
             {
-
             }
-
             return View();
         }
-
         // POST: OnlineTest/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
@@ -116,7 +108,6 @@ namespace OnlineExam.Controllers
             try
             {
                 // TODO: Add insert logic here
-
                 return RedirectToAction("Index");
             }
             catch
@@ -124,13 +115,11 @@ namespace OnlineExam.Controllers
                 return View();
             }
         }
-
         // GET: OnlineTest/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
-
         // POST: OnlineTest/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
@@ -138,7 +127,6 @@ namespace OnlineExam.Controllers
             try
             {
                 // TODO: Add update logic here
-
                 return RedirectToAction("Index");
             }
             catch
@@ -146,13 +134,11 @@ namespace OnlineExam.Controllers
                 return View();
             }
         }
-
         // GET: OnlineTest/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
-
         // POST: OnlineTest/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
@@ -160,7 +146,6 @@ namespace OnlineExam.Controllers
             try
             {
                 // TODO: Add delete logic here
-
                 return RedirectToAction("Index");
             }
             catch

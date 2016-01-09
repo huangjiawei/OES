@@ -5,7 +5,6 @@
     int j = 1;
     string bigNum = "零一二三四五六七八九十";
 }
-
 <div class="container">
     <div class="timer">
         @{Html.RenderPartial("_TestTimer"); }
@@ -36,7 +35,6 @@
                     </h4>
                     foreach (var q in questions)
                     {
-
                         <div class="row question">
                             <div class="flowleft">@i、</div>
                             <div class="flowleft">
@@ -54,17 +52,14 @@
                                     <div data="D" class="row"><div class="flowleft">D：</div><div class="flowleft">@Html.Raw(q.OptionD)</div></div>
                                     if (!string.IsNullOrWhiteSpace(q.OptionE))
                                     {
-
                                         <div data="E" class="row"><div class="flowleft">E：</div><div class="flowleft">@Html.Raw(q.OptionE)</div></div>
                                         if (!string.IsNullOrWhiteSpace(q.OptionD))
                                         {
-
                                             <div data="F" class="row"><div class="flowleft">F：</div><div class="flowleft">@Html.Raw(q.OptionF)</div></div>
                                         }
                                     }
                                 }
                             }
-
                         </div>
                         <div id="answer" class="row">我的回答：<input type="text" readonly="readonly" option="@type" id="@i" name='@("answer" + i.ToString() )' value="" /></div>
                         <br />
@@ -76,10 +71,8 @@
             else
             {
                 var qlist = cate.Paper_Essay.AsEnumerable();
-
                 if (cate.Quantity > 0 && qlist.Count() > 0)
                 {
-
                     //var type = QuestionType.MultipleChoice.ToString() == cate.QuestionType ? "multiple" : "single";
                     var questions = from s in Model.Essay
                                     from y in qlist
@@ -96,7 +89,6 @@
                     </h4>
                     foreach (var q in questions)
                     {
-
                         <div class="row question">
                             <div class="flowleft">@i、</div>
                             <div class="flowleft">
@@ -118,7 +110,6 @@
         <input class="btn btn-success" value="交卷" type="submit" />
         <input class="btn btn-primary" value="临时保存" onclick="savePaper();" type="button" />
     }
-
 </div>
 @section Scripts
 {
@@ -135,21 +126,17 @@
         input {
             color: darkblue;
         }
-
         .exam-name {
             font-weight: bolder;
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             margin: 10px 10px 10px 10px;
         }
-
         .exam-name {
             margin-top: 20px;
         }
-
         textarea {
             color: darkblue;
         }
-
         .timer {
             float: right;
             margin: 3px 3px;
@@ -172,7 +159,6 @@
                         }
                     }
                 }
-
             })
             $("textarea").each(function () {
                 if ($(this).val() == null || $(this).val() == undefined || $(this).val() == "" || $(this).val().trim() == "") {
@@ -180,7 +166,6 @@
                     emptyList += $(this).attr("id") + "、";
                 }
             })
-
         }
         function AjaxSubmit(){
             $("#testContent").ajaxSubmit({url: '@Url.Action("SaveAnswer")', type: 'post'});
@@ -194,11 +179,8 @@
             $(".single").children().click(optionSelectSingle);
             $(".multiple").children().click(optionSelectMultiple);
             $("textarea").blur(function () { if ($(this).val().length > 0) { $(this).removeClass("bg-danger"); } })
-
             var interval =@CKey.SaveAnswerInterval ;//每10分钟临时保存一次
             setInterval(savePaper, interval)
-
-
         })
         function savePaper() {
             $("textarea").each(function(){console.log($(this).val())})
@@ -212,7 +194,6 @@
         }
         function optionSelectSingle() {
             //Alerter.info("select1");
-
             $(this).parent().children().removeClass("bg-info")
             $(this).parent().children().removeClass("bg-success")
             $(this).addClass("bg-success")
@@ -225,7 +206,6 @@
             else
                 $(this).addClass("bg-success")
             var answer = "";
-
             $(this).parent().find(".bg-success").each(function () { answer += $(this).attr("data") + " " })
             $(this).parent().next().find("input").val(answer)
             if (answer.length > 3) {

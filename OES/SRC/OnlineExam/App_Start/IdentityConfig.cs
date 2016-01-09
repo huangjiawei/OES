@@ -11,7 +11,6 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using OnlineExam.Models;
-
 namespace OnlineExam
 {
     public class EmailService : IIdentityMessageService
@@ -22,7 +21,6 @@ namespace OnlineExam
             return Task.FromResult(0);
         }
     }
-
     public class SmsService : IIdentityMessageService
     {
         public Task SendAsync(IdentityMessage message)
@@ -31,7 +29,6 @@ namespace OnlineExam
             return Task.FromResult(0);
         }
     }
-
     // 配置此应用程序中使用的应用程序用户管理器。UserManager 在 ASP.NET Identity 中定义，并由此应用程序使用。
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
@@ -39,7 +36,6 @@ namespace OnlineExam
             : base(store)
         {
         }
-
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
@@ -48,9 +44,7 @@ namespace OnlineExam
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
-
             };
-
             // 配置密码的验证逻辑
             manager.PasswordValidator = new PasswordValidator
             {
@@ -60,12 +54,10 @@ namespace OnlineExam
                 RequireLowercase = false,
                 RequireUppercase = false,
             };
-
             // 配置用户锁定默认值
             manager.UserLockoutEnabledByDefault = true;
             manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
             manager.MaxFailedAccessAttemptsBeforeLockout = 5;
-
             // 注册双重身份验证提供程序。此应用程序使用手机和电子邮件作为接收用于验证用户的代码的一个步骤
             // 你可以编写自己的提供程序并将其插入到此处。
             manager.RegisterTwoFactorProvider("电话代码", new PhoneNumberTokenProvider<ApplicationUser>
@@ -88,7 +80,6 @@ namespace OnlineExam
             return manager;
         }
     }
-
     // 配置要在此应用程序中使用的应用程序登录管理器。
     public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
     {
@@ -96,12 +87,10 @@ namespace OnlineExam
             : base(userManager, authenticationManager)
         {
         }
-
         public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
         {
             return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
         }
-
         public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);

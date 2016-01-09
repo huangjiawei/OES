@@ -218,7 +218,6 @@
 		param = param || {};
 		
 		if (opts.onBeforeLoad.call(target, param) == false) return;
-
 		opts.loader.call(target, param, function(data){
 			loadData(target, data, remainText);
 		}, function(){

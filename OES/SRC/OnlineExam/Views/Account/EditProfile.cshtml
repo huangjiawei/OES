@@ -1,9 +1,6 @@
 ﻿@model OnlineExam.Models.UserProfile
-
-
 @{
     ViewBag.Title = "编辑个人资料";
-
 }
 @using (Html.BeginForm("EditProfile", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -13,7 +10,6 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.UserId)
-
         <div class="form-group">
             @Html.LabelFor(model => model.NickName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-4">
@@ -21,7 +17,6 @@
                 @Html.ValidationMessageFor(model => model.NickName, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.RealName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-4">
@@ -29,7 +24,6 @@
                 @Html.ValidationMessageFor(model => model.RealName, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-4">
@@ -37,7 +31,6 @@
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.School, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-4">
@@ -45,7 +38,6 @@
                 @Html.ValidationMessageFor(model => model.School, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-4">
@@ -53,7 +45,6 @@
                 @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Company, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-4">
@@ -68,7 +59,6 @@
                 @Html.ValidationMessageFor(model => model.TelPhone, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.QQ, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-4">
@@ -93,16 +83,13 @@
         </div>
     </div>
 }
-
 <div>
-
 </div>
 <script type="text/javascript">
     $(function () {
         $.datetimepicker.setLocale('zh');
         $("#Birthday").datetimepicker(
                    {
-
                        lang: "zh",
                        timepicker: false,
                        format: 'Y-m-d'
@@ -110,10 +97,7 @@
                    }
                    )
     })
-
-
     Alerter.turnOn()
-
     function validatePhoto() {
         Alerter.info($("#Photo").val())
         //Alerter.info($("#Photo").text())
@@ -133,12 +117,8 @@
             return false;
         }
     }
-
-
 </script>
-
 @section Scripts{
     <script src="/Scripts/DatetimePicker/build/jquery.datetimepicker.full.min.js"></script>
     <link href="/Scripts/DatetimePicker/jquery.datetimepicker.css" rel="stylesheet" />
-
 }

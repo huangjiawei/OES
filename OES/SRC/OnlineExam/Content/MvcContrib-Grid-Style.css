@@ -2,7 +2,6 @@
 {
     margin:0.5em;
 }
-
 tr.gridrow
 {
     font-family:Verdana,Arial,Helvetica,sans-serif,"MS sans serif";
@@ -11,7 +10,6 @@ tr.gridrow
     margin:0.5em;
     background-color: #e8eef4;
 }
-
 .gridrow td
 {
     padding:1em;
@@ -20,13 +18,11 @@ tr.gridrow
     max-width: 300px; /*or whatever*/
     word-wrap: break-word;
 }
-
 .gridrow_alternate td
 {
     padding:1em;
     text-align:center;
 }
-
 tr.gridrow_alternate
 {
     font-family:Verdana,Arial,Helvetica,sans-serif,"MS sans serif";

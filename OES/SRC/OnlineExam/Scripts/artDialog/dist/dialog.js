@@ -23,13 +23,9 @@ function define (path, fn) {
     __modules__[path] = fn;
 }
 
-
-
 define("jquery", function () {
 	return jQuery;
 });
-
-
 /*!
  * PopupJS
  * Date: 2014-11-09
@@ -47,13 +43,9 @@ var $ = require("jquery");
 var _count = 0;
 var _isIE6 = !('minWidth' in $('html')[0].style);
 var _isFixed = !_isIE6;
-
-
 function Popup () {
 
     this.destroyed = false;
-
-
     this.__popup = $('<div />')
     /*使用 <dialog /> 元素可能导致 z-index 永远置顶的问题(chrome)*/
     .css({
@@ -74,15 +66,11 @@ function Popup () {
     .attr('tabindex', '-1')
     .html(this.innerHTML)
     .appendTo('body');
-
-
     this.__backdrop = this.__mask = $('<div />')
     .css({
         opacity: .7,
         background: '#000'
     });
-
-
     // 使用 HTMLElement 作为外部接口使用，而不是 jquery 对象
     // 统一的接口利于未来 Popup 移植到其他 DOM 库中
     this.node = this.__popup[0];
@@ -90,8 +78,6 @@ function Popup () {
 
     _count ++;
 }
-
-
 $.extend(Popup.prototype, {
     
     /**
@@ -184,8 +170,6 @@ $.extend(Popup.prototype, {
 
         this.open = true;
         this.follow = anchor || this.follow;
-
-
         // 初始化 show 方法
         if (!this.__ready) {
 
@@ -210,11 +194,7 @@ $.extend(Popup.prototype, {
                     userSelect: 'none',
                     zIndex: this.zIndex || Popup.zIndex
                 };
-
-
                 popup.addClass(this.className + '-modal');
-
-
                 if (!_isFixed) {
                     $.extend(backdropCss, {
                         position: 'absolute',
@@ -222,8 +202,6 @@ $.extend(Popup.prototype, {
                         height: $(document).height() + 'px'
                     });
                 }
-
-
                 backdrop
                 .css(backdropCss)
                 .attr({tabindex: '0'})
@@ -241,28 +219,20 @@ $.extend(Popup.prototype, {
 
                 this.__ready = true;
             }
-
-
             if (!popup.html()) {
                 popup.html(this.innerHTML);
             }
         }
-
-
         popup
         .addClass(this.className + '-show')
         .show();
 
         backdrop.show();
-
-
         this.reset().focus();
         this.__dispatchEvent('show');
 
         return this;
     },
-
-
     /** 显示模态浮层。参数参见 show() */
     showModal: function () {
         this.modal = true;
@@ -288,8 +258,6 @@ $.extend(Popup.prototype, {
     
         return this;
     },
-
-
     /** 销毁浮层 */
     remove: function () {
 
@@ -302,19 +270,13 @@ $.extend(Popup.prototype, {
         if (Popup.current === this) {
             Popup.current = null;
         }
-
-
         // 从 DOM 中移除节点
         this.__popup.remove();
         this.__backdrop.remove();
         this.__mask.remove();
-
-
         if (!_isIE6) {
             $(window).off('resize', this.reset);
         }
-
-
         this.__dispatchEvent('remove');
 
         for (var i in this) {
@@ -323,8 +285,6 @@ $.extend(Popup.prototype, {
 
         return this;
     },
-
-
     /** 重置位置 */
     reset: function () {
 
@@ -340,8 +300,6 @@ $.extend(Popup.prototype, {
 
         return this;
     },
-
-
     /** 让浮层获取焦点 */
     focus: function () {
 
@@ -378,15 +336,11 @@ $.extend(Popup.prototype, {
 
         return this;
     },
-
-
     /** 让浮层失去焦点。将焦点退还给之前的元素，照顾视力障碍用户 */
     blur: function () {
 
         var activeElement = this.__activeElement;
         var isBlur = arguments[0];
-
-
         if (isBlur !== false) {
             this.__focus(activeElement);
         }
@@ -397,8 +351,6 @@ $.extend(Popup.prototype, {
 
         return this;
     },
-
-
     /**
      * 添加事件
      * @param   {String}    事件类型
@@ -408,8 +360,6 @@ $.extend(Popup.prototype, {
         this.__getEventListener(type).push(callback);
         return this;
     },
-
-
     /**
      * 删除事件
      * @param   {String}    事件类型
@@ -424,8 +374,6 @@ $.extend(Popup.prototype, {
         }
         return this;
     },
-
-
     // 获取事件缓存
     __getEventListener: function (type) {
         var listener = this.__listener;
@@ -437,8 +385,6 @@ $.extend(Popup.prototype, {
         }
         return listener[type];
     },
-
-
     // 派发事件
     __dispatchEvent: function (type) {
         var listeners = this.__getEventListener(type);
@@ -451,8 +397,6 @@ $.extend(Popup.prototype, {
             listeners[i].call(this);
         }
     },
-
-
     // 对元素安全聚焦
     __focus: function (elem) {
         // 防止 iframe 跨域无权限报错
@@ -464,8 +408,6 @@ $.extend(Popup.prototype, {
             }
         } catch (e) {}
     },
-
-
     // 获取当前焦点的元素
     __getActive: function () {
         try {// try: ie8~9, iframe #26
@@ -475,8 +417,6 @@ $.extend(Popup.prototype, {
             return elem;
         } catch (e) {}
     },
-
-
     // 居中浮层
     __center: function () {
     
@@ -510,8 +450,6 @@ $.extend(Popup.prototype, {
         if (this.__followSkin) {
             popup.removeClass(this.__followSkin);
         }
-
-
         // 隐藏元素不可用
         if ($elem) {
             var o = $elem.offset();
@@ -529,8 +467,6 @@ $.extend(Popup.prototype, {
         var winHeight = $window.height();
         var docLeft =  $document.scrollLeft();
         var docTop = $document.scrollTop();
-
-
         var popupWidth = popup.width();
         var popupHeight = popup.height();
         var width = $elem ? $elem.outerWidth() : 0;
@@ -540,21 +476,15 @@ $.extend(Popup.prototype, {
         var y = offset.top;
         var left =  fixed ? x - docLeft : x;
         var top = fixed ? y - docTop : y;
-
-
         var minLeft = fixed ? 0 : docLeft;
         var minTop = fixed ? 0 : docTop;
         var maxLeft = minLeft + winWidth - popupWidth;
         var maxTop = minTop + winHeight - popupHeight;
-
-
         var css = {};
         var align = this.align.split(' ');
         var className = this.className + '-';
         var reverse = {top: 'bottom', bottom: 'top', left: 'right', right: 'left'};
         var name = {top: 'top', bottom: 'top', left: 'left', right: 'left'};
-
-
         var temp = [{
             top: top - popupHeight,
             bottom: top + height,
@@ -566,8 +496,6 @@ $.extend(Popup.prototype, {
             left: left,
             right: left - popupWidth + width
         }];
-
-
         var center = {
             left: left + width / 2 - popupWidth / 2,
             top: top + height / 2 - popupHeight / 2
@@ -578,8 +506,6 @@ $.extend(Popup.prototype, {
             left: [minLeft, maxLeft],
             top: [minTop, maxTop]
         };
-
-
         // 超出可视区域重新适应位置
         $.each(align, function (i, val) {
 
@@ -594,21 +520,15 @@ $.extend(Popup.prototype, {
             }
 
         });
-
-
         // 一个参数的情况
         if (!align[1]) {
             name[align[1]] = name[align[0]] === 'left' ? 'top' : 'left';
             temp[1][align[1]] = center[name[align[1]]];
         }
-
-
         //添加follow的css, 为了给css使用
         className += align.join('-') + ' '+ this.className+ '-follow';
         
         that.__followSkin = className;
-
-
         if ($elem) {
             popup.addClass(className);
         }
@@ -619,8 +539,6 @@ $.extend(Popup.prototype, {
         popup.css(css);
 
     },
-
-
     // 获取元素相对于页面的位置（包括iframe内的元素）
     // 暂时不支持两层以上的 iframe 套嵌
     __offset: function (anchor) {
@@ -630,8 +548,6 @@ $.extend(Popup.prototype, {
             left: anchor.pageX,
             top: anchor.pageY
         };
-
-
         anchor = isNode ? anchor : anchor.target;
         var ownerDocument = anchor.ownerDocument;
         var defaultView = ownerDocument.defaultView || ownerDocument.parentWindow;
@@ -656,16 +572,10 @@ $.extend(Popup.prototype, {
     }
     
 });
-
-
 /** 当前叠加高度 */
 Popup.zIndex = 1024;
-
-
 /** 顶层浮层的实例 */
 Popup.current = null;
-
-
 return Popup;
 
 });
@@ -779,8 +689,6 @@ var $ = require("jquery");
 var Popup = require("popup");
 var defaults = require("dialog-config");
 var css = defaults.cssUri;
-
-
 // css loader: RequireJS & SeaJS
 if (css) {
     var fn = require[require.toUrl ? 'toUrl' : 'resolve'];
@@ -794,16 +702,12 @@ if (css) {
         } 
     }
 }
-
-
 var _count = 0;
 var _expando = new Date() - 0; // Date.now()
 var _isIE6 = !('minWidth' in $('html')[0].style);
 var _isMobile = 'createTouch' in document && !('onmousemove' in document)
     || /(iPhone|iPad|iPod)/i.test(navigator.userAgent);
 var _isFixed = !_isIE6 && !_isMobile;
-
-
 var artDialog = function (options, ok, cancel) {
 
     var originalOptions = options = options || {};
@@ -832,8 +736,6 @@ var artDialog = function (options, ok, cancel) {
     if (!_isFixed) {
         options.fixed = false;
     }
-
-
     // 快捷关闭支持：点击对话框外快速关闭对话框
     if (options.quickClose) {
         options.modal = true;
@@ -845,8 +747,6 @@ var artDialog = function (options, ok, cancel) {
     if (!$.isArray(options.button)) {
         options.button = [];
     }
-
-
     // 取消按钮
     if (cancel !== undefined) {
         options.cancel = cancel;
@@ -904,14 +804,10 @@ artDialog.create = function (options) {
             that[name] = value;
         }
     });
-
-
     // 更新 zIndex 全局配置
     if (options.zIndex) {
         Popup.zIndex = options.zIndex;
     }
-
-
     // 设置 ARIA 信息
     $popup.attr({
         'aria-labelledby': this._$('title')
@@ -919,8 +815,6 @@ artDialog.create = function (options) {
         'aria-describedby': this._$('content')
             .attr('id', 'content:' + this.id).attr('id')
     });
-
-
     // 关闭按钮
     this._$('close')
     .css('display', this.cancel === false ? 'none' : '')
@@ -934,8 +828,6 @@ artDialog.create = function (options) {
     // 添加视觉参数
     this._$('dialog').addClass(this.skin);
     this._$('body').css('padding', this.padding);
-
-
     // 点击任意空白处关闭对话框
     if (options.quickClose) {
         $backdrop
@@ -946,8 +838,6 @@ artDialog.create = function (options) {
             return false;// 阻止抢夺焦点
         });
     }
-
-
     // 遮罩设置
     this.addEventListener('show', function () {
         $backdrop.css({
@@ -957,8 +847,6 @@ artDialog.create = function (options) {
             {opacity: options.backdropOpacity}
         , 150);
     });
-
-
     // ESC 快捷键关闭对话框
     this._esc = function (event) {
         var target = event.target;
@@ -982,19 +870,13 @@ artDialog.create = function (options) {
         $(document).off('keydown', this._esc);
         delete artDialog.list[this.id];
     });
-
-
     _count ++;
     
     artDialog.oncreate(this);
 
     return this;
 };
-
-
 artDialog.create.prototype = prototype;
-
-
 
 $.extend(prototype, {
 
@@ -1126,22 +1008,16 @@ $.extend(prototype, {
         this._$('header')[text ? 'show' : 'hide']();
         return this;
     },
-
-
     /** 设置宽度 */
     width: function (value) {
         this._$('content').css('width', value);
         return this.reset();
     },
-
-
     /** 设置高度 */
     height: function (value) {
         this._$('content').css('height', value);
         return this.reset();
     },
-
-
     /**
      * 设置按钮组
      * @param   {Array, String}
@@ -1164,8 +1040,6 @@ $.extend(prototype, {
                 var id = val.id = val.id || val.value;
                 var style = '';
                 that.callbacks[id] = val.callback;
-
-
                 if (val.display === false) {
                     style = ' style="display:none"';
                 } else {
@@ -1201,16 +1075,12 @@ $.extend(prototype, {
 
         return this;
     },
-
-
     statusbar: function (html) {
         this._$('statusbar')
         .html(html)[html ? 'show' : 'hide']();
 
         return this;
     },
-
-
     _$: function (i) {
         return this._popup.find('[i=' + i + ']');
     },
@@ -1226,18 +1096,12 @@ $.extend(prototype, {
     
 });
 
-
-
 artDialog.oncreate = $.noop;
-
-
 
 /** 获取最顶层的对话框API */
 artDialog.getCurrent = function () {
     return Popup.current;
 };
-
-
 
 /**
  * 根据 ID 获取某对话框 API
@@ -1252,22 +1116,14 @@ artDialog.get = function (id) {
 
 artDialog.list = {};
 
-
-
 /**
  * 默认配置
  */
 artDialog.defaults = defaults;
 
-
-
 return artDialog;
 
 });
-
-
-
-
 window.dialog = require("dialog");
 
 })();

@@ -4,7 +4,6 @@
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
         <h4>添加多选题</h4>
-
         @*<div class="form-group">
                @Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "  " })
                 <div class="col-md-10">
@@ -56,14 +55,9 @@
         </div>
         <hr />
         <div class="row">
-
             @Html.LabelFor(model => model.Difficulty, htmlAttributes: new { @class = "  col-sm-1" })
-
             <div id="rd" class="ratebox col-sm-6" data-id="Difficulty" data-rating="0"></div>
-
             @Html.HiddenFor(model => model.Difficulty)
-
-
             @Html.LabelFor(model => model.Frequency, htmlAttributes: new { @class = "  col-sm-1 " })
             <div id="rf" class="ratebox col-sm-5" data-id="Frequency" data-rating="0"></div>
             @Html.HiddenFor(model => model.Frequency)
@@ -84,7 +78,6 @@
                 @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "(可选)", style = "height:200px" })
             </div>
         </div>
-
         @Html.ValidationSummary()
         <div id="errorMsg" class="warning">
             @*@Html.ValidationMessageFor(model => model.Difficulty, "", new { @class = "text-danger" })
@@ -98,8 +91,6 @@
         </div>
     </div>
 }
-
-
 <div>
 </div>
 <style type="text/css">
@@ -123,7 +114,6 @@
         if (ValidateForm()) {
             $("form").submit();
         }
-
     }
     function ValidateForm() {
         var error = "";
@@ -134,16 +124,12 @@
         if (IsEditorTextEmpty(CKEDITOR.instances.OptionC.getData())) error += "选项C不能为空；\r\n";
         // if (IsEditorTextEmpty(CKEDITOR.instances.OptionA.getData())) error += "选项D不能为空";
         //if (IsEditorTextEmpty(CKEDITOR.instances.OptionA.getData())) error += "选项E不能为空";
-
         //if(IsEditorTextEmpty("Description"))
-
         //$("[name^='Option']").each(function () {
         //    var content = $(this).val().toString().replace(" ", "");
         //    if (content == "" || content == "<p></p>" || content == undefined) {
-
         //    }
         //});
-
         var rightOpCount = 0;
         alert($("#AisTrue").attr("checked"));
         //alert($("#AisTrue").checked());
@@ -156,19 +142,16 @@
         if ($("#DisTrue").is(":checked")) {
             if (!IsEditorTextEmpty(CKEDITOR.instances.OptionD.getData())) rightOpCount++;
         } else {
-
         }
         if ($("#EisTrue").is(":checked")) {
             if (!IsEditorTextEmpty(CKEDITOR.instances.OptionE.getData())) rightOpCount++;
         }
         else {
-
         }
         if ($("#FisTrue").is(":checked")) {
             if (!IsEditorTextEmpty(CKEDITOR.instances.OptionF.getData())) rightOpCount++;
         }
         else {
-
         }
         if (rightOpCount < 2) {
             error += "答案中必须包含两个正确的选项；\r\n";
@@ -190,7 +173,6 @@
         $(".ratebox[data-id='Difficulty']").attr("data-rating", $("#Difficulty").val());
         //alert($(".ratebox[data-id='Frequency']").attr("data-rating"));
     }
-
     $(function () {
         InitRateValue();
         CKEDITOR.replace('txtQuestion'

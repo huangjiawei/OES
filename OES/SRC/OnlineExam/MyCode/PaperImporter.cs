@@ -8,28 +8,22 @@ using Word = NetOffice.WordApi;
 using NetOffice.WordApi.Enums;
 using System.Text;
 using System.Drawing;
-
 using System.Text.RegularExpressions;
 using OnlineExam.Models;
 using System.Windows.Media.Imaging;
 using System.IO;
-
 namespace OnlineExam
 {
     public class PaperImporter
     {
-
         //bool isNum(char c)
         //{
-
         //    return c >= '0' && c <= '9';
         //}
-
         bool isBigNum(char c)
         {
             return bigNum.Contains(c);
         }
-
         //^[\(（]?[1234567890]{1,3}[\)）、\.．，,](.*((\r\n)|\s))+
         static string rexNewContent = @"^[\[（【]?(([0-9一二三四五六七八九十]{1,3})|([a-fA-F])|(参考答案))[\)\]）】:：\.．、]";
         static string rexEnd = "(?!(" + rexNewContent + "))";  //
@@ -40,9 +34,6 @@ namespace OnlineExam
         // rexQuestion: ^[\(（]?[1234567890]{1,3}[\)）、\.．，, ](.*((\r\n)|\s)(?!([\[（【]?(([0-9一二三四五六七八九十]{1,3})|([a-fA-F])|(参考答案))[\)\]）】:：\.．、])))+
         //static string rexQuestion = string.Format("{0}(.*{1}{2})+", rexSmallNum, rexEntry, rexEnd);
         static string rexQuestionNum = @"^(?<=[\(（])?[1234567890]{1,3}(?=[\)）、\.．，, ].*)";
-
-
-
         static string rexOption = @"^[\(（]?[A-Fa-f][\)）、\.．，, ].*"; //匹配选项 
         static string rexSingleOption = @"(\s|^)([\(（]?)[A-Fa-f]([\)）、\.．，, ]).*?((?=\s\2[a-fA-F]\3)|(\r\n)|\n|$)"; //匹配选项 
         //static string rexOptionList = rexOption + "{1,6}";
@@ -50,19 +41,15 @@ namespace OnlineExam
         static string rexRemark = @"^[【\[\(（]?(.{0,4}((提示)|(解析)|(解释)|(分析)|(评分标准)))[】）\):：\s]";
         static string rexAnswerInQuestion = @"^[【\[\(（]?.{0,3}((答案)|(答))[】）\):：\s](.*)";//匹配问题附属的参考答案
         static string rexQuestionRemark = @"^[【\[\(（]?(.{0,4}((提示)|(解析)|(解释)|(分析)|(评分标准)))[】）\):：\s]{1,2}.*";//匹配问题附属的参考答案
-
         static string rexAnswerList = @"(\s+|^).{0,12}((答案)|(答)).{0,5}\s?";  //用于匹配试卷最后的参考答案
         static string rexAnswer2 = @"(\s|^)([\(（]?)[0-9]{1,3}([\)）、\.．，,]).*?((?=\s\2[0-9]\3)|(\r\n)|\n|$)";  //用于匹配答案列表区域中的答案
         //static string 
-
         static string[] singleChoiceTitle = new string[] { "单选题", "单项选择题", "选择题" };
         static string[] ChoiceTitle = new string[] { "多项选择题", "多选题", "选择题" };
         static string[] shortAnswerTitle = new string[] { "简答题", "回答", "计算", "小题" };
         static string[] completionTitle = new string[] { "填空题", "填空" };
         static string[] discTitle = new string[] { "议论题", "应用题", "大题" };
         static Dictionary<QuestionType, string[]> dictQtypeTitle = new Dictionary<QuestionType, string[]>();
-
-
         #region 暂时未用
         static char[] mark = new char[] { '.', '、', ')', '）' };
         static char[] bigNum = new char[] { '一', '二', '三', '四', '五', '六', '七', '八', '九', '十' };
@@ -70,16 +57,11 @@ namespace OnlineExam
         static char[] optionType1 = new char[] { 'A', 'B', 'C', 'D', 'E', 'F' };
         static char[] optionType2 = new char[] { 'a', 'b', 'c', 'd', 'e', 'f' };
         static char[] optionType3 = new char[] { '①', '②', '③', '④', '⑤', '⑥' };
-
-
         static string[] answer = new string[] { "答案", "参考答案", "回答", "解答" };
         static string[] answerEnd = new string[] { " ", "]", "】", ":", "、" };
         static string[] remark = new string[] { "解释", "解析", "解题思路", "提示", "备注", "解题方法", "方法" };
         static string[] examType = new string[] { "模拟", "测试", "自测", "期末考试", "期中考试" };
         #endregion
-
-
-
         ImageHandler handler = new ImageHandler();
         static List<string> subjectList = new List<string>();
         static List<string> subjectDetailList = new List<string>();
@@ -112,7 +94,6 @@ namespace OnlineExam
             ContentStartIndex = 0;
             CurrentBigNumStr = "";
         }
-
         static PaperImporter()
         {
             //初始化科目名称列表
@@ -125,7 +106,6 @@ namespace OnlineExam
             subjectList.Add("生物");
             subjectList.Add("历史");
             subjectList.Add("地理");
-
             //初始化大题名称（模糊）表
             dictQtypeTitle.Add(QuestionType.SingleChoice, singleChoiceTitle);
             dictQtypeTitle.Add(QuestionType.MultipleChoice, ChoiceTitle);
@@ -133,7 +113,6 @@ namespace OnlineExam
             dictQtypeTitle.Add(QuestionType.ShortAnswer, shortAnswerTitle);
             dictQtypeTitle.Add(QuestionType.Discussion, discTitle);
         }
-
         //小题的开始形式为
         //数字+"、"，如  1、下列题目正确的是
         //数字+空格 如   1 下列题目正确的是
@@ -150,13 +129,11 @@ namespace OnlineExam
             string snum = "";
             var temp = s.Trim();
             Match m = Regex.Match(temp, rexQuestionNum);
-
             if (m.Success)
             {
                 snum = m.Value;
                 if (int.Parse(snum) >= 23)
                 {
-
                 }
                 tempNum = int.Parse(snum);
                 if (20 > (tempNum - CurrentQNum) && (tempNum - CurrentQNum) > 0)//新的题号必须必旧题号大，并且不能与上一个题号相差太大，否则该行不是题目
@@ -194,10 +171,8 @@ namespace OnlineExam
         {
             var s = GetCurrentParaText();
             int i = 0;
-
             var temp = s.Trim();
             var c = temp[0];
-
             Match m = Regex.Match(temp, rexOption);
             if (m.Success)
             {
@@ -249,13 +224,10 @@ namespace OnlineExam
                         CurrentBigNumStr = m.Value;
                         return true;
                     }
-
-
                 }
             }
             return false;
         }
-
         public bool IsNewCtype()
         {
             var s = GetCurrentParaText();
@@ -292,7 +264,6 @@ namespace OnlineExam
                     if (!IsNewCtype())
                     {
                         CurrentQuestion.Question += temp;
-
                     }
                     else
                     {
@@ -303,11 +274,9 @@ namespace OnlineExam
                         }
                     }
                 }
-
                 else
                 {
                     end = true;
-
                 }
             } while (!end);
             //CurrentIndex = CurrentIndex - 1;
@@ -326,23 +295,18 @@ namespace OnlineExam
             selection.Find.Replacement.Font.Subscript = 0;
             while (selection.Find.Execute())
             {
-
                 selection.Range.Select();
-
                 var temp = selection.Text;
                 temp = temp.Replace("\r\n", "").Replace("\r", "");
                 selection.Font.Subscript = 0;
                 selection.Font.Superscript = 0;
                 selection.TypeText("<sub>" + temp + "</sub>");
               
-
                 selection.Find.ClearFormatting();
                 selection.Find.Font.Subscript = 1;
                 selection.Find.Font.Superscript = 0;
                 selection.Find.Replacement.ClearFormatting();
                 selection.Find.Replacement.Font.Subscript = 0;
-
-
             }
             //ran = paras[CurrentIndex].Range;
             paras[1].Range.Select();
@@ -354,7 +318,6 @@ namespace OnlineExam
             selection.Find.Replacement.Font.Superscript = 0;
             while (selection.Find.Execute())
             {
-
                 selection.Range.Select();
                 var temp = selection.Text;
                 temp = temp.Replace("\r\n", "").Replace("\r", "");
@@ -372,26 +335,15 @@ namespace OnlineExam
         string currentContent;//用于临时保存当前段落的内容
         public string GetCurrentParaText()
         {
-
             if (!string.IsNullOrEmpty(currentContent)) return currentContent;
-
-
             var ran = paras[CurrentIndex].Range;
-
-
-
-
             var s = paras[CurrentIndex].Range.Text;
             if (s.IndexOf('\u0001') >= 0)
             {
-
                 handler.Setting(paras[CurrentIndex].Range.InlineShapes);
-
                 //handler.ImagePath =HttpContext.Current.Server.MapPath( "~\");
-
                 Thread.CurrentThread.TrySetApartmentState(ApartmentState.STA);
                 handler.ImagePath = CUrl.ImportPaperImage;
-
                 //handler.GetImages();
                 Thread t = new Thread(handler.GetImagesFromShapes);
                 t.TrySetApartmentState(ApartmentState.STA);
@@ -449,9 +401,7 @@ namespace OnlineExam
         {
             var s = GetCurrentParaText();
             var temp = s.TrimStart();
-
             Match m = Regex.Match(temp, rexRemark);
-
             if (!m.Success) return false;
             CurrentQuestion.Info += temp.Substring(temp.IndexOf(m.Value) + m.Value.Length);
             while (true)
@@ -475,13 +425,11 @@ namespace OnlineExam
             }
             return true;
         }
-
         public bool HasNextPara()
         {
             if (CurrentIndex + 1 < paras.Count) return true;
             return false;
         }
-
         public string GetNextParaText()
         {
             if (MoveNext()) { return GetCurrentParaText(); }
@@ -502,11 +450,6 @@ namespace OnlineExam
             }
             Paper.ExamTitle = title;
         }
-
-
-
-
-
         public bool IsAnswerList()//根据题目列表中是否已经包含答案以及当前游标指向的小题号和大题号判断参考答案是位于每题内部还是位于试卷最后的答案列表区域中
         {
             var s = GetCurrentParaText();
@@ -525,16 +468,12 @@ namespace OnlineExam
                         if (c == 0 || Paper.Questions.Count / 1.0 / c < 2)
                         {
                             return true;
-
                         }
                     }
                 }
             }
             return false;
-
         }
-
-
         int CurrentAnswerBigNum;
         int CurrentAnswerNum;
         ImportAnswer CurrentAnswer;
@@ -546,7 +485,6 @@ namespace OnlineExam
             //CurrentAnswer.BigNum = "";
             //CurrentAnswer.Num = 0;
         }
-
         public bool IsAnswerBigNum()
         {
             var s = GetCurrentParaText();
@@ -575,7 +513,6 @@ namespace OnlineExam
         }
         void GetAnswer(string content)
         {
-
             int i = 0;
             string snum = "";
             Match m = Regex.Match(content.Trim(), rexQuestionNum);
@@ -590,8 +527,6 @@ namespace OnlineExam
             }
             //if(content.StartsWith("２"))
             //{
-
-
             //}
             //while (Char.IsNumber(content[i]) && i < content.Length)
             //{
@@ -600,15 +535,12 @@ namespace OnlineExam
             //}
             //if (i == 0)
             //    return;
-
         }
         public bool IsAnswerRemark()
         {
             var s = GetCurrentParaText();
             var temp = s.TrimStart();
-
             Match m = Regex.Match(temp, rexRemark);
-
             if (!m.Success) return false;
             CurrentAnswer.Info += temp.Substring(temp.IndexOf(m.Value) + m.Value.Length);
             while (true)
@@ -632,12 +564,9 @@ namespace OnlineExam
             }
             return true;
         }
-
         public void ReadAnswer()
         {
-
             Match m = Regex.Match(GetCurrentParaText().TrimStart(), rexAnswer2);
-
             Match m1 = m.NextMatch();
             if (m1.Success)//判断当前段中是否包含多个小题答案。
             {
@@ -651,7 +580,6 @@ namespace OnlineExam
                 } while (m1.Success);
             }
             GetAnswer(m.Value);
-
             //判断下一行是否为本题的延续
             bool end = false;
             do
@@ -666,9 +594,7 @@ namespace OnlineExam
                         {
                             end = true;
                             MoveBack();
-
                         }
-
                     }
                 }
                 else
@@ -686,7 +612,6 @@ namespace OnlineExam
                 var temp = GetCurrentParaText();
                 if (IsAnswerBigNum())
                 {
-
                 }
                 else if (IsQuestionNum())
                 {
@@ -695,12 +620,10 @@ namespace OnlineExam
             }
             Paper.CombineAnswer();
         }
-
         Word.Application wordApplication;
         NetOffice.WordApi.Document doc;
         public ImportPaper GetPaperFormFile(string file)
         {
-
             wordApplication = new Word.Application();
             wordApplication.DisplayAlerts = WdAlertLevel.wdAlertsNone;
             // create a utils instance, not need for but helpful to keep the lines of code low
@@ -711,7 +634,6 @@ namespace OnlineExam
             paras = doc.Paragraphs;
             SetSubAndSup();
             ReadTitle();
-
             //ImageHandler handler = new ImageHandler();
             //Thread t = new Thread(handler.GetImages);
             //t.SetApartmentState(ApartmentState.STA);
@@ -725,10 +647,8 @@ namespace OnlineExam
                 }
                 else if (IsAnswerList())
                 {
-
                     ReadAnswerList();
                 }
-
             } while (MoveNext());
             
             wordApplication.Quit();
@@ -737,22 +657,14 @@ namespace OnlineExam
             return Paper;
         }
     }
-
-
-
-
-
-
     public class ImageHandler
     {
-
         private System.Drawing.Bitmap BitmapFromSource(BitmapSource bitmapsource)
         {
             System.Drawing.Bitmap bitmap;
             using (MemoryStream outStream = new MemoryStream())
             {
                 BitmapEncoder enc = new BmpBitmapEncoder();
-
                 enc.Frames.Add(BitmapFrame.Create(bitmapsource));
                 enc.Save(outStream);
                 bitmap = new System.Drawing.Bitmap(outStream);
@@ -770,12 +682,10 @@ namespace OnlineExam
         string imgPath;
         string imgLocalDir;
         List<string> imageFiles = new List<string>();
-
         public List<string> ImageFiles
         {
             get { return imageFiles; }
         }
-
         public void Setting(Word.Document doc, Word.Application app)
         {
             this.doc = doc;
@@ -784,9 +694,7 @@ namespace OnlineExam
         public void Setting(Word.InlineShapes shapes)
         {
             this.shapes = shapes;
-
         }
-
         public void GetImagesFromShapes()
         {
             imageFiles.Clear();
@@ -795,13 +703,11 @@ namespace OnlineExam
             {
                 if (ish.Type != NetOffice.WordApi.Enums.WdInlineShapeType.wdInlineShapeWebVideo)
                 {
-
                     ish.Select();
                     app.Selection.Copy();
                     //System.Windows.Clipboard.getd
                     var image = BitmapFromSource(System.Windows.Clipboard.GetImage());
                     //image.Metadata
-
                     Bitmap bitmap = new Bitmap(image);
                     string file = Guid.NewGuid().ToString() + ".jpg";
                     bitmap.Save(imgLocalDir + file);
@@ -818,12 +724,10 @@ namespace OnlineExam
             {
                 if (ish.Type != NetOffice.WordApi.Enums.WdInlineShapeType.wdInlineShapeWebVideo)
                 {
-
                     ish.Select();
                     app.Selection.Copy();
                     var image = BitmapFromSource(System.Windows.Clipboard.GetImage());
                     //image.Metadata
-
                     Bitmap bitmap = new Bitmap(image);
                     string file = Guid.NewGuid().ToString() + ".jpg";
                     bitmap.Save(imgLocalDir + file);

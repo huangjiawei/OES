@@ -60,7 +60,6 @@
 		});
 		return deleteMethod1.call($.fn.datagrid.methods, jq, index);
 	};
-
 	var extendedOptions = {
 		filterMenuIconCls: 'icon-ok',
 		filterBtnIconCls: 'icon-filter',
@@ -301,7 +300,6 @@
 		}
 		return -1;
 	}
-
 	function getFilterRule(target, field){
 		var name = getPluginName(target);
 		var rules = $(target)[name]('options').filterRules;
@@ -540,7 +538,6 @@
 				resizeFilter(target);
 			}, 0);
 		}
-
 		$.map(opts.filterRules, function(rule){
 			addFilterRule(target, rule);
 		});
@@ -617,7 +614,6 @@
 				if (fopts.options && fopts.options.onInit){
 					fopts.options.onInit.call(input[0], target);
 				}
-
 				resizeFilter(target, field);
 			}
 		}

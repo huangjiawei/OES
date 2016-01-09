@@ -3,14 +3,11 @@
     var title = "试卷信息";
     string BigNum = "零一二三四五六七八九十";
 }
-
-
 <div class="form-horizontal">
     <h4 class="disabled">@title</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.ID)
-
     <div class="form-group">
         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2 " })
         <div class="col-md-10">
@@ -25,7 +22,6 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.SubjectID, new { @class = "control-label col-md-2" })
-
         @{
             var subject = Utitlity.GetSubjct(Model.SubjectID);
             if (subject != null)
@@ -39,10 +35,7 @@
                 <span>@Model.SubjectID</span>
             }
         }
-
-
     </div>
-
     <div class="form-group">
         @Html.LabelFor(model => model.ExamTime, new { @class = "control-label col-md-2" })
         <div class="col-md-2">
@@ -53,7 +46,6 @@
             @Model.TimeDuration
         </div>
     </div>
-
     <div class="form-group">
         @Html.LabelFor(model => model.Info, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -64,7 +56,6 @@
         <div class="col-md-2"></div>
         <div class="col-md-8">
             <table class="table" id="QList">
-
                 <tr>
                     <td class="col-md-1">题号</td>
                     <td class="col-md-5">题目名称</td>
@@ -72,7 +63,6 @@
                     <td class="col-md-1">每题默认分数</td>
                     <td class="col-md-1"></td>
                 </tr>
-
                 @foreach (var cate in Model.Paper_QuestionCategory)
                 {
                     <tr>
@@ -80,12 +70,10 @@
                         <td class="col-md-5">@cate.Title</td>
                         <td class="col-md-2"> @Utitlity.ParseQuestionType(cate.QuestionType).GetInfo()</td>
                         <td class="col-md-1">@cate.ScorePerQuestion</td>
-
                     </tr>
                 }
             </table>
         </div>
-
         <div class="col-md-2">
         </div>
     </div>
@@ -103,7 +91,6 @@
                 @Html.Raw(Model.Assessment)
             </div>
         </div>
-
     }
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
@@ -114,8 +101,6 @@
         </div>
     </div>
 </div>
-
-
 @section Scripts
             {
     @*<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />*@
@@ -130,9 +115,6 @@
     <script src="/Scripts/artDialog/dist/dialog-plus-min.js"></script>
     <script>
         var bigNum = "零一二三四五六七八九十";
-
-
-
         function deleteItem() {
             var id = '@Model.ID'
             if (confirm("确定要删除选中的题目吗?")) {
@@ -159,7 +141,6 @@
         function SumitAudit(audit) {
             var s1 = $("#txtAssessment").val();
             if (s1 == null || s1 == undefined) s1 = $("#txtAssessment").text();
-
             $.ajax({
                 url: '@Url.Content("~/TestPaper/Censor")',
                 data: { ID: '@Model.ID', Assessment: s1, Audit: audit },
@@ -199,11 +180,9 @@
         }
         $(function () {
             Alerter.turnOn();
-
             $.datetimepicker.setLocale('zh');
             $("#ExamTime").datetimepicker(
                        {
-
                            lang: "zh",
                            //timepicker: false,
                            format:
@@ -236,9 +215,7 @@
         //    //result+=  JSON.stringify(data)+"\r\n";
         //    $("form").submit();
         //    //for (var j = 0; j < i; j++) Alerter.list(data[j].Sequence, data[j].Title, data[j].QuestionType, data[j].ScorePerQuestion)
-
         //    //return false;
-
         //}
         function SetQtype() {
             $("#temp").find("tr").each(
@@ -249,8 +226,6 @@
                     Alerter.info($(this).find("select").val())
                 }
                 )
-
-
         }
         @*function addQuestionCate() {
                         var index = $("#QList").find("tr").length;
@@ -275,8 +250,6 @@
         //        Alerter.info(bigNum[index]);
         //        index++;
         //    })
-
         //}
     </script>
-
 }

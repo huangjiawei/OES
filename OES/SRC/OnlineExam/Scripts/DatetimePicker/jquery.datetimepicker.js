@@ -1850,8 +1850,6 @@
 						datetimepicker.trigger('close.xdsoft');
 					}
 				});
-
-
 			datepicker
 				.on('mousewheel.xdsoft', function (event) {
 					if (!options.scrollMonth) {

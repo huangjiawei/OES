@@ -2,7 +2,6 @@
 //using System.Collections.Generic;
 //using System.Linq;
 //using System.Web;
-
 //namespace 
 //    public class QueryExtention
 //    {
@@ -14,7 +13,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 namespace OnlineExam
-
 {
     public static class QueryExtention
     {
@@ -22,6 +20,5 @@ namespace OnlineExam
         {
             return new SelectList(query, dataValueField, dataTextField, selectedValue ?? -1);
         }
-
     }
 }

@@ -137,7 +137,6 @@ var groupview = $.extend({}, $.fn.datagrid.defaults.view, {
 		}
 	}
 });
-
 $.extend($.fn.datagrid.methods, {
     expandGroup:function(jq, groupIndex){
         return jq.each(function(){
@@ -164,7 +163,6 @@ $.extend($.fn.datagrid.methods, {
         });
     }
 });
-
 $.extend(groupview, {
 	refreshGroupTitle: function(target, groupIndex){
 		var state = $.data(target, 'datagrid');

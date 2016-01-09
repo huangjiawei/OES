@@ -6,7 +6,6 @@
     {
         if (Model != null) { ViewBag.questionType = Model.QuestionType; }
         else { ViewBag.questionType = QuestionType.ShortAnswer.ToString(); }
-
     }
     QuestionType qtype = Utitlity.ToQuestionType(ViewBag.questionType.ToString());
     title += qtype.GetInfo();
@@ -15,7 +14,6 @@
    
     if (Model != null)
     {
-
         question = OnlineExam.App_Code.MyTool.Escape(Model.Question);
         answer = OnlineExam.App_Code.MyTool.Escape(Model.Answer);
     }
@@ -27,7 +25,6 @@
         <small id="QuestionId">@Html.EncodeQuestionID(Model.ID, qtype)</small>
     }
 </h4>
-
 @using (Html.BeginForm(isEdit ? "Edit" : "Create", "Essay", new { }, FormMethod.Post))
 {
     @Html.AntiForgeryToken()
@@ -38,7 +35,6 @@
                 <iframe src="/Subject/SubjectDropDown" style="width:700px; height:30px; border-style:none;overflow:hidden;"></iframe>
             </div>
             <div id="subjectlist" class="col-md-12">
-
                 @if (ViewBag.RelateSubject != null)
                 {
                     foreach (var i in (List<OnlineExam.Models.Subject>)ViewBag.RelateSubject)
@@ -64,16 +60,10 @@
             </div>
         </div>
         <hr />
-
         <div class="row">
-
             @Html.LabelFor(model => model.Difficulty, htmlAttributes: new { @class = "  col-sm-1" })
-
             <div id="rd" class="ratebox col-sm-6" data-id="Difficulty" data-rating="0"></div>
-
             @Html.HiddenFor(model => model.Difficulty)
-
-
             @Html.LabelFor(model => model.Frequency, htmlAttributes: new { @class = "  col-sm-1 " })
             <div id="rf" class="ratebox col-sm-5" data-id="Frequency" data-rating="0"></div>
             @Html.HiddenFor(model => model.Frequency)
@@ -110,15 +100,12 @@
         font-weight: normal;
         font-size: small;
     }
-
    
-
     .cke_editor body, .cke_show_borders {
         background-color: #ffffff;
     }
 </style>
 <script type="text/javascript" language="javascript">
-
     function InitEditorValue() {
         var qt = "@question"
         var an = "@answer"
@@ -127,11 +114,9 @@
         CKEDITOR.instances.txtQuestion.setData(qt);
         CKEDITOR.instances.Answer.setData(an);
     }
-
     function SetRateValue(id, value) {
         $("#" + id).val(value);
     }
-
     function IsEditorTextEmpty(content) {
         if (content == undefined) return true;
         content = content.toString().replace(" ", "");
@@ -146,26 +131,20 @@
             $("#subjectlist").children().each(function () { ids = ids + "," + $(this).attr("id") })
             Alerter.info(ids);
             $("#SubjectIds").val(ids);
-
-
             $("form").submit();
         }
-
     }
     function ValidateForm() {
         var error = "";
-
         if (IsEditorTextEmpty(CKEDITOR.instances.txtQuestion.getData())) error += "题目不能为空；\r\n";
         if (IsEditorTextEmpty(CKEDITOR.instances.Answer.getData())) error += "答案不能为空；\r\n";
         if ($("#subjectlist").children().length == 0) error += "所属科目不能为空；\r\n";
-
         if ($("#Difficulty").val() < 1 || $("#Difficulty").val() > 5) {
             error += "未设置难度系数；\r\n";
         }
         if ($("#Frequency").val() < 1 || $("#Frequency").val() > 5) {
             error += "未设置考试频率；\r\n";
         }
-
         alert(error);
         $("#errorMsg").html(error)
         if (error == "") return true;
@@ -180,10 +159,7 @@
     function AppendSubject(id, name) {
         if ($("#subjectlist").find("[id='" + id + "']").length > 0) alert("科目已添加");
         else $("#subjectlist").append("<span id='" + id + "' class='subject '>" + name + "<a href='#' class='glyphicon glyphicon-remove' onclick='$(this).parent().remove()'></a></span>")
-
     }
-
-
     $(function () {
         InitRateValue();
         CKEDITOR.replace('txtQuestion'
@@ -208,7 +184,6 @@
         CKEDITOR.config.uploadUrl = '/Api/QuestionBankResource/Upload?QuestionType=' + '@qtype.ToString()';
         CKEDITOR.config.fontSize_sizes = "small"
         //config.extraPlugins = 'uploadwidget'
-
         CKEDITOR.inline('Description',
             {
                 width: '80%',
@@ -222,7 +197,6 @@
         }
         );
         var b = "@isEdit";
-
         if (b.toString().toLowerCase() == "true") {
             InitEditorValue();
         }
@@ -248,6 +222,4 @@
     @*<script src="//cdn.ckeditor.com/4.5.4/basic/ckeditor.js"></script>*@
     @*<script src="//cdn.ckeditor.com/4.5.4/standard/ckeditor.js"></script>*@
     @*<script src="//cdn.ckeditor.com/4.5.5/full/ckeditor.js"></script>*@
-
-
 }

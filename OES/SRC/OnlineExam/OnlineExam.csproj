@@ -292,6 +292,7 @@
       <DependentUpon>Exam.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PaperGenerator.cs" />
+    <Compile Include="Models\PaperJson.cs" />
     <Compile Include="Models\Paper_AnswerList.cs">
       <DependentUpon>Exam.tt</DependentUpon>
     </Compile>

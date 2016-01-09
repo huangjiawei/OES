@@ -13,22 +13,13 @@ namespace OnlineExam.Controllers.Background
         public virtual ActionResult Index()
         {
             //_Application app = new 
-
             ////创建word文档
-
             //_Document doc = null;
             //object unknow = Type.Missing;
-
             //doc = app.Documents.Open(ref fileName,
-
             //               ref unknow, ref unknow, ref unknow, ref unknow, ref unknow,
-
             //               ref unknow, ref unknow, ref unknow, ref unknow, ref unknow,
-
             //               ref unknow, ref unknow, ref unknow, ref unknow, ref unknow);
-
-
-
             return View();
         }
     }

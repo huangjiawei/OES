@@ -40,24 +40,16 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
   };
   
 })(document);
-
-
-
-
 /*! Respond.js v1.2.0: min/max-width media query polyfill. (c) Scott Jehl. MIT/GPLv2 Lic. j.mp/respondjs  */
 (function( win ){
 	//exposed namespace
 	win.respond		= {};
-	
 	//define update even in native-mq-supporting browsers, to avoid errors
 	respond.update	= function(){};
-	
 	//expose media query support flag for external use
 	respond.mediaQueriesSupported	= win.matchMedia && win.matchMedia( "only all" ).matches;
-	
 	//if media queries are supported, exit here
 	if( respond.mediaQueriesSupported ){ return; }
-	
 	//define vars
 	var doc 			= win.document,
 		docElem 		= doc.documentElement,
@@ -320,13 +312,10 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 				return xmlhttpmethod;
 			};
 		})();
-	
 	//translate CSS
 	ripCSS();
-	
 	//expose update for re-running respond later on
 	respond.update = ripCSS;
-	
 	//adjust on resize
 	function callMedia(){
 		applyMedia( true );

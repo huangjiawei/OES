@@ -6,7 +6,6 @@
 //     如果重新生成代码，将覆盖对此文件的手动更改。
 // </auto-generated>
 //------------------------------------------------------------------------------
-
 namespace OnlineExam.Models
 {
     using System;
@@ -16,9 +15,9 @@ namespace OnlineExam.Models
     {
         public string PaperID { get; set; }
         public long QuestionID { get; set; }
-        public Nullable<double> Score { get; set; }
-        public Nullable<int> BigQuestionNumber { get; set; }
-        public Nullable<int> SmallQuestionNumber { get; set; }
+        public double Score { get; set; }
+        public int BigQuestionNumber { get; set; }
+        public int SmallQuestionNumber { get; set; }
     
         public virtual Paper_QuestionCategory Paper_QuestionCategory { get; set; }
         public virtual QuestionEssay QuestionEssay_ { get; set; }

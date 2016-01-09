@@ -5,12 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using OnlineExam.Models;
 using MvcContrib.UI.Grid;
-
 namespace OnlineExam.Controllers.Background
 {
     public class TestPaperController : Controller
     {
-
         // GET: PaperClip
         Models.ExamEntities ee = new ExamEntities();
         int PageSize = CKey.DefaultPageCount;
@@ -18,7 +16,6 @@ namespace OnlineExam.Controllers.Background
             , bool? isReady, int? subjectId, DateTime? startDate, DateTime? endDate, int? startDuration, int? endDuration
           , string teacherId, DataView? viewType, int? pageSize, GridSortOptions gridSortOptions, int? page)
         {
-
             ViewData["ViewType"] = viewType;
             int CurrentPageSize = 0;
             if (!pageSize.HasValue)
@@ -34,7 +31,6 @@ namespace OnlineExam.Controllers.Background
                 PageSize = CurrentPageSize
             }
             .AddFilter("searchWord", searchWord, a => a.Name.Contains(searchWord) || a.ModificationTeacher.Contains(searchWord) || a.Info.Contains(searchWord) || a.ExamType.Contains(searchWord));
-
             if (active.HasValue)
             {
                 pagedViewModel.AddFilter("active", active, a => a.Active == active.Value);
@@ -75,13 +71,11 @@ namespace OnlineExam.Controllers.Background
             {
                 pagedViewModel.AddFilter("endDate", endDate, a => a.ExamTime > endDate.Value);
             }
-
             pagedViewModel.Setup();
             ViewBag.SubjectList = ee.Subject.ToList();
             //ViewData = pagedViewModel.ViewData;
             return View(pagedViewModel);
         }
-
         // GET: PaperClip/Details/5
         public ActionResult Details(string id)
         {
@@ -89,21 +83,18 @@ namespace OnlineExam.Controllers.Background
             if (q == null || q.ID != id) return HttpNotFound();
             return View(q);
         }
-
         // GET: PaperClip/Create
         public ActionResult EditQuestionList(string id)
         {
             var q = ee.TestPaper.Where(m => m.ID == id).SingleOrDefault();
             if (q == null || q.ID != id) return HttpNotFound();
-            int k = 0;
-            foreach(var i in q.Paper_QuestionCategory.OrderBy(m=>m.Sequence))
-            {
-                i.RandomKey = ++k;
-
-            }           
+            //int k = 0;
+            //foreach(var i in q.Paper_QuestionCategory.OrderBy(m=>m.Sequence))
+            //{
+            //    i.RandomKey = ++k;
+            //}           
             return View(q);
         }
-
         // POST: PaperClip/Create
         [HttpPost]
         public ActionResult Create(TestPaper model)
@@ -125,13 +116,10 @@ namespace OnlineExam.Controllers.Background
                         {
                             Paper_QuestionCategory cate = JsonHelper.JsonDeserialize<Paper_QuestionCategory>(s);
                             model.Paper_QuestionCategory.Add(cate);
-
                         }
                         ee.TestPaper.Add(model);
-
                     }
                     ee.SaveChanges();
-
                 }
                 //return View("Details", model);
                 return RedirectToAction("Details", new { id = model.ID });
@@ -142,7 +130,6 @@ namespace OnlineExam.Controllers.Background
                 return View(model);
             }
         }
-
         public ActionResult Edit(string id)
         {
             if (!string.IsNullOrWhiteSpace(id))
@@ -150,8 +137,6 @@ namespace OnlineExam.Controllers.Background
                 ViewBag.EditType = EditType.Edit;
                 var q = ee.TestPaper.Where(m => m.ID == id).SingleOrDefault();
                 if (q == null || q.ID != id) return HttpNotFound();
-
-
                 return View(q);
             }
             else
@@ -175,13 +160,10 @@ namespace OnlineExam.Controllers.Background
                 if (model.Assessment == null)
                     model.Assessment = "";
                 //model.Assessment = "";
-
                 if (ModelState.IsValid)
                 {
                     ee.Entry(model).State = System.Data.Entity.EntityState.Modified;
                     //ee.SaveChanges();
-
-
                     //重新设置题型
                     ee.Paper_QuestionCategory.RemoveRange(ee.Paper_QuestionCategory.Where(m => m.PaperID == model.ID));
                     string cateList = Request.Params["QuestionCategory"] as string;
@@ -190,30 +172,25 @@ namespace OnlineExam.Controllers.Background
                         var list = cateList.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
                         foreach (var s in list)
                         {
-
                             Paper_QuestionCategory cate = JsonHelper.JsonDeserialize<Paper_QuestionCategory>(s);
                             cate.PaperID = model.ID;
                             cate.Quantity = 5;
-
                             ee.Paper_QuestionCategory.Add(cate);
                         }
                         ee.SaveChanges();
                     }
-
                     return RedirectToAction("Details", new { id = model.ID });
                 }
             }
             catch (Exception ex)
             {
                 ViewBag.EditType = EditType.Edit;
-
 #if DEBUG
                 throw ex;
 #endif
             }
             return View(model);
         }
-
         // GET: PaperClip/Delete/5
         [HttpPost]
         public JsonResult Delete()
@@ -223,20 +200,23 @@ namespace OnlineExam.Controllers.Background
                 string id = Request.Params["ID"];
                 //var q = ee.TestPaper.Where(m => m.ID == id).Single();
                 //ee.Paper_QuestionCategory.RemoveRange(q.Paper_QuestionCategory);
+                ee.Paper_Choice.RemoveRange(ee.Paper_Choice.Where(m => m.PaperID == id));
+                ee.Paper_Essay.RemoveRange(ee.Paper_Essay.Where(m => m.PaperID == id));
+                ee.Paper_QuestionCategory.RemoveRange(ee.Paper_QuestionCategory.Where(m => m.PaperID == id));
                 ee.TestPaper.RemoveRange(ee.TestPaper.Where(m => m.ID == id));
                 ee.SaveChanges();
                 JsonReturn jr = new JsonReturn();
                 jr.Success = 1;
                 return Json(jr, JsonRequestBehavior.AllowGet);
             }
-            catch
+            catch (Exception ex)
             {
                 JsonReturn jr = new JsonReturn();
                 jr.Success = 0;
+                jr.Message = ex.Message;
                 return Json(jr, JsonRequestBehavior.AllowGet);
             }
         }
-
         [HttpPost]
         public virtual JsonResult Censor()
         {

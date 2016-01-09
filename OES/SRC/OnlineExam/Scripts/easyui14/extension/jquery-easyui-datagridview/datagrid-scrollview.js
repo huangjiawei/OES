@@ -2,7 +2,6 @@ $.extend($.fn.datagrid.defaults, {
 	onBeforeFetch: function(page){},
 	onFetch: function(page, rows){}
 });
-
 var scrollview = $.extend({}, $.fn.datagrid.defaults.view, {
 	render: function(target, container, frozen){
 		var state = $.data(target, 'datagrid');
@@ -61,7 +60,6 @@ var scrollview = $.extend({}, $.fn.datagrid.defaults.view, {
 				table.push('</td>');
 				table.push('</tr>');
 			}
-
 			index++;
 		}
 		table.push('</tbody></table>');
@@ -396,7 +394,6 @@ var scrollview = $.extend({}, $.fn.datagrid.defaults.view, {
 		}
 	}
 });
-
 $.extend($.fn.datagrid.methods, {
 	fixDetailRowHeight: function(jq, index){
 		return jq.each(function(){

@@ -113,8 +113,6 @@ window.Modernizr = (function( window, document, undefined ) {
     slice = classes.slice,
 
     featureName, // used in testing loop
-
-
     /*>>teststyles*/
     // Inject element with style element and some CSS rules
     injectElementWithStyles = function( rule, callback, nodes, testnames ) {
@@ -194,8 +192,6 @@ window.Modernizr = (function( window, document, undefined ) {
 
      },
      /*>>mq*/
-
-
     /*>>hasevent*/
     //
     // isEventSupported determines if a given element supports the given event
@@ -414,8 +410,6 @@ window.Modernizr = (function( window, document, undefined ) {
         }
     }
     /*>>testallprops*/
-
-
     /**
      * Tests
      * -----
@@ -484,8 +478,6 @@ window.Modernizr = (function( window, document, undefined ) {
 
         return bool;
     };
-
-
     // geolocation is often considered a trivial feature detect...
     // Turns out, it's quite tricky to get right:
     //
@@ -499,13 +491,9 @@ window.Modernizr = (function( window, document, undefined ) {
     tests['geolocation'] = function() {
         return 'geolocation' in navigator;
     };
-
-
     tests['postmessage'] = function() {
       return !!window.postMessage;
     };
-
-
     // Chrome incognito mode used to throw an exception when using openDatabase
     // It doesn't anymore.
     tests['websqldatabase'] = function() {
@@ -547,8 +535,6 @@ window.Modernizr = (function( window, document, undefined ) {
     tests['websockets'] = function() {
         return 'WebSocket' in window || 'MozWebSocket' in window;
     };
-
-
     // css-tricks.com/rgba-browser-support/
     tests['rgba'] = function() {
         // Set an rgba() color and check the returned value
@@ -580,8 +566,6 @@ window.Modernizr = (function( window, document, undefined ) {
         return (/(url\s*\(.*?){3}/).test(mStyle.background);
     };
 
-
-
     // this will false positive in Opera Mini
     //   github.com/Modernizr/Modernizr/issues/396
 
@@ -592,8 +576,6 @@ window.Modernizr = (function( window, document, undefined ) {
     tests['borderimage'] = function() {
         return testPropsAll('borderImage');
     };
-
-
     // Super comprehensive table about all the unique implementations of
     // border-radius: muddledramblings.com/table-of-css3-border-radius-compliance
 
@@ -610,8 +592,6 @@ window.Modernizr = (function( window, document, undefined ) {
     tests['textshadow'] = function() {
         return document.createElement('div').style.textShadow === '';
     };
-
-
     tests['opacity'] = function() {
         // Browsers that actually have CSS Opacity implemented have done so
         //  according to spec, which means their return values are within the
@@ -624,21 +604,15 @@ window.Modernizr = (function( window, document, undefined ) {
         // github.com/Modernizr/Modernizr/issues/#issue/59/comment/516632
         return (/^0.55$/).test(mStyle.opacity);
     };
-
-
     // Note, Android < 4 will pass this test, but can only animate
     //   a single property at a time
     //   daneden.me/2011/12/putting-up-with-androids-bullshit/
     tests['cssanimations'] = function() {
         return testPropsAll('animationName');
     };
-
-
     tests['csscolumns'] = function() {
         return testPropsAll('columnCount');
     };
-
-
     tests['cssgradients'] = function() {
         /**
          * For CSS Gradients syntax, please see:
@@ -661,18 +635,12 @@ window.Modernizr = (function( window, document, undefined ) {
 
         return contains(mStyle.backgroundImage, 'gradient');
     };
-
-
     tests['cssreflections'] = function() {
         return testPropsAll('boxReflect');
     };
-
-
     tests['csstransforms'] = function() {
         return !!testPropsAll('transform');
     };
-
-
     tests['csstransforms3d'] = function() {
 
         var ret = !!testPropsAll('perspective');
@@ -691,13 +659,9 @@ window.Modernizr = (function( window, document, undefined ) {
         }
         return ret;
     };
-
-
     tests['csstransitions'] = function() {
         return testPropsAll('transition');
     };
-
-
     /*>>fontface*/
     // @font-face detection routine by Diego Perini
     // javascript.nwbox.com/CSSSupport/
@@ -730,8 +694,6 @@ window.Modernizr = (function( window, document, undefined ) {
 
         return bool;
     };
-
-
 
     // These tests evaluate support of the video/audio elements, as well as
     // testing what types of content they support.
@@ -789,8 +751,6 @@ window.Modernizr = (function( window, document, undefined ) {
 
         return bool;
     };
-
-
     // In FF4, if disabled, window.localStorage should === null.
 
     // Normally, we could not test that directly and need to do a
@@ -827,18 +787,12 @@ window.Modernizr = (function( window, document, undefined ) {
             return false;
         }
     };
-
-
     tests['webworkers'] = function() {
         return !!window.Worker;
     };
-
-
     tests['applicationcache'] = function() {
         return !!window.applicationCache;
     };
-
-
     // Thanks to Erik Dahlstrom
     tests['svg'] = function() {
         return !!document.createElementNS && !!document.createElementNS(ns.svg, 'svg').createSVGRect;
@@ -954,12 +908,8 @@ window.Modernizr = (function( window, document, undefined ) {
         /*>>inputtypes*/
     }
     /*>>webforms*/
-
-
     // End of test definitions
     // -----------------------
-
-
 
     // Run through all tests and detect their support in the current UA.
     // todo: hypothetically we could be doing an array of tests and use a basic loop here.
@@ -979,8 +929,6 @@ window.Modernizr = (function( window, document, undefined ) {
     // input tests need to run.
     Modernizr.input || webforms();
     /*>>webforms*/
-
-
     /**
      * addTest allows the user to define their own feature tests
      * the result will be added onto the Modernizr object,
@@ -1020,8 +968,6 @@ window.Modernizr = (function( window, document, undefined ) {
 
        return Modernizr; // allow chaining.
      };
-
-
     // Reset modElem.cssText to nothing to reduce memory footprint.
     setCss('');
     modElem = inputElem = null;
@@ -1196,8 +1142,6 @@ window.Modernizr = (function( window, document, undefined ) {
             data.createFrag = ownerDocument.createDocumentFragment;
             data.frag = data.createFrag();
         }
-
-
         ownerDocument.createElement = function(nodeName) {
           //abort shiv
           if (!html5.shivMethods) {
@@ -1363,15 +1307,11 @@ window.Modernizr = (function( window, document, undefined ) {
     // Modernizr.testAllProps('boxSizing')
     Modernizr.testAllProps  = testPropsAll;
     /*>>testallprops*/
-
-
     /*>>teststyles*/
     // Modernizr.testStyles() allows you to add custom styles to the document and test an element afterwards
     // Modernizr.testStyles('#modernizr { position:absolute }', function(elem, rule){ ... })
     Modernizr.testStyles    = injectElementWithStyles;
     /*>>teststyles*/
-
-
     /*>>prefixed*/
     // Modernizr.prefixed() returns the prefixed or nonprefixed property name variant of your input
     // Modernizr.prefixed('boxSizing') // 'MozBoxSizing'
@@ -1401,8 +1341,6 @@ window.Modernizr = (function( window, document, undefined ) {
       }
     };
     /*>>prefixed*/
-
-
     /*>>cssclasses*/
     // Remove "no-js" class from <html> element, if it exists:
     docElement.className = docElement.className.replace(/(^|\s)no-js(\s|$)/, '$1$2') +

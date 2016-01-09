@@ -24,8 +24,6 @@ dialog.oncreate = function (api) {
     var oniframeload = options.oniframeload;
 
     var $iframe;
-
-
     if (url) {
         this.padding = options.padding = 0;
 
@@ -70,8 +68,6 @@ dialog.oncreate = function (api) {
             // 重要！需要重置iframe地址，否则下次出现的对话框在IE6、7无法聚焦input
             // IE删除iframe后，iframe仍然会留在内存中出现上述问题，置换src是最容易解决的方法
             $iframe.attr('src', 'about:blank').remove();
-
-
         }, false);
 
         api.content($iframe[0]);
@@ -79,8 +75,6 @@ dialog.oncreate = function (api) {
         api.iframeNode = $iframe[0];
 
     }
-
-
     // 对于子页面呼出的对话框特殊处理
     // 如果对话框配置来自 iframe
     if (!(originalOptions instanceof Object)) {
@@ -101,8 +95,6 @@ dialog.oncreate = function (api) {
             } catch (e) {} 
         }
     }
-
-
     // 拖拽支持
     $(api.node).on(drag.types.start, '[i=title]', function (event) {
         // 排除气泡类型的对话框
@@ -113,8 +105,6 @@ dialog.oncreate = function (api) {
     });
 
 };
-
-
 
 dialog.get = function (id) {
 
@@ -135,8 +125,6 @@ dialog.get = function (id) {
     }
 
 };
-
-
 
 return dialog;
 

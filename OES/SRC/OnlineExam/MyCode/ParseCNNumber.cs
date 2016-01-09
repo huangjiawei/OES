@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Text.RegularExpressions;
-
 public class ParseCNNumber
 {
     /// <summary>
@@ -26,8 +25,6 @@ public class ParseCNNumber
             default: return -1;
         }
     }
-
-
     //将中文数字转换成阿拉伯数字，中文数字中不包含“十”“百千万”等字符
     public static long ParseCn(string cnNum)
     {
@@ -48,12 +45,9 @@ public class ParseCNNumber
                 case '零': num += '0'; break;
                 default:num += n;break;
             }
-
         }
         return long.Parse(num);
-
     }
-
     /// <summary>
     /// 转换单位
     /// </summary>

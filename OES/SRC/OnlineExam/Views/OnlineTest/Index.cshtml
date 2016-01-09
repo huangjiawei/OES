@@ -6,14 +6,12 @@
     <li>
         <input id="autoexam" type="radio" name="examtype" checked="checked" value="练习测试" onclick="HidePapers();" />练习测试
     </li>
-
     <li>
         <input id="paperexam" type="radio" name="examtype" value="选择试卷" onclick="ShowPapers();" />指定试卷
     </li>
 </ul>
 <ul id="paperlist" class="panel-body" style="display:none;"></ul>
 <a class="btn btn-default" onclick="begin()">开始测试</a>
-
 @section Scripts{
     <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet">
     <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet">
@@ -24,7 +22,6 @@
     <script src="/Scripts/jquery.validate.min.js"></script>
     <script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script>
-
         function hideBtn() {
             $("iframe").contents().find(".btn").css("display", "none");
         }
@@ -43,29 +40,23 @@
                             var li = "<li id='" + data.Data[i].ID + "' > " + data.Data[i].Name + "</li>";
                             $("#paperlist").append(li);
                         }
-
-
                     }
                 }
             });
-
             $("#paperlist").slideToggle(10);
         }
         function HidePapers() {
             $("#paperlist").slideToggle(10);
-
         }
         function begin() {
             var subjectid = $("iframe").contents().find("#SubjectList").val()
             var paperid = "";
             if ($("#autoexam").is(":checked")) {
-
             } else if ($("#paperexam").is(":checked")) {
                 paperid = $(".SelectedItem").attr("id")
             }
             Alerter.list(subjectid, paperid);
             window.open('@Url.Action("Test")' + "?subjectid=" + subjectid + "&paperid=" + paperid, "_blank");
         }
-
     </script>
 }

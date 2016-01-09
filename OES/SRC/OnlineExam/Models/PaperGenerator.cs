@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
 namespace OnlineExam.Models
 {
     public class PaperGenerate
@@ -21,7 +20,6 @@ namespace OnlineExam.Models
             foreach (var p in pc)
             {
                 pcs.AddRange(p.AsEnumerable());
-
             }
             var answerItemList = list.Paper_AnswerList_Item;
             bool a, b, c, d, e, f;
@@ -48,8 +46,6 @@ namespace OnlineExam.Models
                     { answerItem.IsCorrect = true; answerItem.Score = t.Score; sum += t.Score; }
                     else { answerItem.IsCorrect = false; answerItem.Score = 0; }
                 }
-
-
             }
             return sum;
             //}
@@ -89,13 +85,9 @@ namespace OnlineExam.Models
                     answers_index += smallQuestionNumber;
                 
                 }
-
-
             }
             return answerlist;
-
         }
-
  
         public void DefaultSetting()
         {
@@ -151,7 +143,6 @@ namespace OnlineExam.Models
                                 select s).Take(
                 Paper.Paper_QuestionCategory.Where(m => m.QuestionType == QuestionType.SingleChoice.ToString()).Select(m => m.Quantity).Sum())
                 .ToList();
-
             var multiplechoice = (from s in ee.QuestionChoice
                                   where s.IsMultiple == true && choiceids.Contains(s.ID)
                                   orderby Guid.NewGuid()
@@ -159,8 +150,6 @@ namespace OnlineExam.Models
                 Paper.Paper_QuestionCategory.Where(m => m.QuestionType == QuestionType.MultipleChoice.ToString()).Select(m => m.Quantity).Sum())
                 .ToList();
             Choice.AddRange(singlechoice.Union(multiplechoice));
-
-
             var shortanswer = (from s in ee.QuestionEssay
                                where s.QuestionType == QuestionType.ShortAnswer.ToString() && essayids.Contains(s.ID)
                                orderby Guid.NewGuid()
@@ -179,15 +168,10 @@ namespace OnlineExam.Models
                 Paper.Paper_QuestionCategory.Where(m => m.QuestionType == QuestionType.Discussion.ToString()).Select(m => m.Quantity).Sum())
                 .ToList();
             Essay.AddRange(shortanswer.Union(completion).Union(discussion));
-
-
             //添加与试卷的关联
             int choice_index = 0;
-
             foreach (var bq in Paper.Paper_QuestionCategory.Where(m => m.QuestionType == QuestionType.SingleChoice.ToString()))
             {
-
-
                 if (singlechoice.Count > choice_index)
                 {
                     int smallQNumber = 1;//小题号
@@ -207,15 +191,11 @@ namespace OnlineExam.Models
                     var count = temp.Count();
                     bq.Quantity = count;
                     choice_index += count;
-
                 }
-
-
             }
             choice_index = 0;
             foreach (var bq in Paper.Paper_QuestionCategory.Where(m => m.QuestionType == QuestionType.MultipleChoice.ToString()))
             {
-
                 if (multiplechoice.Count > choice_index)
                 {
                     int smallQNumber = 1;//小题号
@@ -235,7 +215,6 @@ namespace OnlineExam.Models
                     var count = temp.Count();
                     bq.Quantity = count;
                     choice_index += count;
-
                 }
        
             }
@@ -246,7 +225,6 @@ namespace OnlineExam.Models
                 {
                     int smallQNumber = 1;//小题号
                     var qlist = completion.Take(bq.Quantity);
-
                     var temp = from s in qlist
                                select new Paper_Essay
                                {
@@ -262,7 +240,6 @@ namespace OnlineExam.Models
                     var count = temp.Count();
                     bq.Quantity = count;
                     essay_index += count;
-
                 }
    
             }
@@ -289,7 +266,6 @@ namespace OnlineExam.Models
                     var count = temp.Count();
                     bq.Quantity = count;
                     essay_index += count;
-
                 }
         
             }
@@ -316,16 +292,11 @@ namespace OnlineExam.Models
                     var count = temp.Count();
                     bq.Quantity = count;
                     essay_index += count;
-
-
                 }
         
             }
             ee.TestPaper.Add(Paper);
             ee.SaveChanges();
-
-
         }
-
     }
 }

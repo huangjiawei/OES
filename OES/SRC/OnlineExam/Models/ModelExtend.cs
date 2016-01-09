@@ -7,14 +7,12 @@ using System.Runtime;
 using System.ComponentModel.DataAnnotations;
 namespace OnlineExam.Models
 {
-    public partial class Paper_QuestionCategory
-    {
-
-        public int RandomKey { get; set; }
-    }
+    //public partial class Paper_QuestionCategory
+    //{
+    //    public int RandomKey { get; set; }
+    //}
     public partial class QuestionChoice
     {
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public QuestionChoice()
         {
@@ -31,17 +29,14 @@ namespace OnlineExam.Models
         }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Paper_Choice> Paper_Choice { get; set; }
-
         public static void AppendSubjects(string sids, long qid)
         {
             ExamEntities ee = new ExamEntities();
             var temp = sids.Split(',');
-
             List<int> ids = new List<int>();
             List<Subject_Choice> ses = new List<Subject_Choice>();
             foreach (var i in temp)
             {
-
                 ids.Add(int.Parse(i.Trim()));
                 var t = new Subject_Choice();
                 t.SubjectID = int.Parse(i.Trim());
@@ -63,7 +58,6 @@ namespace OnlineExam.Models
             List<Subject_Choice> ses = new List<Subject_Choice>();
             foreach (var i in temp)
             {
-
                 ids.Add(int.Parse(i.Trim()));
                 var t = new Subject_Choice();
                 t.SubjectID = int.Parse(i.Trim());
@@ -145,7 +139,6 @@ namespace OnlineExam.Models
             Audit = 0;
             this.Paper_Essay = new HashSet<Paper_Essay>();
         }
-
         public void AppendSubjects(string sids)
         {
             ExamEntities ee = new ExamEntities();
@@ -155,7 +148,6 @@ namespace OnlineExam.Models
             List<Subject_Essay> ses = new List<Subject_Essay>();
             foreach (var i in temp)
             {
-
                 ids.Add(int.Parse(i.Trim()));
                 var t = new Subject_Essay();
                 t.SubjectID = int.Parse(i.Trim());
@@ -172,12 +164,10 @@ namespace OnlineExam.Models
         {
             ExamEntities ee = new ExamEntities();
             var temp = sids.Split(',');
-
             List<int> ids = new List<int>();
             List<Subject_Essay> ses = new List<Subject_Essay>();
             foreach (var i in temp)
             {
-
                 ids.Add(int.Parse(i.Trim()));
                 var t = new Subject_Essay();
                 t.SubjectID = int.Parse(i.Trim());
@@ -242,7 +232,6 @@ namespace OnlineExam.Models
     //    public partial class TestPaper
     //    {
     //        QuestionChoice qb;
-
     //        public void AutoGenerate()
     //        {
     //            ExamEntities ee = new ExamEntities();
@@ -279,9 +268,7 @@ namespace OnlineExam.Models
     //                              select s).Take(this.DiscussionQuantity);
     //            Essay.AddRange(shortanswer.Union(completion).Union(discussion));
     //        }
-
     //    }
-
     //导入的时候，根据题型导入
     //如果题型
     public class QuestionBase
@@ -310,8 +297,6 @@ namespace OnlineExam.Models
         public string Assessment { get; set; }
         public void ToQuestion(QuestionType qt)
         {
-
         }
-
     }
 }

@@ -1,49 +1,38 @@
 ﻿@model OnlineExam.Models.ImportPaper
-
 <div>
     <h4>试卷试题导入</h4>
     <hr />
     <div class="div-horizontal">
-
         <div class="row">
             <div class="col-sm-1">标题</div> <div class="col-sm-10">@Html.TextBoxFor(model => Model.ExamTitle)</div>
-
         </div>
         <div class="row">
             <div class="col-sm-1">
                 年级
             </div>
-
             <div class="col-sm-2">
                 @Html.TextBoxFor(model => Model.Grade)
             </div>
-
             <div class="col-sm-1">
                 年份
             </div><div class="col-sm-2">
                 @Html.TextBoxFor(model => Model.Year)
             </div>
         </div>
-
         <div class="row">
-
             <div class="col-sm-1">
                 学期
             </div>
-
             <div class="col-sm-2">
                 @Html.TextBoxFor(model => Model.SubSubjectName)
             </div>
-
             <div class="col-sm-1">
                 试卷类型
             </div>
-
             <div class="col-sm-2">
                 @Html.TextBoxFor(model => Model.ExamType)
             </div>
         </div>
-
         <div class="row">
             <div>
                 <iframe src="/Subject/SubjectDropDown" style="width:700px; height:30px; border-style:none;overflow:hidden" onload="SetDropDownStyle();"></iframe>
@@ -55,7 +44,6 @@
                 </div>
             </div>
         </div>
-
         <hr />
         <div class="row">
             <div class="col-md-1">
@@ -77,11 +65,8 @@
             <div class="col-md-1">
                 应用题x
                 @Html.DisplayFor(model => Model.DiscussionQuantity)
-
             </div>
         </div>
-
-
     </div>
 </div>
 <hr />
@@ -103,7 +88,6 @@
             @i.QType.GetInfo();
         </h3>
     }
-
     <div id="@i.ID" class="bg-primary ">
         <div>
             <span id="toolBox">
@@ -134,12 +118,9 @@
         <footer class="QuestionInfo"><b>解释/评论：</b> @Html.Raw(i.Info)</footer>
         <hr />
         <footer class="Answer"><b>答案：</b>@Html.Raw(i.Answer)</footer>
-
     </div>
     <hr />
-
 }
-
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
@@ -156,14 +137,11 @@
     $(function () {
         //Alerter.info($("iframe").contents().find("span").html());
         //SetDropDownStyle();
-
     })
     function AppendSubject(id, name) {
         if ($("#subjectlist").find("[id='" + id + "']").length > 0) alert("科目已添加");
         else $("#subjectlist").append("<span id='" + id + "' class='subject '>" + name + "<a href='#' class='glyphicon glyphicon-remove' onclick='$(this).parent().remove()'></a></span>")
-
     }
-
     function DisplayInfo(e) {
         if ($(e).is(":checked")) {
             $(".QuestionInfo").css("display", "block");
@@ -178,10 +156,7 @@
             $(".Answer").css("display", "none");
         }
     }
-
     function QEdit(id) {
-
-
     }
     function QDelete(id) {
         if (confirm("确定要删除选中的题目吗?"))
@@ -199,8 +174,6 @@
                     }
                 }
             });
-
-
     }
     function QImport(id) {
         var subjectIds = "";
@@ -229,5 +202,4 @@
             }
         });
     }
-
 </script>

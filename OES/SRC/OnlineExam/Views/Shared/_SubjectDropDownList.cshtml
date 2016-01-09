@@ -31,14 +31,12 @@
                             //Alerter.info(op);
                             $("#SubjectList").append(op);
                         }
-
                     }
                 }
             });
             //Alerter.info();
         }
         function SetSubjectID(id) {
-
             $("#SubjectList").val(id);
         }
         function GetSubjectID() {
@@ -51,21 +49,18 @@
             var e = $("#SubjectList");
             Alerter.info($("#SubjectList>option:selected").html());
             return $("#SubjectList>option:selected").html()
-
         }
         //需要在父页面添加AppendSubject方法以响应操作
         //function AppendSubject() {
         //    var jq = parent.jQuery;
         //    window.parent.frames.AppendSubject(GetSubjectID(), GetSubjectName());
         //}
-
     </script>)
 @this.ScriptBlock(
     @<style>
          .SubjectListStyle {
              width: 150px;
          }
-
     </style>
 )
 @{
@@ -80,7 +75,6 @@
     ViewBag.MajorName = "全部";
     ViewBag.MajorId = 0;
 }
-
 @*<span> 所属科目：</span>*@
 @Html.DropDownList("MajorList", (IEnumerable<SelectListItem>)ViewBag.MajorList, new { onchange = "",@class= "SubjectListStyle form-control flowleft" })
 @Html.DropDownList("SubjectList", (IEnumerable<SelectListItem>)ViewBag.SubjectList, new {@class = "SubjectListStyle form-control flowleft" })

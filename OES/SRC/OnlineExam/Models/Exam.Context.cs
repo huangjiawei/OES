@@ -6,7 +6,6 @@
 //     如果重新生成代码，将覆盖对此文件的手动更改。
 // </auto-generated>
 //------------------------------------------------------------------------------
-
 namespace OnlineExam.Models
 {
     using System;
@@ -35,7 +34,6 @@ namespace OnlineExam.Models
         public virtual DbSet<Major_Subject> Major_Subject { get; set; }
         public virtual DbSet<Paper_AnswerList> Paper_AnswerList { get; set; }
         public virtual DbSet<Paper_Choice> Paper_Choice { get; set; }
-        public virtual DbSet<Paper_Essay> Paper_Essay { get; set; }
         public virtual DbSet<Paper_QuestionCategory> Paper_QuestionCategory { get; set; }
         public virtual DbSet<PaperCollection> PaperCollection { get; set; }
         public virtual DbSet<Permission> Permission { get; set; }
@@ -52,5 +50,6 @@ namespace OnlineExam.Models
         public virtual DbSet<UserProfile> UserProfile { get; set; }
         public virtual DbSet<Paper_AnswerList_Item> Paper_AnswerList_Item { get; set; }
         public virtual DbSet<TestPaper> TestPaper { get; set; }
+        public virtual DbSet<Paper_Essay> Paper_Essay { get; set; }
     }
 }

@@ -15,5 +15,4 @@ $.extend($.fn.etree.defaults,{
 			msg:'是否真的删除选定的节点？'
 		}
 	}
-
 });

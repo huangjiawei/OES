@@ -2,14 +2,12 @@
 //using System.Collections.Generic;
 //using System.Linq;
 //using System.Web;
-
 //namespace OnlineExam.Models
 //{
 //    public class PagedViewModel
 //    {
 //    }
 //}
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +16,6 @@ using System.Web.Mvc;
 using MvcContrib.Pagination;
 using MvcContrib.UI.Grid;
 using MvcContrib.Sorting;
-
 namespace OnlineExam.Models
 {
     public class PagedViewModel<T>
@@ -30,20 +27,17 @@ namespace OnlineExam.Models
         public IPagination<T> PagedList { get; private set; }
         public int? Page { get; set; }
         public int? PageSize { get; set; }
-
         public PagedViewModel<T> AddFilter(Expression<Func<T, bool>> predicate)
         {
             Query = Query.Where(predicate);
             return this;
         }
-
         public PagedViewModel<T> AddFilter<TValue>(string key, TValue value, Expression<Func<T, bool>> predicate)
         {
             ProcessQuery(value, predicate);
             ViewData[key] = value;
             return this;
         }
-
         public PagedViewModel<T> AddFilter<TValue>(string keyField, object value, Expression<Func<T, bool>> predicate,
             IQueryable<TValue> query, string textField)
         {
@@ -52,7 +46,6 @@ namespace OnlineExam.Models
             ViewData[keyField] = selectList;
             return this;
         }
-
         public PagedViewModel<T> Setup()
         {
             if (string.IsNullOrWhiteSpace(GridSortOptions.Column))
@@ -70,9 +63,7 @@ namespace OnlineExam.Models
             int itemCount= Query.Count();
             ViewData["ItemCount"] = itemCount;
             ViewData["MaxPage"] = (itemCount + (PageSize - 1)) / PageSize;
-
         }
-
         private void ProcessQuery<TValue>(TValue value, Expression<Func<T, bool>> predicate)
         {
             if (value == null) return;
@@ -80,7 +71,6 @@ namespace OnlineExam.Models
             {
                 if (string.IsNullOrWhiteSpace(value as string)) return;
             }
-
             Query = Query.Where(predicate);
         }
     }

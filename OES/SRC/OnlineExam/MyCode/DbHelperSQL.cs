@@ -7,8 +7,6 @@ using System.Data.OleDb;
 using System.Configuration;
 using System.Data.Common;
 using System.Collections.Generic;
-
-
     public class DbHelperSQL
     {
         //数据库连接字符串(web.config来配置)，多数据库可使用DbHelperSQLP来实现.
@@ -17,7 +15,6 @@ using System.Collections.Generic;
        
         public DbHelperSQL()
         {
-
         }
         #region 公用方法
         /// <summary>
@@ -120,9 +117,7 @@ using System.Collections.Generic;
             }
         }
         #endregion
-
         #region  执行简单SQL语句
-
         /// <summary>
         /// 执行SQL语句，返回影响的记录数
         /// </summary>
@@ -148,7 +143,6 @@ using System.Collections.Generic;
                 }
             }
         }
-
         public static int ExecuteSqlByTime(string SQLString, int Times)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -170,8 +164,6 @@ using System.Collections.Generic;
                 }
             }
         }
-
-
         /// <summary>
         /// 执行多条SQL语句，实现数据库事务。
         /// </summary>
@@ -309,7 +301,6 @@ using System.Collections.Generic;
                 }
             }
         }
-
         /// <summary>
         /// 执行一条计算查询结果语句，返回查询结果（object）。
         /// </summary>
@@ -389,7 +380,6 @@ using System.Collections.Generic;
             {
                 throw e;
             }
-
         }
         /// <summary>
         /// 执行查询语句，返回DataSet
@@ -433,7 +423,6 @@ using System.Collections.Generic;
                 return ds;
             }
         }
-
         /// <summary>
         /// 将EXCEL转换成DataSet
         /// </summary>
@@ -452,26 +441,15 @@ using System.Collections.Generic;
             strExcel = string.Format("select * from [{0}]", tableName);
             myCommand = new OleDbDataAdapter(strExcel, strConn);
             ds = new DataSet();
-
             myCommand.Fill(ds, "table1");
-
-
             //  dt = ds.Tables["table1"];
-
             
-
             conn.Close();
             return ds;
         }
-
         
-
-
-
         #endregion
-
         #region 执行带参数的SQL语句
-
         /// <summary>
         /// 执行SQL语句，返回影响的记录数
         /// </summary>
@@ -497,8 +475,6 @@ using System.Collections.Generic;
                 }
             }
         }
-
-
         /// <summary>
         /// 执行多条SQL语句，实现数据库事务。
         /// </summary>
@@ -613,7 +589,6 @@ using System.Collections.Generic;
                 }
             }
         }
-
         /// <summary>
         /// 执行查询语句，返回SqlDataReader ( 注意：调用该方法后，一定要对SqlDataReader进行Close )
         /// </summary>
@@ -639,9 +614,7 @@ using System.Collections.Generic;
             //				cmd.Dispose();
             //				connection.Close();
             //			}	
-
         }
-
         /// <summary>
         /// 执行查询语句，返回DataSet
         /// </summary>
@@ -696,7 +669,6 @@ using System.Collections.Generic;
                 }
             }
         }
-
         private static void PrepareCommand(SqlCommand cmd, SqlConnection conn, SqlTransaction trans, string cmdText, SqlParameter[] cmdParms)
         {
             if (conn.State != ConnectionState.Open)
@@ -708,8 +680,6 @@ using System.Collections.Generic;
             cmd.CommandType = CommandType.Text;//cmdType;
             if (cmdParms != null)
             {
-
-
                 foreach (SqlParameter parameter in cmdParms)
                 {
                     if ((parameter.Direction == ParameterDirection.InputOutput || parameter.Direction == ParameterDirection.Input) &&
@@ -721,11 +691,8 @@ using System.Collections.Generic;
                 }
             }
         }
-
         #endregion
-
         #region 存储过程操作
-
         /// <summary>
         /// 执行存储过程，返回SqlDataReader ( 注意：调用该方法后，一定要对SqlDataReader进行Close )
         /// </summary>
@@ -741,10 +708,7 @@ using System.Collections.Generic;
             command.CommandType = CommandType.StoredProcedure;
             returnReader = command.ExecuteReader(CommandBehavior.CloseConnection);
             return returnReader;
-
         }
-
-
         /// <summary>
         /// 执行存储过程
         /// </summary>
@@ -779,8 +743,6 @@ using System.Collections.Generic;
                 return dataSet;
             }
         }
-
-
         /// <summary>
         /// 构建 SqlCommand 对象(用来返回一个结果集，而不是一个整数值)
         /// </summary>
@@ -805,10 +767,8 @@ using System.Collections.Generic;
                     command.Parameters.Add(parameter);
                 }
             }
-
             return command;
         }
-
         /// <summary>
         /// 执行存储过程，返回影响的行数		
         /// </summary>
@@ -829,7 +789,6 @@ using System.Collections.Generic;
                 return result;
             }
         }
-
         /// <summary>
         /// 创建 SqlCommand 对象实例(用来返回一个整数值)	
         /// </summary>

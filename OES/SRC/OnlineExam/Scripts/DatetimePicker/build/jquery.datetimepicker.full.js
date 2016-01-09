@@ -1850,8 +1850,6 @@
 						datetimepicker.trigger('close.xdsoft');
 					}
 				});
-
-
 			datepicker
 				.on('mousewheel.xdsoft', function (event) {
 					if (!options.scrollMonth) {
@@ -2233,8 +2231,6 @@
             return this.unbind('mousewheel', fn);
         }
     });
-
-
     function handler(event) {
         var orgEvent   = event || window.event,
             args       = slice.call(arguments, 1),

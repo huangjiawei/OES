@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using OnlineExam.Models;
 using MvcContrib.UI.Grid;
-
 namespace OnlineExam.Controllers.Background
 {
     [Authorize]
@@ -16,7 +15,6 @@ namespace OnlineExam.Controllers.Background
         int PageSize = CKey.DefaultPageCount;
         public virtual ActionResult Index(string searchWord, int? frequency, int? difficulty, int? audit, DataView? viewType, int? pageSize, GridSortOptions gridSortOptions, int? page, QuestionType? questionType)
         {
-
             ViewData["ViewType"] = viewType;
             int CurrentPageSize = 0;
             if (!pageSize.HasValue)
@@ -36,9 +34,7 @@ namespace OnlineExam.Controllers.Background
             //.AddFilter("artistId", artistId, a => a.ArtistId == artistId, _service.GetArtists(), "Name")
         ;
             if (frequency.HasValue && frequency.Value != -1) { pagedViewModel.AddFilter("frequency", frequency, a => a.Frequency == frequency.Value); }
-
             if (difficulty.HasValue && difficulty.Value != -1) { pagedViewModel.AddFilter("difficulty", difficulty, a => a.Difficulty == difficulty.Value); }
-
             if (audit.HasValue && audit.Value != -1)
             {
                 pagedViewModel.AddFilter("audit", audit, a => a.Audit == audit.Value);
@@ -55,7 +51,6 @@ namespace OnlineExam.Controllers.Background
         public virtual ActionResult Details(int id)
         {
             ViewBag.RelateSubject = GetRelateSubject(id);
-
             var q = ee.QuestionEssay.Where(m => m.ID == id).SingleOrDefault();
             if (q == null || q.ID != id) RedirectToAction("");
             Utitlity.ModelStandardize(q);
@@ -63,7 +58,6 @@ namespace OnlineExam.Controllers.Background
         }
         //public ActionResult Create()
         //{
-
         //    return View();
         //}
         //public ActionResult Edit(EditType et)
@@ -94,15 +88,12 @@ namespace OnlineExam.Controllers.Background
                 }
                 if (ModelState.IsValid)
                 {
-
-
                     ee.QuestionEssay.Add(Model);
                     ee.SaveChanges();
                     //AppendSubjectEssay(sids, Model.ID);
                     Model.AppendSubjects(sids);
                     ee.SaveChanges();
                     // TODO: Add insert logic here
-
                     return RedirectToAction("Index", new { questionType = Model.QuestionType });
                 }
                 else return View("Edit", Model);
@@ -121,16 +112,13 @@ namespace OnlineExam.Controllers.Background
                         select s).ToList();
             return list;
         }
-
         // GET: Choice/Edit/5
         public virtual ActionResult Edit(int? id, string questionType)
         {
             //var subjectList = ee.Subject.ToList();
             //var majorList = ee.Subject.ToList();
-
             if (id.HasValue)
             {
-
                 ViewBag.RelateSubject = GetRelateSubject(id.Value);
                 ViewBag.EditType = EditType.Edit;
                 var q = ee.QuestionEssay.Where(m => m.ID == id).SingleOrDefault();
@@ -150,13 +138,11 @@ namespace OnlineExam.Controllers.Background
                 return View();
             }
         }
-
         // POST: Choice/Edit/5
         [HttpPost]
         [ValidateInput(false)]
         public virtual ActionResult Edit(QuestionEssay Model)
         {
-
             ViewBag.questionType = Model.QuestionType;
             Utitlity.ModelStandardize(Model);
             string sids = Request.Params["SubjectIds"];
@@ -164,9 +150,7 @@ namespace OnlineExam.Controllers.Background
             sids = sids.Substring(1);
             if (ModelState.IsValid)
             {
-
                 ee.Entry(Model).State = System.Data.Entity.EntityState.Modified;
-
                 //if (Model.OptionD == null) { Model.OptionD = ""; }
                 //if (Model.OptionE == null) { Model.OptionE = ""; }
                 //if (Model.OptionF == null) { Model.OptionF = ""; }

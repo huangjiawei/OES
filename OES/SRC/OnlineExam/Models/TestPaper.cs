@@ -6,7 +6,6 @@
 //     如果重新生成代码，将覆盖对此文件的手动更改。
 // </auto-generated>
 //------------------------------------------------------------------------------
-
 namespace OnlineExam.Models
 {
     using System;
@@ -19,9 +18,9 @@ namespace OnlineExam.Models
         {
             this.Paper_AnswerList = new HashSet<Paper_AnswerList>();
             this.Paper_Choice = new HashSet<Paper_Choice>();
-            this.Paper_Essay = new HashSet<Paper_Essay>();
             this.Paper_QuestionCategory = new HashSet<Paper_QuestionCategory>();
             this.PaperCollection = new HashSet<PaperCollection>();
+            this.Paper_Essay = new HashSet<Paper_Essay>();
         }
     
         public string ID { get; set; }
@@ -44,10 +43,10 @@ namespace OnlineExam.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Paper_Choice> Paper_Choice { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Paper_Essay> Paper_Essay { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Paper_QuestionCategory> Paper_QuestionCategory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PaperCollection> PaperCollection { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Paper_Essay> Paper_Essay { get; set; }
     }
 }

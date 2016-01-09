@@ -25,7 +25,6 @@ namespace OnlineExam.Controllers.API
             //HttpResponseMessage result = null;
             var httpRequest = HttpContext.Current.Request;
             UploadResponse result = new UploadResponse();
-
             if (httpRequest.Files.Count > 0)
             {
                 //var docfiles = new List<string>();
@@ -51,7 +50,6 @@ namespace OnlineExam.Controllers.API
                         result.url = CUrl.QuestionResource+fileName;
                         result.fileName = fileName;
                        
-
                     }
                     catch
                     {
@@ -72,7 +70,5 @@ namespace OnlineExam.Controllers.API
             }
             return Json(result);
         }
-
     }
-
 }

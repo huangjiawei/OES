@@ -43,7 +43,6 @@ namespace OnlineExam.Controllers
                 //var docfiles = new List<string>();
                 //foreach (string file in Request.Files)
                 //{
-
                 string filePath;
                 string fileType = postedFile.FileName.Substring(postedFile.FileName.LastIndexOf("."));
                 if (!acceptFileType.Contains(fileType))
@@ -70,7 +69,6 @@ namespace OnlineExam.Controllers
                 //}
                 //catch
                 //{
-
                 //}
                 //docfiles.Add(filePath);
                 //}
@@ -81,37 +79,28 @@ namespace OnlineExam.Controllers
                 ViewBag.FileError = "请上传文件";
                 return View("Index");
             }
-
         }
-
         // GET: PaperImport/Details/5
-
         public virtual JsonResult Delete(int id, string key)
         {
             JsonReturn jr = new JsonReturn();
-
             try
             {
                 ImportPaper ip = (ImportPaper)Session[SessionString.ImportPaper + key];
                 var q = ip.Questions.Where(m => m.ID == id).SingleOrDefault();
                 ip.Questions.Remove(q);
                 jr.Success = 1;
-
             }
             catch (Exception e)
             {
                 jr.Success = 0;
                 jr.Message = e.Message;
-
             }
             return Json(jr, JsonRequestBehavior.AllowGet);
-
         }
-
         // GET: PaperImport/Create
         public virtual JsonResult Import(int id, string key, string subjectIds)
         {
-
             JsonReturn jr = new JsonReturn();
             ImportPaper ip = (ImportPaper)Session[SessionString.ImportPaper + key];
             var q = ip.Questions.Where(m => m.ID == id).Single();
@@ -119,41 +108,31 @@ namespace OnlineExam.Controllers
             switch (q.QType)
             {
                 case QuestionType.SingleChoice:
-
                     ee.QuestionChoice.Add((QuestionChoice)o);
-
                     break;
                 case QuestionType.MultipleChoice:
                     ee.QuestionChoice.Add((QuestionChoice)o);
-
                     break;
                 case QuestionType.Completion:
                     ee.QuestionEssay.Add((QuestionEssay)o);
-
                     break;
                 case QuestionType.Discussion:
                     ee.QuestionEssay.Add((QuestionEssay)o);
-
                     break;
                 case QuestionType.ShortAnswer:
                 case QuestionType.UnKnown:
                     ee.QuestionEssay.Add((QuestionEssay)o);
-
                     break;
             }
             try
             {
                 ee.SaveChanges();
-
                 if (o is QuestionEssay)
                 {
-
                     jr.Result = ((QuestionEssay)o).ID.ToString(); jr.Message = "/Essay/Details/" + jr.Result;
-
                     if (string.IsNullOrWhiteSpace(subjectIds)) subjectIds = ip.SubjectId.ToString();
                     if (subjectIds != "-1")
                     {
-
                         //添加 关联科目
                         ((QuestionEssay)o).AppendSubjects(subjectIds);
                     }
@@ -161,29 +140,21 @@ namespace OnlineExam.Controllers
                 if (o is QuestionChoice)
                 {
                     jr.Result = ((QuestionChoice)o).ID.ToString(); jr.Message = "/Choice/Details/" + jr.Result;
-
                     if (string.IsNullOrWhiteSpace(subjectIds)) subjectIds = ip.SubjectId.ToString();
                     if (subjectIds != "-1")
                     {
                         //添加关联科目
                         ((QuestionChoice)o).AppendSubjects(subjectIds);
                     }
-
                 }
-
                 jr.Success = 1;
             }
             catch (Exception ex)
             {
-
                 jr.Success = 0;
                 jr.Message = ex.Message;
-
             }
-
-
             return Json(jr, JsonRequestBehavior.AllowGet);
-
         }
         // POST: PaperImport/Create
         //[HttpPost]
@@ -192,7 +163,6 @@ namespace OnlineExam.Controllers
         //    try
         //    {
         //        // TODO: Add insert logic here
-
         //        return RedirectToAction("Index");
         //    }
         //    catch
@@ -200,7 +170,5 @@ namespace OnlineExam.Controllers
         //        return View();
         //    }
         //}
-
-
     }
 }

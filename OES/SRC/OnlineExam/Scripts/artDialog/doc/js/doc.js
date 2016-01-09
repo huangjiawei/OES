@@ -3,8 +3,6 @@
 	window.console = window.console || {
 		log: $.noop
 	};
-
-
 	var codes = {};
 	var debug = location.href.indexOf('Users/tangbin') !== -1;
 
@@ -43,8 +41,6 @@
 		});
 		$('body').append($top);
 	});
-
-
 	var runCode = function (id) {
 		codes[id]();
 
@@ -53,8 +49,6 @@
 			console.log(api);
 		}
 	};
-
-
 	$(document).on('click', 'button[data-code]', function () {
 		var id = $(this).data('code');
 		runCode(id);

@@ -2,7 +2,6 @@ $.extend($.fn.datagrid.defaults, {
 	onBeforeFetch: function(page){},
 	onFetch: function(page, rows){}
 });
-
 var bufferview = $.extend({}, $.fn.datagrid.defaults.view, {
 	render: function(target, container, frozen){
 		var state = $.data(target, 'datagrid');

@@ -544,8 +544,6 @@
 				.append($(_this.template.icon)
 					.addClass(classList.join(' '))
 				);
-
-
 			// Add node icon
 			if (_this.options.showIcon) {
 				
@@ -696,8 +694,6 @@
 	};
 
 	Tree.prototype.css = '.treeview .list-group-item{cursor:pointer}.treeview span.indent{margin-left:10px;margin-right:10px}.treeview span.icon{width:12px;margin-right:5px}.treeview .node-disabled{color:silver;cursor:not-allowed}'
-
-
 	/**
 		Returns a single node object that matches the given node id.
 		@param {Number} nodeId - A node's unique identifier
@@ -794,8 +790,6 @@
 	Tree.prototype.getEnabled = function () {
 		return this.findNodes('false', 'g', 'state.disabled');
 	};
-
-
 	/**
 		Set a node state to selected
 		@param {Object|Number} identifiers - A valid node, node id or array of node identifiers
@@ -834,8 +828,6 @@
 
 		this.render();
 	};
-
-
 	/**
 		Collapse all tree nodes
 		@param {optional Object} options
@@ -938,8 +930,6 @@
 		
 		this.render();
 	};
-
-
 	/**
 		Check all tree nodes
 		@param {optional Object} options
@@ -1004,8 +994,6 @@
 
 		this.render();
 	};
-
-
 	/**
 		Disable all tree nodes
 		@param {optional Object} options
@@ -1070,8 +1058,6 @@
 
 		this.render();
 	};
-
-
 	/**
 		Common code for processing multiple identifiers
 	*/

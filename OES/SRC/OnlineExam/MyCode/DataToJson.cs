@@ -4,8 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using System.Text;
-
-
     public class DataToJson
     {
         /// <summary>
@@ -36,13 +34,10 @@ using System.Text;
                     {
                         json.AppendFormat("\"{0}\":\"{1}\"", columnName, rows[columnName]);
                     }
-
                     if (j < dt.Columns.Count - 1) json.Append(","); // add comma if not last column
                 }
                 json.Append("}");        
             return json.ToString();
-
-
         }
         /// <summary>
         ///ajax调用 获取数据 转换json 
@@ -51,7 +46,6 @@ using System.Text;
         /// <returns></returns>
         public static string getjson(DataTable dt)
         {
-
             StringBuilder json = new StringBuilder();
             json.Append("[");
             for (int s = 0; s < dt.Rows.Count; s++)
@@ -62,7 +56,6 @@ using System.Text;
                 {
                     string columnName = dt.Columns[j].ColumnName;
                     string columnType = dt.Columns[j].DataType.Name;
-
                     if (columnType == "Int32" || columnType == "Int16" || columnType == "Decimal")
                     {
                         json.AppendFormat("\"{0}\":\"{1}\"", columnName, rows.IsNull(columnName) ? "" : rows[columnName]);
@@ -75,17 +68,14 @@ using System.Text;
                     {
                         json.AppendFormat("\"{0}\":\"{1}\"", columnName, rows[columnName]);
                     }
-
                     if (j < dt.Columns.Count - 1) json.Append(","); // add comma if not last column
                 }
                 json.Append("}");
-
                 if (s < dt.Rows.Count - 1) json.Append(","); // add comma if not last row
             }
             json.Append("]");
             return json.ToString();
         }
-
         /// <summary>
         /// 获得分页sql
         /// </summary>
@@ -184,7 +174,6 @@ using System.Text;
             jsonBuilder.Append("}");
             return jsonBuilder.ToString();
         }
-
         /// <summary>
         /// DataTable转换Json 用于EasyUI:DataGrid 表和总数
         /// </summary>
@@ -207,7 +196,6 @@ using System.Text;
                     jsonBuilder.Append("\"");
                     jsonBuilder.Append(dt.Columns[j].ColumnName);
                     jsonBuilder.Append("\":\"");
-
                     jsonBuilder.Append(dt.Rows[i][j].ToString());
                     jsonBuilder.Append("\",");
                 }
@@ -219,7 +207,6 @@ using System.Text;
             jsonBuilder.Append("}");
             return jsonBuilder.ToString();
         }
-
         /// <summary>
         /// DataTable转换Json 用于EasyUI:DataGrid 表和总数去掉content调用此方法:带参数表示不包含内容
         /// </summary>
@@ -297,9 +284,7 @@ using System.Text;
             }
             sb.Append("]");
             return sb.ToString();
-
         }
-
     /// <summary>
     /// 个人菜单 递归将DataTable转化为适合jquery easy ui 控件tree ,combotree 的 json
     /// 该方法最后还要 将结果稍微处理下,将最前面的,"children" 字符去掉.
@@ -345,8 +330,6 @@ using System.Text;
         sb.Append("]");
         return sb.ToString();
     }
-
-
     public static string TableToBootstrapTreeJson(DataTable dt, string pField, string pValue, string kField, string TextField, string Menu)
     {
         StringBuilder sb = new StringBuilder();
@@ -379,5 +362,4 @@ using System.Text;
         sb.Append("]");
         return sb.ToString();
     }
-
 }

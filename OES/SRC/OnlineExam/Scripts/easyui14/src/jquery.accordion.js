@@ -267,7 +267,6 @@
 		var opts = state.options;
 		var panels = state.panels;
 		if (options.selected == undefined) options.selected = true;
-
 		stopAnimate(container);
 		
 		var pp = $('<div></div>').appendTo(container);

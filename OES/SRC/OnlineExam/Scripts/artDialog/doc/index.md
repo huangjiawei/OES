@@ -86,7 +86,6 @@ artDialog —— 经典、优雅的网页对话框控件。
 	*	[源码构建](#other-grunt)
 	*	[artDialog v5 升级 v6 参考](#other-upgrade)
 	*	[支持](#other-support)
-	
 ##	[引入 artDialog](id:module)
 
 ###	1.直接引用
@@ -318,8 +317,6 @@ d.close().remove();
 写入对话框内容。
 
 ``html``参数支持``String``、``HTMLElement``类型。
-
-
 ####	示例
 
 传入字符串：

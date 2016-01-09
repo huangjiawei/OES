@@ -18,9 +18,7 @@ namespace OnlineExam.Models
         public string SubjectName { get; set; }
         public string SubSubjectName { get; set; }//科目的子名称(上册、下册、必修一等)
         public int SubjectId { get; set; }
-
         public string ExamType { get; set; }
-
         public ImportPaper()
         {
             ID = 0;
@@ -65,11 +63,9 @@ namespace OnlineExam.Models
         public void Standardize()
         {
             SingleChoiceQuantity = MultipleChoiceQuantity = ShortAnswerQuantity = DiscussionQuantity = CompletionQuantity = 0;
-
             foreach (var q in Questions)
             {
                 q.Standardize();
-
                 //统计各题型题数
                 switch (q.QType)
                 {
@@ -89,10 +85,8 @@ namespace OnlineExam.Models
                     case QuestionType.UnKnown:
                         ShortAnswerQuantity++;
                         break;
-
                 }
             }
-
             ExamEntities ee = new ExamEntities();
             var subjects = ee.Subject.ToList();
             foreach (var s in subjects)
@@ -115,7 +109,6 @@ namespace OnlineExam.Models
             {
                 Grade = ParseCNNumber.ParseCnToInt(m.Value).ToString();
             }
-
             rex = "(期末考试)|(自测题)|(模拟考试)|(期中考试)|(练习题)|(测验)";
             m = Regex.Match(ExamTitle, rex);
             if (m.Success)
@@ -128,9 +121,6 @@ namespace OnlineExam.Models
             {
                 SubSubjectName = m.Value;
             }
-
-
-
         }
     }
     public class ImportAnswer
@@ -145,13 +135,9 @@ namespace OnlineExam.Models
             BigNum = 0;
         }
     }
-
     public class ImportQuestion
     {
-
         readonly string rexFile = string.Format("(?<=(src=(\"|'){0}))[^\"']+(?=(\"|'))", CUrl.ImportPaperImage);//用于匹配导入题目中的问题；
-
-
         public int ID { get; set; }
         public string QuestionBigNum { get; set; }
         public int BigNum { get; set; }
@@ -184,7 +170,6 @@ namespace OnlineExam.Models
                     var dest = CUrl.QuestionResource+file;
                     var src = CUrl.ImportPaperImage+file;
                     //temp = temp.Replace(dest.Replace("/","\\"), src.Replace("/","\\"));
-
                     dest = CUrl.MapPath( dest);
                     src = CUrl.MapPath( src);
                     System.IO.File.Copy(src,dest);
@@ -201,11 +186,8 @@ namespace OnlineExam.Models
             foreach (var o in Options)
             {
                 o.Content = TransferFile(o.Content);
-
             }
-
         }
-
         //选择题标准化
         public void Standardize()
         {
@@ -215,7 +197,6 @@ namespace OnlineExam.Models
             List<Option> newOps = new List<Option>();
             if (Options.Count > 0)
             {
-
                 //选项中可能包含多个选项，需要拆分
                 if (Options.Count < 3)
                 {
@@ -252,11 +233,8 @@ namespace OnlineExam.Models
             if (Options.Count > 1 && QType == QuestionType.UnKnown)
             {
                 QType = QuestionType.MultipleChoice;
-
             }
         }
-
-
         public QuestionChoice ToChoice()
         {
             Transfer();
@@ -295,7 +273,6 @@ namespace OnlineExam.Models
             int RightCount = 0;
             foreach (char c in Answer)
             {
-
                 switch (c)
                 {
                     case 'a':
@@ -325,16 +302,11 @@ namespace OnlineExam.Models
             q.IsImport = true;
             q.ModificationTeacherID = HttpContext.Current.User.Identity.Name;
             q.ModificationTeacher = SessionHelper.UserProfile.RealName + "(从word导入)";
-
-
           
             return q;
         }
-
-
         public QuestionEssay ToEssay(string qt)
         {
-
             Transfer();
             QuestionEssay q = new QuestionEssay();
             q.Question = Question;
@@ -348,13 +320,10 @@ namespace OnlineExam.Models
             q.IsImport = true;
             q.ModificationTeacherID = HttpContext.Current.User.Identity.Name;
             q.ModificationTeacher = SessionHelper.UserProfile.RealName + "(从word导入)";
-
             return q;
         }
         public object ToSpecificQuestion()
         {
-
-
             object o;
             switch (QType)
             {
@@ -362,18 +331,14 @@ namespace OnlineExam.Models
                 case QuestionType.MultipleChoice:
                     o = ToChoice();
                     break;
-
                 case QuestionType.Completion:
                 case QuestionType.Discussion:
-
                 default:
                     var qt = QType == QuestionType.UnKnown ? QuestionType.ShortAnswer : QType;
                     o = ToEssay(qt.ToString());
                     break;
             }
-
             return o;
-
         }
     }
     public class Option

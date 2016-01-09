@@ -45,7 +45,6 @@ seajs.use(['jquery', '../src/dialog'], function ($, dialog) {
 		d.show();
 		console.log('对话框执行show()方法，焦点应该在对话框上');
 	});
-	
 	$('button[data-event=test2]').on('click', function () {
 		console.log('根据浏览器规则，此时焦点应该在按钮上');
 
@@ -62,8 +61,6 @@ seajs.use(['jquery', '../src/dialog'], function ($, dialog) {
 		d.show();
 		console.log('对话框执行show()方法，焦点应该在对话框上');
 	});
-
-
 });
 </script>
 </body>

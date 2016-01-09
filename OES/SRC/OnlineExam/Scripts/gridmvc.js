@@ -16,7 +16,6 @@ $.fn.extend({
                 var name = $(this).attr("data-gridname");
                 if (name.length > 0)
                     window.pageGrids[$(this).attr("data-gridname")] = grid;
-
                 aObj.push(grid);
                 $(this).data("gridmvc", grid);
             } else {
@@ -28,7 +27,6 @@ $.fn.extend({
         return aObj;
     }
 });
-
 GridMvc = (function ($) {
     function gridMvc(container, options) {
         this.jqContainer = $(container);
@@ -36,7 +34,6 @@ GridMvc = (function ($) {
         this.options = $.extend({}, this.defaults(), options);
         this.init();
     }
-
     gridMvc.prototype.init = function () {
         //load current lang options:
         this.lang = GridMvc.lang[this.options.lang];
@@ -51,7 +48,6 @@ GridMvc = (function ($) {
         this.addFilterWidget(new NumberFilterWidget());
         this.addFilterWidget(new DateTimeFilterWidget());
         this.addFilterWidget(new BooleanFilterWidget());
-
         this.openedMenuBtn = null;
         this.initFilters();
     };
@@ -108,12 +104,10 @@ GridMvc = (function ($) {
     gridMvc.prototype.onRowSelect = function (func) {
         this.events.push({ name: "onRowSelect", callback: func });
     };
-
     gridMvc.prototype.notifyOnRowSelect = function (row, e) {
         e.row = row;
         this.notifyEvent("onRowSelect", e);
     };
-
     gridMvc.prototype.notifyEvent = function (eventName, e) {
         for (var i = 0; i < this.events.length; i++) {
             if (this.events[i].name == eventName)
@@ -147,7 +141,6 @@ GridMvc = (function ($) {
         //if widget for specified column type not found - do nothing
         if (widget == null)
             return false;
-
         //if widget allready rendered - just open popup menu:
         if (this.hasAttribute("data-rendered")) {
             var or = self.openMenuOnClick.call(this, self);
@@ -156,18 +149,15 @@ GridMvc = (function ($) {
                 widget.onShow();
             return or;
         }
-
         var columnName = $(this).attr("data-name") || "";
         var filterData = $(this).attr("data-filterdata") || "";
         var widgetData = $(this).attr("data-widgetdata") || "{}";
         var filterDataObj = self.parseFilterValues(filterData) || {};
         var filterUrl = $(this).attr("data-url") || "";
-
         //mark filter as rendered
         $(this).attr("data-rendered", "1");
         //append base popup layout:
         $(this).append(html);
-
         //determine widget container:
         var widgetContainer = $(this).find(".grid-popup-widget");
         //onRender target widget
@@ -190,7 +180,6 @@ GridMvc = (function ($) {
         self.setupPopupInitialPosition($(this));
         return openResult;
     };
-
     gridMvc.prototype.setupPopupInitialPosition = function (popup) {
         var drop = popup.find(".grid-dropdown");
         function getInfo() {
@@ -249,11 +238,9 @@ GridMvc = (function ($) {
         }
         return filters;
     };
-
     gridMvc.prototype.urldecode = function (str) {
         return decodeURIComponent((str + '').replace(/\+/g, '%20'));
     };
-
     /***
     * Return registred widget for specific column type name
     */
@@ -284,12 +271,10 @@ GridMvc = (function ($) {
         var filters = this.jqContainer.find(".grid-filter");
         if (initialUrl.length > 0)
             initialUrl += "&";
-
         var url = "";
         if (!skip) {
             url += this.getFilterQueryData(columnName, values);
         }
-
         if (this.options.multiplefilters) { //multiple filters enabled
             for (var i = 0; i < filters.length; i++) {
                 if ($(filters[i]).attr("data-name") != columnName) {
@@ -302,7 +287,6 @@ GridMvc = (function ($) {
                 }
             }
         }
-
         window.location.search = initialUrl + url;
     };
     gridMvc.prototype.getFilterQueryData = function (columnName, values) {
@@ -332,7 +316,6 @@ GridMvc = (function ($) {
         });
         return false;
     };
-
     gridMvc.prototype.documentCallback = function (e, $context) {
         e = e || event;
         var target = e.target || e.srcElement;
@@ -350,13 +333,11 @@ GridMvc = (function ($) {
                 }
                 target = target.parentNode;
             } while (target); // Click was outside the box, hide it.
-
         }
         if ($context.openedMenuBtn != null)
             $context.openedMenuBtn.removeClass("clicked");
         $(document).unbind("click.gridmvc");
     };
-
     gridMvc.prototype.closeOpenedPopups = function () {
         var openedPopup = $(".dropdown-menu.opened");
         openedPopup.hide();
@@ -364,16 +345,12 @@ GridMvc = (function ($) {
         if (this.openedMenuBtn != null)
             this.openedMenuBtn.removeClass("clicked");
     };
-
     /* Grid.Mvc clients functions */
-
     gridMvc.prototype.selectable = function (enable) {
         this.options.selectable = enable;
     };
-
     return gridMvc;
 })(window.jQuery);
-
 /***
 * ============= LOCALIZATION =============
 * You can localize Grid.Mvc by creating localization files and include it on the page after this script file
@@ -407,7 +384,6 @@ GridMvc.lang.en = {
 * If you want to provide custom filter functionality - you can assign your own widget type for column and write widget for this types.
 * For more documentation see: http://gridmvc.codeplex.com/documentation
 */
-
 /***
 * TextFilterWidget - Provides filter interface for text columns (of type "System.String")
 * This widget onRenders filter interface with conditions, which specific for text types: contains, starts with etc.
@@ -494,31 +470,24 @@ TextFilterWidget = (function ($) {
             if (event.keyCode == 27) { GridMvc.closeOpenedPopups(); }
         });
     };
-
     return textFilterWidget;
 })(window.jQuery);
-
 /***
 * NumberFilterWidget - Provides filter interface for number columns
 * This widget onRenders filter interface with conditions, which specific for number types: great than, less that etc.
 * Also validates user's input for digits
 */
 NumberFilterWidget = (function ($) {
-
     function numberFilterWidget() { }
-
     numberFilterWidget.prototype.showClearFilterButton = function () { return true; };
-
     numberFilterWidget.prototype.getAssociatedTypes = function () {
         return ["System.Int32", "System.Double", "System.Decimal", "System.Byte", "System.Single", "System.Float", "System.Int64"];
     };
-
     numberFilterWidget.prototype.onShow = function () {
         var textBox = this.container.find(".grid-filter-input");
         if (textBox.length <= 0) return;
         textBox.focus();
     };
-
     numberFilterWidget.prototype.onRender = function (container, lang, typeName, values, cb) {
         this.cb = cb;
         this.container = container;
@@ -528,7 +497,6 @@ NumberFilterWidget = (function ($) {
         this.renderWidget();
         this.registerEvents();
     };
-
     numberFilterWidget.prototype.renderWidget = function () {
         var html = '<div class="form-group">\
                         <label>' + this.lang.filterTypeLabel + '</label>\
@@ -547,7 +515,6 @@ NumberFilterWidget = (function ($) {
                     </div>';
         this.container.append(html);
     };
-
     numberFilterWidget.prototype.registerEvents = function () {
         var $context = this;
         var applyBtn = this.container.find(".grid-apply");
@@ -566,7 +533,6 @@ NumberFilterWidget = (function ($) {
         if (this.typeName == "System.Byte")
             txt.attr("maxlength", "3");
     };
-
     numberFilterWidget.prototype.validateInput = function (evt) {
         var $event = evt || window.event;
         var key = $event.keyCode || $event.which;
@@ -586,23 +552,17 @@ NumberFilterWidget = (function ($) {
             if ($event.preventDefault) $event.preventDefault();
         }
     };
-
     return numberFilterWidget;
 })(window.jQuery);
-
 /***
 * DateTimeFilterWidget - Provides filter interface for date columns (of type "System.DateTime").
 * If datepicker script included, this widget will render calendar for pick filter values
 * In other case he onRender textbox field for specifing date value (more info at http://window.jQueryui.com/)
 */
 DateTimeFilterWidget = (function ($) {
-
     function dateTimeFilterWidget() { }
-
     dateTimeFilterWidget.prototype.getAssociatedTypes = function () { return ["System.DateTime"]; };
-
     dateTimeFilterWidget.prototype.showClearFilterButton = function () { return true; };
-
     dateTimeFilterWidget.prototype.onRender = function (container, lang, typeName, values, applycb, data) {
         this.datePickerIncluded = typeof ($.fn.datepicker) != 'undefined';
         this.cb = applycb;
@@ -613,7 +573,6 @@ DateTimeFilterWidget = (function ($) {
         this.renderWidget();
         this.registerEvents();
     };
-
     dateTimeFilterWidget.prototype.renderWidget = function () {
         var html = '<div class="form-group">\
                         <label>' + this.lang.filterTypeLabel + '</label>\
@@ -639,7 +598,6 @@ DateTimeFilterWidget = (function ($) {
             var datePickerOptions = this.data || {};
             datePickerOptions.format = datePickerOptions.format || "yyyy-mm-dd";
             datePickerOptions.language = datePickerOptions.language || this.lang.code;
-
             var $context = this;
             var dateContainer = this.container.find(".grid-filter-datepicker");
             dateContainer.datepicker(datePickerOptions).on('changeDate', function (ev) {
@@ -651,7 +609,6 @@ DateTimeFilterWidget = (function ($) {
                 dateContainer.datepicker('update', this.value.filterValue);
         }
     };
-
     dateTimeFilterWidget.prototype.registerEvents = function () {
         var $context = this;
         var applyBtn = this.container.find(".grid-apply");
@@ -667,22 +624,16 @@ DateTimeFilterWidget = (function ($) {
             }
         });
     };
-
     return dateTimeFilterWidget;
 })(window.jQuery);
-
 /***
 * BooleanFilterWidget - Provides filter interface for boolean columns (of type "System.Boolean").
 * Renders two button for filter - true and false
 */
 BooleanFilterWidget = (function ($) {
-
     function booleanFilterWidget() { }
-
     booleanFilterWidget.prototype.getAssociatedTypes = function () { return ["System.Boolean"]; };
-
     booleanFilterWidget.prototype.showClearFilterButton = function () { return true; };
-
     booleanFilterWidget.prototype.onRender = function (container, lang, typeName, values, cb) {
         this.cb = cb;
         this.container = container;
@@ -691,7 +642,6 @@ BooleanFilterWidget = (function ($) {
         this.renderWidget();
         this.registerEvents();
     };
-
     booleanFilterWidget.prototype.renderWidget = function () {
         var html = '<label>' + this.lang.filterValueLabel + '</label>\
                     <ul class="menu-list">\
@@ -700,7 +650,6 @@ BooleanFilterWidget = (function ($) {
                     </ul>';
         this.container.append(html);
     };
-
     booleanFilterWidget.prototype.registerEvents = function () {
         var $context = this;
         var applyBtn = this.container.find(".grid-filter-choose");
@@ -709,10 +658,8 @@ BooleanFilterWidget = (function ($) {
             $context.cb(filterValues);
         });
     };
-
     return booleanFilterWidget;
 })(window.jQuery);
-
 //startup init:
 (function ($) {
     if (!$) return;//jquery not referenced

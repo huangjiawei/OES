@@ -1,12 +1,8 @@
 JSON in JavaScript
-
-
 Douglas Crockford
 douglas@crockford.com
 
 2015-05-03
-
-
 JSON is a light-weight, language independent, data interchange format.
 See http://www.JSON.org/
 
@@ -17,8 +13,6 @@ Language Standard - Fifth Edition was adopted by the ECMA General Assembly
 in December 2009. Most of the files in this collection are for applications
 that are expected to run in obsolete web browsers. For most purposes, json2.js
 is the best choice.
-
-
 json2.js: This file creates a JSON property in the global object, if there
 isn't already one, setting its value to an object containing a stringify
 method and a parse method. The parse method uses the eval method to do the

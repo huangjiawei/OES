@@ -12,7 +12,6 @@ namespace OnlineExam.App_Code
         {
             if (s == null) return "";
             return s.Length < maxLength ? s : s.Substring(0, maxLength) + "...";
-
         }
         //将搜索字符串中的多个词组转换成字符串数组
         public static string[] GetSearchStringList(string key)
@@ -26,16 +25,13 @@ namespace OnlineExam.App_Code
             if (s == null) return null;
             StringBuilder sb = new StringBuilder();
             byte[] byteArr = System.Text.Encoding.Unicode.GetBytes(s);
-
             for (int i = 0; i < byteArr.Length; i += 2)
             {
                 sb.Append("%u");
                 sb.Append(byteArr[i + 1].ToString("X2"));//把字节转换为十六进制的字符串表现形式  
-
                 sb.Append(byteArr[i].ToString("X2"));
             }
             return sb.ToString();
-
         }
         //把JavaScript的escape()转换过去的字符串解释回来  
         //些方法支持汉字  
@@ -52,9 +48,7 @@ namespace OnlineExam.App_Code
             }
             str = System.Text.Encoding.Unicode.GetString(byteArr); //把字节转为unicode编码  
             return str;
-
         }
-
         //public static string Escape(string str)
         //{
         //    StringBuilder sb = new StringBuilder();
@@ -66,7 +60,6 @@ namespace OnlineExam.App_Code
         //    }
         //    return sb.ToString();
         //}
-
         ////UnEscape
         ////unescape() 函数可对通过 escape() 编码的字符串进行解码。
         //public static string UnEscape(string str)
@@ -83,8 +76,5 @@ namespace OnlineExam.App_Code
         //    }
         //    return sb.ToString();
         //}
-
-
     }
-
 }

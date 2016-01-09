@@ -13,8 +13,6 @@ var $ = require('jquery');
 var Popup = require('./popup');
 var defaults = require('./dialog-config');
 var css = defaults.cssUri;
-
-
 // css loader: RequireJS & SeaJS
 if (css) {
     var fn = require[require.toUrl ? 'toUrl' : 'resolve'];
@@ -28,16 +26,12 @@ if (css) {
         } 
     }
 }
-
-
 var _count = 0;
 var _expando = new Date() - 0; // Date.now()
 var _isIE6 = !('minWidth' in $('html')[0].style);
 var _isMobile = 'createTouch' in document && !('onmousemove' in document)
     || /(iPhone|iPad|iPod)/i.test(navigator.userAgent);
 var _isFixed = !_isIE6 && !_isMobile;
-
-
 var artDialog = function (options, ok, cancel) {
 
     var originalOptions = options = options || {};
@@ -66,8 +60,6 @@ var artDialog = function (options, ok, cancel) {
     if (!_isFixed) {
         options.fixed = false;
     }
-
-
     // 快捷关闭支持：点击对话框外快速关闭对话框
     if (options.quickClose) {
         options.modal = true;
@@ -79,8 +71,6 @@ var artDialog = function (options, ok, cancel) {
     if (!$.isArray(options.button)) {
         options.button = [];
     }
-
-
     // 取消按钮
     if (cancel !== undefined) {
         options.cancel = cancel;
@@ -138,14 +128,10 @@ artDialog.create = function (options) {
             that[name] = value;
         }
     });
-
-
     // 更新 zIndex 全局配置
     if (options.zIndex) {
         Popup.zIndex = options.zIndex;
     }
-
-
     // 设置 ARIA 信息
     $popup.attr({
         'aria-labelledby': this._$('title')
@@ -153,8 +139,6 @@ artDialog.create = function (options) {
         'aria-describedby': this._$('content')
             .attr('id', 'content:' + this.id).attr('id')
     });
-
-
     // 关闭按钮
     this._$('close')
     .css('display', this.cancel === false ? 'none' : '')
@@ -168,8 +152,6 @@ artDialog.create = function (options) {
     // 添加视觉参数
     this._$('dialog').addClass(this.skin);
     this._$('body').css('padding', this.padding);
-
-
     // 点击任意空白处关闭对话框
     if (options.quickClose) {
         $backdrop
@@ -180,8 +162,6 @@ artDialog.create = function (options) {
             return false;// 阻止抢夺焦点
         });
     }
-
-
     // 遮罩设置
     this.addEventListener('show', function () {
         $backdrop.css({
@@ -191,8 +171,6 @@ artDialog.create = function (options) {
             {opacity: options.backdropOpacity}
         , 150);
     });
-
-
     // ESC 快捷键关闭对话框
     this._esc = function (event) {
         var target = event.target;
@@ -216,19 +194,13 @@ artDialog.create = function (options) {
         $(document).off('keydown', this._esc);
         delete artDialog.list[this.id];
     });
-
-
     _count ++;
     
     artDialog.oncreate(this);
 
     return this;
 };
-
-
 artDialog.create.prototype = prototype;
-
-
 
 $.extend(prototype, {
 
@@ -360,22 +332,16 @@ $.extend(prototype, {
         this._$('header')[text ? 'show' : 'hide']();
         return this;
     },
-
-
     /** 设置宽度 */
     width: function (value) {
         this._$('content').css('width', value);
         return this.reset();
     },
-
-
     /** 设置高度 */
     height: function (value) {
         this._$('content').css('height', value);
         return this.reset();
     },
-
-
     /**
      * 设置按钮组
      * @param   {Array, String}
@@ -398,8 +364,6 @@ $.extend(prototype, {
                 var id = val.id = val.id || val.value;
                 var style = '';
                 that.callbacks[id] = val.callback;
-
-
                 if (val.display === false) {
                     style = ' style="display:none"';
                 } else {
@@ -435,16 +399,12 @@ $.extend(prototype, {
 
         return this;
     },
-
-
     statusbar: function (html) {
         this._$('statusbar')
         .html(html)[html ? 'show' : 'hide']();
 
         return this;
     },
-
-
     _$: function (i) {
         return this._popup.find('[i=' + i + ']');
     },
@@ -460,18 +420,12 @@ $.extend(prototype, {
     
 });
 
-
-
 artDialog.oncreate = $.noop;
-
-
 
 /** 获取最顶层的对话框API */
 artDialog.getCurrent = function () {
     return Popup.current;
 };
-
-
 
 /**
  * 根据 ID 获取某对话框 API
@@ -486,14 +440,10 @@ artDialog.get = function (id) {
 
 artDialog.list = {};
 
-
-
 /**
  * 默认配置
  */
 artDialog.defaults = defaults;
-
-
 
 return artDialog;
 

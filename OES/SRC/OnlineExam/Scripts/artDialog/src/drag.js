@@ -10,8 +10,6 @@
 define(function (require) {
 
 var $ = require('jquery');
-
-
 var $window = $(window);
 var $document = $(document);
 var isTouch = 'createTouch' in document;
@@ -19,15 +17,11 @@ var html = document.documentElement;
 var isIE6 = !('minWidth' in html.style);
 var isLosecapture = !isIE6 && 'onlosecapture' in html;
 var isSetCapture = 'setCapture' in html;
-
-
 var types = {
     start: isTouch ? 'touchstart' : 'mousedown',
     over: isTouch ? 'touchmove' : 'mousemove',
     end: isTouch ? 'touchend' : 'mouseup'
 };
-
-
 var getEvent = isTouch ? function (event) {
     if (!event.touches) {
         event = event.originalEvent.touches.item(0);
@@ -36,8 +30,6 @@ var getEvent = isTouch ? function (event) {
 } : function (event) {
     return event;
 };
-
-
 var DragEvent = function () {
     this.start = $.proxy(this.start, this);
     this.over = $.proxy(this.over, this);
@@ -128,8 +120,6 @@ DragEvent.prototype = {
     }
     
 };
-
-
 /**
  * 启动拖拽
  * @param   {HTMLElement}   被拖拽的元素
@@ -156,8 +146,6 @@ DragEvent.create = function (elem, event) {
             $elem.off(startType, dragEvent.start);
         }
     };
-
-
     dragEvent.onstart = function (event) {
         var isFixed = $elem.css('position') === 'fixed';
         var dl = $document.scrollLeft();
@@ -204,13 +192,9 @@ DragEvent.create = function (elem, event) {
         $elem.removeClass(className);
         api.onend.call(elem, event, left, top);
     };
-
-
     dragEvent.off = function () {
         $elem.off(startType, dragEvent.start);
     };
-
-
     if (event) {
         dragEvent.start(event);
     } else {

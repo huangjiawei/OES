@@ -131,9 +131,9 @@
           </Key>
           <Property Name="PaperID" Type="varchar" MaxLength="256" Nullable="false" />
           <Property Name="QuestionID" Type="bigint" Nullable="false" />
-          <Property Name="Score" Type="float" />
-          <Property Name="BigQuestionNumber" Type="int" />
-          <Property Name="SmallQuestionNumber" Type="int" />
+          <Property Name="Score" Type="float" Nullable="false" />
+          <Property Name="BigQuestionNumber" Type="int" Nullable="false" />
+          <Property Name="SmallQuestionNumber" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Paper_QuestionCategory">
           <Key>
@@ -466,7 +466,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Paper_Essay_Paper_QuestionCategory">
-          <End Role="Paper_QuestionCategory" Type="Self.Paper_QuestionCategory" Multiplicity="0..1" />
+          <End Role="Paper_QuestionCategory" Type="Self.Paper_QuestionCategory" Multiplicity="1" />
           <End Role="Paper_Essay" Type="Self.Paper_Essay" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Paper_QuestionCategory">
@@ -790,20 +790,6 @@
           <NavigationProperty Name="QuestionChoice" Relationship="Self.FK_Paper_Choice_QuestionChoice" FromRole="Paper_Choice" ToRole="QuestionChoice" />
           <NavigationProperty Name="TestPaper" Relationship="ExamModel.FK_Paper_Choice_TestPaper" FromRole="Paper_Choice" ToRole="TestPaper" />
         </EntityType>
-        <EntityType Name="Paper_Essay">
-          <Key>
-            <PropertyRef Name="PaperID" />
-            <PropertyRef Name="QuestionID" />
-          </Key>
-          <Property Name="PaperID" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="QuestionID" Type="Int64" Nullable="false" />
-          <Property Name="Score" Type="Double" />
-          <Property Name="BigQuestionNumber" Type="Int32" />
-          <Property Name="SmallQuestionNumber" Type="Int32" />
-          <NavigationProperty Name="Paper_QuestionCategory" Relationship="Self.FK_Paper_Essay_Paper_QuestionCategory" FromRole="Paper_Essay" ToRole="Paper_QuestionCategory" />
-          <NavigationProperty Name="QuestionEssay_" Relationship="Self.FK_Paper_Essay_QuestionEssay_" FromRole="Paper_Essay" ToRole="QuestionEssay_" />
-          <NavigationProperty Name="TestPaper" Relationship="ExamModel.FK_Paper_Essay_TestPaper" FromRole="Paper_Essay" ToRole="TestPaper" />
-        </EntityType>
         <EntityType Name="Paper_QuestionCategory">
           <Key>
             <PropertyRef Name="PaperID" />
@@ -816,8 +802,8 @@
           <Property Name="ScorePerQuestion" Type="Double" Nullable="false" />
           <Property Name="QuestionType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Paper_Choice" Relationship="Self.FK_Paper_Choice_Paper_QuestionCategory" FromRole="Paper_QuestionCategory" ToRole="Paper_Choice" />
-          <NavigationProperty Name="Paper_Essay" Relationship="Self.FK_Paper_Essay_Paper_QuestionCategory" FromRole="Paper_QuestionCategory" ToRole="Paper_Essay" />
           <NavigationProperty Name="TestPaper" Relationship="ExamModel.FK_Paper_QuestionCategory_TestPaper" FromRole="Paper_QuestionCategory" ToRole="TestPaper" />
+          <NavigationProperty Name="Paper_Essay" Relationship="ExamModel.FK_Paper_Essay_Paper_QuestionCategory" FromRole="Paper_QuestionCategory" ToRole="Paper_Essay" />
         </EntityType>
         <EntityType Name="PaperCollection">
           <Key>
@@ -901,7 +887,7 @@
           <Property Name="IsImport" Type="Boolean" Nullable="false" />
           <Property Name="Auditor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="AuditorID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Paper_Essay" Relationship="Self.FK_Paper_Essay_QuestionEssay_" FromRole="QuestionEssay_" ToRole="Paper_Essay" />
+          <NavigationProperty Name="Paper_Essay" Relationship="ExamModel.FK_Paper_Essay_QuestionEssay_" FromRole="QuestionEssay" ToRole="Paper_Essay" />
         </EntityType>
         <EntityType Name="Resource">
           <Key>
@@ -1071,32 +1057,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Paper_Essay_Paper_QuestionCategory">
-          <End Role="Paper_QuestionCategory" Type="Self.Paper_QuestionCategory" Multiplicity="0..1" />
-          <End Role="Paper_Essay" Type="Self.Paper_Essay" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Paper_QuestionCategory">
-              <PropertyRef Name="PaperID" />
-              <PropertyRef Name="Sequence" />
-            </Principal>
-            <Dependent Role="Paper_Essay">
-              <PropertyRef Name="PaperID" />
-              <PropertyRef Name="BigQuestionNumber" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Paper_Essay_QuestionEssay_">
-          <End Role="QuestionEssay_" Type="ExamModel.QuestionEssay" Multiplicity="1" />
-          <End Role="Paper_Essay" Type="Self.Paper_Essay" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="QuestionEssay_">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Paper_Essay">
-              <PropertyRef Name="QuestionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Teacher_Subject_Subject">
           <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
           <End Role="Teacher_Subject" Type="Self.Teacher_Subject" Multiplicity="*" />
@@ -1136,7 +1096,6 @@
           <EntitySet Name="Major_Subject" EntityType="Self.Major_Subject" />
           <EntitySet Name="Paper_AnswerList" EntityType="Self.Paper_AnswerList" />
           <EntitySet Name="Paper_Choice" EntityType="Self.Paper_Choice" />
-          <EntitySet Name="Paper_Essay" EntityType="Self.Paper_Essay" />
           <EntitySet Name="Paper_QuestionCategory" EntityType="Self.Paper_QuestionCategory" />
           <EntitySet Name="PaperCollection" EntityType="Self.PaperCollection" />
           <EntitySet Name="Permission" EntityType="Self.Permission" />
@@ -1175,14 +1134,6 @@
             <End Role="QuestionChoice" EntitySet="QuestionChoice" />
             <End Role="Paper_Choice" EntitySet="Paper_Choice" />
           </AssociationSet>
-          <AssociationSet Name="FK_Paper_Essay_Paper_QuestionCategory" Association="Self.FK_Paper_Essay_Paper_QuestionCategory">
-            <End Role="Paper_QuestionCategory" EntitySet="Paper_QuestionCategory" />
-            <End Role="Paper_Essay" EntitySet="Paper_Essay" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Paper_Essay_QuestionEssay_" Association="Self.FK_Paper_Essay_QuestionEssay_">
-            <End Role="QuestionEssay_" EntitySet="QuestionEssay" />
-            <End Role="Paper_Essay" EntitySet="Paper_Essay" />
-          </AssociationSet>
           <AssociationSet Name="FK_Teacher_Subject_Subject" Association="Self.FK_Teacher_Subject_Subject">
             <End Role="Subject" EntitySet="Subject" />
             <End Role="Teacher_Subject" EntitySet="Teacher_Subject" />
@@ -1209,10 +1160,6 @@
             <End Role="TestPaper" EntitySet="TestPaper" />
             <End Role="Paper_Choice" EntitySet="Paper_Choice" />
           </AssociationSet>
-          <AssociationSet Name="FK_Paper_Essay_TestPaper" Association="ExamModel.FK_Paper_Essay_TestPaper">
-            <End Role="TestPaper" EntitySet="TestPaper" />
-            <End Role="Paper_Essay" EntitySet="Paper_Essay" />
-          </AssociationSet>
           <AssociationSet Name="FK_Paper_QuestionCategory_TestPaper" Association="ExamModel.FK_Paper_QuestionCategory_TestPaper">
             <End Role="TestPaper" EntitySet="TestPaper" />
             <End Role="Paper_QuestionCategory" EntitySet="Paper_QuestionCategory" />
@@ -1220,6 +1167,19 @@
           <AssociationSet Name="FK_PaperCollection_TestPaper" Association="ExamModel.FK_PaperCollection_TestPaper">
             <End Role="TestPaper" EntitySet="TestPaper" />
             <End Role="PaperCollection" EntitySet="PaperCollection" />
+          </AssociationSet>
+          <EntitySet Name="Paper_Essay" EntityType="ExamModel.Paper_Essay" />
+          <AssociationSet Name="FK_Paper_Essay_Paper_QuestionCategory" Association="ExamModel.FK_Paper_Essay_Paper_QuestionCategory">
+            <End Role="Paper_QuestionCategory" EntitySet="Paper_QuestionCategory" />
+            <End Role="Paper_Essay" EntitySet="Paper_Essay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_Essay_QuestionEssay_" Association="ExamModel.FK_Paper_Essay_QuestionEssay_">
+            <End Role="QuestionEssay" EntitySet="QuestionEssay" />
+            <End Role="Paper_Essay" EntitySet="Paper_Essay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paper_Essay_TestPaper" Association="ExamModel.FK_Paper_Essay_TestPaper">
+            <End Role="TestPaper" EntitySet="TestPaper" />
+            <End Role="Paper_Essay" EntitySet="Paper_Essay" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Paper_AnswerList_Item">
@@ -1268,9 +1228,9 @@
           <Property Name="Assessment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Paper_AnswerList" Relationship="ExamModel.FK_Paper_AnswerList_TestPaper" FromRole="TestPaper" ToRole="Paper_AnswerList" />
           <NavigationProperty Name="Paper_Choice" Relationship="ExamModel.FK_Paper_Choice_TestPaper" FromRole="TestPaper" ToRole="Paper_Choice" />
-          <NavigationProperty Name="Paper_Essay" Relationship="ExamModel.FK_Paper_Essay_TestPaper" FromRole="TestPaper" ToRole="Paper_Essay" />
           <NavigationProperty Name="Paper_QuestionCategory" Relationship="ExamModel.FK_Paper_QuestionCategory_TestPaper" FromRole="TestPaper" ToRole="Paper_QuestionCategory" />
           <NavigationProperty Name="PaperCollection" Relationship="ExamModel.FK_PaperCollection_TestPaper" FromRole="TestPaper" ToRole="PaperCollection" />
+          <NavigationProperty Name="Paper_Essay" Relationship="ExamModel.FK_Paper_Essay_TestPaper" FromRole="TestPaper" ToRole="Paper_Essay" />
         </EntityType>
         <Association Name="FK_Paper_AnswerList_TestPaper">
           <End Type="ExamModel.TestPaper" Role="TestPaper" Multiplicity="1" />
@@ -1296,18 +1256,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Paper_Essay_TestPaper">
-          <End Type="ExamModel.TestPaper" Role="TestPaper" Multiplicity="1" />
-          <End Type="ExamModel.Paper_Essay" Role="Paper_Essay" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TestPaper">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Paper_Essay">
-              <PropertyRef Name="PaperID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Paper_QuestionCategory_TestPaper">
           <End Type="ExamModel.TestPaper" Role="TestPaper" Multiplicity="1" />
           <End Type="ExamModel.Paper_QuestionCategory" Role="Paper_QuestionCategory" Multiplicity="*" />
@@ -1328,6 +1276,58 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="PaperCollection">
+              <PropertyRef Name="PaperID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Paper_Essay">
+          <Key>
+            <PropertyRef Name="PaperID" />
+            <PropertyRef Name="QuestionID" />
+          </Key>
+          <Property Name="PaperID" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="QuestionID" Type="Int64" Nullable="false" />
+          <Property Name="Score" Type="Double" Nullable="false" />
+          <Property Name="BigQuestionNumber" Type="Int32" Nullable="false" />
+          <Property Name="SmallQuestionNumber" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Paper_QuestionCategory" Relationship="ExamModel.FK_Paper_Essay_Paper_QuestionCategory" FromRole="Paper_Essay" ToRole="Paper_QuestionCategory" />
+          <NavigationProperty Name="QuestionEssay_" Relationship="ExamModel.FK_Paper_Essay_QuestionEssay_" FromRole="Paper_Essay" ToRole="QuestionEssay" />
+          <NavigationProperty Name="TestPaper" Relationship="ExamModel.FK_Paper_Essay_TestPaper" FromRole="Paper_Essay" ToRole="TestPaper" />
+        </EntityType>
+        <Association Name="FK_Paper_Essay_Paper_QuestionCategory">
+          <End Type="ExamModel.Paper_QuestionCategory" Role="Paper_QuestionCategory" Multiplicity="1" />
+          <End Type="ExamModel.Paper_Essay" Role="Paper_Essay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paper_QuestionCategory">
+              <PropertyRef Name="PaperID" />
+              <PropertyRef Name="Sequence" />
+            </Principal>
+            <Dependent Role="Paper_Essay">
+              <PropertyRef Name="PaperID" />
+              <PropertyRef Name="BigQuestionNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_Essay_QuestionEssay_">
+          <End Type="ExamModel.QuestionEssay" Role="QuestionEssay" Multiplicity="1" />
+          <End Type="ExamModel.Paper_Essay" Role="Paper_Essay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuestionEssay">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paper_Essay">
+              <PropertyRef Name="QuestionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paper_Essay_TestPaper">
+          <End Type="ExamModel.TestPaper" Role="TestPaper" Multiplicity="1" />
+          <End Type="ExamModel.Paper_Essay" Role="Paper_Essay" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestPaper">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paper_Essay">
               <PropertyRef Name="PaperID" />
             </Dependent>
           </ReferentialConstraint>
@@ -1433,17 +1433,6 @@
           <EntitySetMapping Name="Paper_Choice">
             <EntityTypeMapping TypeName="ExamModel.Paper_Choice">
               <MappingFragment StoreEntitySet="Paper_Choice">
-                <ScalarProperty Name="PaperID" ColumnName="PaperID" />
-                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
-                <ScalarProperty Name="Score" ColumnName="Score" />
-                <ScalarProperty Name="BigQuestionNumber" ColumnName="BigQuestionNumber" />
-                <ScalarProperty Name="SmallQuestionNumber" ColumnName="SmallQuestionNumber" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Paper_Essay">
-            <EntityTypeMapping TypeName="ExamModel.Paper_Essay">
-              <MappingFragment StoreEntitySet="Paper_Essay">
                 <ScalarProperty Name="PaperID" ColumnName="PaperID" />
                 <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
                 <ScalarProperty Name="Score" ColumnName="Score" />
@@ -1674,6 +1663,17 @@
                 <ScalarProperty Name="Info" ColumnName="Info" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paper_Essay">
+            <EntityTypeMapping TypeName="ExamModel.Paper_Essay">
+              <MappingFragment StoreEntitySet="Paper_Essay">
+                <ScalarProperty Name="SmallQuestionNumber" ColumnName="SmallQuestionNumber" />
+                <ScalarProperty Name="BigQuestionNumber" ColumnName="BigQuestionNumber" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+                <ScalarProperty Name="PaperID" ColumnName="PaperID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

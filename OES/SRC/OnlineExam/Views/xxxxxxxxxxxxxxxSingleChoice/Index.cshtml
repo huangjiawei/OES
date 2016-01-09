@@ -8,11 +8,9 @@
         Loading...
     </div>
     <div id="page-selection" class="row"></div>
-
     </>
     <script>
         // init bootpag
-
         $(function(){
             $("#content-list").load("@Url.Content("~/SingleChoice/QuestionList")"+"?page=1")
             $('#page-selection').bootpag({
@@ -23,10 +21,8 @@
             }).on("page", function(event,num){
                 $("#content-list").load("@Url.Content("~/SingleChoice/QuestionList")"+"?page="+num)
             });
-
         })
         function search(page){
-
         }
     </script>
     @section Scripts {

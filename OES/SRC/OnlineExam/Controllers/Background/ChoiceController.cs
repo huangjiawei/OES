@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using OnlineExam.Models;
 using MvcContrib.UI.Grid;
-
 namespace OnlineExam.Controllers.Background
 {
     //[Authorize(Roles = "Teacher")]
@@ -19,7 +18,6 @@ namespace OnlineExam.Controllers.Background
         int PageSize = CKey.DefaultPageCount;
         public virtual ActionResult Index(string searchWord, int? frequency, int? difficulty, int? audit, DataView? viewType, int? pageSize, GridSortOptions gridSortOptions, int? page, bool? isMultiple)
         {
-
             ViewData["ViewType"] = viewType;
             int CurrentPageSize = 0;
             if (!pageSize.HasValue)
@@ -39,9 +37,7 @@ namespace OnlineExam.Controllers.Background
             //.AddFilter("artistId", artistId, a => a.ArtistId == artistId, _service.GetArtists(), "Name")
         ;
             if (frequency.HasValue && frequency.Value != -1) { pagedViewModel.AddFilter("frequency", frequency, a => a.Frequency == frequency.Value); }
-
             if (difficulty.HasValue && difficulty.Value != -1) { pagedViewModel.AddFilter("difficulty", difficulty, a => a.Difficulty == difficulty.Value); }
-
             if (audit.HasValue && audit.Value != -1)
             {
                 pagedViewModel.AddFilter("audit", audit, a => a.Audit == audit.Value);
@@ -58,7 +54,6 @@ namespace OnlineExam.Controllers.Background
         public virtual ActionResult Details(long id)
         {
             ViewBag.RelateSubject = GetRelateSubject(id);
-
             var q = ee.QuestionChoice.Where(m => m.ID == id).SingleOrDefault();
             if (q == null || q.ID != id) return HttpNotFound();
             Utitlity.ModelStandardize(q);
@@ -66,7 +61,6 @@ namespace OnlineExam.Controllers.Background
         }
         //public ActionResult Create()
         //{
-
         //    return View();
         //}
         //public ActionResult Edit(EditType et)
@@ -86,11 +80,9 @@ namespace OnlineExam.Controllers.Background
             try
             {
                 //Model.ID = -1; 
-
                 Model.IsImport = false;
                 Model.ModificationTeacher = SessionHelper.UserProfile.RealName;
                 Model.ModificationTeacherID = User.Identity.Name;
-
                 Utitlity.ModelStandardize(Model);
                 Model.DateAdded = DateTime.Now;
                 Model.ModificationDate = DateTime.Now;
@@ -102,14 +94,11 @@ namespace OnlineExam.Controllers.Background
                 }
                 if (ModelState.IsValid)
                 {
-
-
                     ee.QuestionChoice.Add(Model);
                     ee.SaveChanges();
                     //AppendSubjectChoice(sids, Model.ID);
                     Model.AppendSubjects(sids);
                     // TODO: Add insert logic here
-
                     return RedirectToAction("Index", new { isMultiple = Model.IsMultiple });
                 }
                 else return View("Edit", Model);
@@ -120,7 +109,6 @@ namespace OnlineExam.Controllers.Background
                 return View("Edit", Model);
             }
         }
-
         List<Subject> GetRelateSubject(long qId)
         {
             var list = (from s in ee.Subject
@@ -132,7 +120,6 @@ namespace OnlineExam.Controllers.Background
         // GET: Choice/Edit/5
         public virtual ActionResult Edit(long? id, bool? isMultiple)
         {
-
             if (id.HasValue)
             {
                 ViewBag.EditType = EditType.Edit;
@@ -147,7 +134,6 @@ namespace OnlineExam.Controllers.Background
             }
             else
             {
-
                 if (isMultiple.HasValue)
                     ViewBag.isMultiple = isMultiple.Value;
                 else ViewBag.isMultiple = false;
@@ -163,23 +149,18 @@ namespace OnlineExam.Controllers.Background
             string sids = Request.Params["SubjectIds"];
             if (sids == null) ModelState.AddModelError("subjectID", "所属科目不能为空");
             sids = sids.Substring(1);
-
             ViewBag.isMultiple = Model.IsMultiple;
             Utitlity.ModelStandardize(Model);
-
             if (ModelState.IsValid)
             {
-
                 Model.IsImport = false;
                 Model.ModificationTeacher = SessionHelper.UserProfile.RealName;
                 Model.ModificationTeacherID = User.Identity.Name;
                 ee.Entry(Model).State = System.Data.Entity.EntityState.Modified;
-
                 //if (Model.OptionD == null) { Model.OptionD = ""; }
                 //if (Model.OptionE == null) { Model.OptionE = ""; }
                 //if (Model.OptionF == null) { Model.OptionF = ""; }
                 //if (Model.Description == null) { Model.Description = ""; }
-
                 //AppendSubjectChoice(sids, Model.ID);
                 Model.AppendSubjects(sids);
                 ee.SaveChanges();

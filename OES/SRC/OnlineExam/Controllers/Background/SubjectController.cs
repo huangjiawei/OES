@@ -30,7 +30,6 @@ namespace OnlineExam.Controllers.Background
         public virtual JsonResult AppendSubject(string subjectId, string majorId)
         {
             JsonReturn jr = new JsonReturn();
-
             Major_Subject ms = new Major_Subject();
             try
             {
@@ -54,7 +53,6 @@ namespace OnlineExam.Controllers.Background
             try
             {
                 // TODO: Add insert logic here
-
                 return RedirectToAction("Index");
             }
             catch
@@ -66,15 +64,11 @@ namespace OnlineExam.Controllers.Background
         [HttpPost]
         public virtual ActionResult RemoveSubject(string subjectId, string majorId)
         {
-
             JsonReturn jr = new JsonReturn();
-
-
             try
             {
                 int mid = int.Parse(majorId);
                 int sid = int.Parse(subjectId);
-
                 var temp = ee.Major_Subject.Where(ms => ms.MajorID == mid &&
            ms.SubjectID == sid).ToList();
                 if (temp.Count > 0)
@@ -90,8 +84,6 @@ namespace OnlineExam.Controllers.Background
                 jr.Message = ex.Message;
             }
             return Json(jr, JsonRequestBehavior.AllowGet);
-
-
         }
         class SubjectItem
         {
@@ -101,14 +93,12 @@ namespace OnlineExam.Controllers.Background
         static List<SelectListItem> majorList;
         public JsonResult GetSubjectByMajor(int id)
         {
-
             JsonReturn jr = new JsonReturn();
             var list = (from s in ee.Subject
                         from ms in ee.Major_Subject
                         where (ms.MajorID == id || id == 0) && s.SubjectID == ms.SubjectID
                         select new { SubjectID = s.SubjectID, SubjectName = s.SubjectName }).ToList();
             jr.Success = 1;
-
             jr.Data = new { lenght = list.Count(), list = list };
             //jr.Data = nECew { { SubjectID = s.SubjectID, SubjectName = s.SubjectName },{ SubjectID = s.SubjectID, SubjectName = s.SubjectName }
             //};
@@ -139,7 +129,6 @@ namespace OnlineExam.Controllers.Background
                     ViewBag.MajorName = MajorName;
                 }
                 ViewBag.MajorList = majorList;
-
                 return View();
             }
             catch
@@ -160,13 +149,11 @@ namespace OnlineExam.Controllers.Background
                 return View();
             }
         }
-
         // GET: Subject/Delete/5
         public virtual ActionResult Delete(int id)
         {
             return View();
         }
-
         // POST: Subject/Delete/5
         [HttpPost]
         public virtual ActionResult Delete(int id, FormCollection collection)

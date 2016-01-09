@@ -7,15 +7,11 @@
     NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
 
     See http://www.JSON.org/js.html
-
-
     This code should be minified before deployment.
     See http://javascript.crockford.com/jsmin.html
 
     USE YOUR OWN COPY. IT IS EXTREMELY UNWISE TO LOAD CODE FROM SERVERS YOU DO
     NOT CONTROL.
-
-
     This file creates a global JSON object containing two methods: stringify
     and parse. This file is provides the ES5 JSON capability to ES3 systems.
     If a project might run on IE8 or earlier, then this file should be included.
@@ -92,8 +88,6 @@
 
             text = JSON.stringify(['e', {pluribus: 'unum'}]);
             // text is '["e",{"pluribus":"unum"}]'
-
-
             text = JSON.stringify(['e', {pluribus: 'unum'}], null, '\t');
             // text is '[\n\t"e",\n\t{\n\t\t"pluribus": "unum"\n\t}\n]'
 
@@ -103,8 +97,6 @@
                     : value;
             });
             // text is '["Date(---current time---)"]'
-
-
         JSON.parse(text, reviver)
             This method parses a JSON text to produce an object or array.
             It can throw a SyntaxError exception.
@@ -145,8 +137,6 @@
                 }
                 return value;
             });
-
-
     This is a reference implementation. You are free to copy, modify, or
     redistribute.
 */
@@ -161,8 +151,6 @@
     lastIndex, length, parse, prototype, push, replace, slice, stringify,
     test, toJSON, toString, valueOf
 */
-
-
 // Create a JSON object only if one does not already exist. We create the
 // methods in a closure to avoid creating global variables.
 
@@ -214,8 +202,6 @@ if (typeof JSON !== 'object') {
         indent,
         meta,
         rep;
-
-
     function quote(string) {
 
 // If the string contains no control characters, no quote characters, and no
@@ -233,8 +219,6 @@ if (typeof JSON !== 'object') {
             }) + '"' 
             : '"' + string + '"';
     }
-
-
     function str(key, holder) {
 
 // Produce a string from holder[key].
@@ -427,8 +411,6 @@ if (typeof JSON !== 'object') {
             return str('', {'': value});
         };
     }
-
-
 // If the JSON object does not yet have a parse method, give it one.
 
     if (typeof JSON.parse !== 'function') {
@@ -459,8 +441,6 @@ if (typeof JSON !== 'object') {
                 }
                 return reviver.call(holder, key, value);
             }
-
-
 // Parsing happens in four stages. In the first stage, we replace certain
 // Unicode characters with escape sequences. JavaScript handles many characters
 // incorrectly, either silently deleting them, or treating them as line endings.

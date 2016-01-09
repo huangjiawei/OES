@@ -295,7 +295,6 @@
 			}).bind('mousedown.draggable', {target:this}, function(e){
 				if (checkArea(e) == false) return;
 				$(this).css('cursor', '');
-
 				var position = $(e.data.target).position();
 				var offset = $(e.data.target).offset();
 				var data = {

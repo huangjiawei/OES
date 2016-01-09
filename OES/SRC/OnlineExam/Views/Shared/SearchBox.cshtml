@@ -1,6 +1,5 @@
 ﻿@using (Html.BeginForm("Index", "Album", FormMethod.Get, new { id = "albumSearch" }))
 {
-
     <label>
         Search&nbsp;&nbsp; @Html.TextBox("searchWord")
         &nbsp;&nbsp;Genre @Html.DropDownList("genreId", "-- Select All --")
@@ -9,5 +8,4 @@
         Artist @Html.DropDownList("artistId", "-- Select All --")
         &nbsp;&nbsp;<input class="button" value="Search" type="submit" />
     </label>
-
 }

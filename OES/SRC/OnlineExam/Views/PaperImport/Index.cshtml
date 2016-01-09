@@ -9,7 +9,6 @@
 </div>
 <script>
     Alerter.turnOff()
-
     function validate() {
         Alerter.info($("#DocFile").val())
         //Alerter.info($("#DocFile").text())
@@ -29,7 +28,6 @@
             return false;
         }
     }
-
 </script>
 @section Scripts
     {
@@ -41,13 +39,9 @@
     <link rel="stylesheet" href="/Scripts/artDialog/css/ui-dialog.css">
     @*<script src="/Scripts/artDialog/dist/dialog-min.js"></script>*@
 <script src="/Scripts/artDialog/dist/dialog-plus-min.js"></script>
-
     <script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
-
     @*<script src="//cdn.ckeditor.com/4.5.4/basic/ckeditor.js"></script>*@
     @*<script src="//cdn.ckeditor.com/4.5.4/standard/ckeditor.js"></script>*@
     @*<script src="//cdn.ckeditor.com/4.5.5/full/ckeditor.js"></script>*@
-
-
 }

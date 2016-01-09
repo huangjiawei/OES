@@ -1,8 +1,10 @@
-﻿@model OnlineExam.Models.TestPaper
+﻿@using OnlineExam.Models
+@model OnlineExam.Models.TestPaper
 @{
+
     OnlineExam.Models.ExamEntities ee = new OnlineExam.Models.ExamEntities();
     var title = "试卷试题编辑";
-    string bigNum = "零一二三四五六七八九十";
+    //string bigNum = "零一二三四五六七八九十";
     var cids = Model.Paper_Choice.Select(m => m.QuestionID).ToList();
     var Choice = (from q in ee.QuestionChoice
                   where cids.Contains(q.ID)
@@ -14,295 +16,349 @@
 
 }
 
-<div id="QuestionCategoryDlgTemplate">
-    <div class="form-horizontal">
-        <div class="form-group">
-            @Html.Label("sequence", "大题号", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class=" col-md-8">
-                <select class="form-control" id="sequence">
-                    @for (int i = 1; i < 10; i++)
-                    {
-                        <option value="@i">@bigNum[i]</option>
-                    }
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("categoryName", "名称", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class=" col-md-8">
-                <input type="text" class="form-control " id="categoryName">
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("qtype", "试题类型", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class=" col-md-8">
-                @Html.DropDownList("qtype", Utitlity.GetQuestionTypeSelectList().AsEnumerable(), new { @class = " form-control" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("score", "每题默认分数", htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class=" col-md-8">
-                <input type="number" value="5" class=" form-control " max="100" min="1" id="score">
-            </div>
-        </div>
-    </div>
-
-</div>
-<div class="form-horizontal">
-    <h4 class="disabled">
-        @title
-        ——
-        @Model.Name
-    </h4>
-    @Html.HiddenFor(model => model.ID)
-    <h5>
-        @Html.LabelFor(m => m.ExamType) :  @Model.ExamType.ToString() &nbsp;&nbsp;@Html.LabelFor(m => m.SubjectID)
-        @{
-            var subject = Utitlity.GetSubjct(Model.SubjectID);
-            if (subject != null)
-            {
-
-                @subject.SubjectName
-
-            }
-            else
-            {
-                @Model.SubjectID
-            }
-        }
-    </h5>
-</div>
-<div class="tab-pane">
-    <div class="form-horizontal">
-        <span><input id="ckanswer" type="checkbox" v-model="ShowAnswer" />显示答案</span>
-        <span><input id="ckinfo" type="checkbox" v-model="ShowInfo" />显示解释</span><span>
-            <input id="ckoption" type="checkbox" v-model="ShowOption" value="{{ShowOption}}" />{{ShowOption}}显示选项
-        </span>
-        @*<span><input id="ckscore" type="checkbox" onchange="onCkChange()" />显示分数</span>*@
-    </div>
-    <a class="glyphicon glyphicon-plus" onclick="showQuestionCategoryModel(this)"></a>
-
-</div>
-<div class=" panel" id="MainContent">
-    {{CategorytList[0].RandomKey}}
-    <ul id="myTab" class="nav nav-tabs">
-        @*@foreach (var cate in Model.Paper_QuestionCategory.OrderBy(m => m.Sequence))
-                {
-                <li class='dropdown  @(cate.Sequence==1?"  acitve":"")'>
-                    <a href="#tab-@cate.Sequence" data-toggle="tab">
-                        @bigNum[cate.Sequence]、
-                        @Html.Truncate(cate.Title, 10)
-                    </a>
-                </li>
-            }*@
-        <template v-for="cate in CategoryList | orderBy 'Sequence'">
-            <li class="dropdown {{cate.Sequence==1?'  acitve':''}}">
-                @*<a href='{{cate.RandomKey}}' data-toggle="tab">{{bigNum[cate.Sequence]}}、
-                    {{cate.Title}}
-                                </a>*@
-                <a href="#tab-{{cate.RandomKey}}" data-toggle="tab">
-                    {{bigNum[cate.Sequence]}}、
-                    {{cate.Title}}
-                </a>
-
-            </li>
-        </template>
-    </ul>
-    <div id="myTabContent" class="tab-content">
-
-        @foreach (var cate in Model.Paper_QuestionCategory.OrderBy(m => m.Sequence))
+@{
+    int randomKey = 1;
+    var temp =
+        (from c in Model.Paper_QuestionCategory
+         select new QuestionCategoryJson
+         {
+             Quantity = c.Quantity,
+             RandomKey = randomKey++,
+             ScorePerQuestion = c.ScorePerQuestion,
+             Sequence = c.Sequence,
+             Title = c.Title,
+             QuestionType = c.QuestionType,
+             ChoiceList = (from k in Choice
+                           from s in c.Paper_Choice
+                           where k.ID == s.QuestionID
+                           select new ChoiceJson
+                           {
+                               ID = k.ID,
+                               Question = k.Question == null ? "" : k.Question.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                               Info = k.Info == null ? "" : k.Info.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                               Description = k.Description == null ? "" : k.Description.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                               //Answer = k.Answer == null ? "" : k.Answer.Replace("\r\n", "").Replace("\r", "").Replace("\n", "")
+                               SmallQuestionNumber = s.SmallQuestionNumber,
+                               BigQuestionNumber = s.BigQuestionNumber,
+                               QuestionType = k.IsMultiple ? QuestionType.MultipleChoice.ToString() : QuestionType.SingleChoice.ToString(),
+                               Score = s.Score,
+                               OptionA = k.OptionA == null ? "" : k.OptionA.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                               OptionB = k.OptionB == null ? "" : k.OptionB.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                               OptionC = k.OptionC == null ? "" : k.OptionC.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                               OptionD = k.OptionD == null ? "" : k.OptionD.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                               OptionE = k.OptionE == null ? "" : k.OptionE.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                               OptionF = k.OptionF == null ? "" : k.OptionF.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                               AisTrue = k.AisTrue,
+                               BisTrue = k.BisTrue,
+                               CisTrue = k.CisTrue,
+                               DisTrue = k.DisTrue,
+                               EisTrue = k.EisTrue,
+                               FisTrue = k.FisTrue,
+                               IsMultiple = k.IsMultiple
+                           }).ToList(),
+             EssayList = (from k in Essay
+                          from s in c.Paper_Essay
+                          where k.ID == s.QuestionID
+                          select new EssayJson
+                          {
+                              ID = k.ID
+                              ,
+                              QuestionType = k.QuestionType,
+                              BigQuestionNumber = s.BigQuestionNumber,
+                              Score = s.Score,
+                              Question = k.Question == null ? "" : k.Question.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                              Info = k.Info == null ? "" : k.Info.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                              Description = k.Description == null ? "" : k.Description.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                              Answer = k.Answer == null ? "" : k.Answer.Replace("\r\n", "").Replace("\r", "").Replace("\n", "")
+                          }).ToList()
+         }).ToList();
+    //重新排序
+    int index = 1;
+    foreach (var item in temp)
+    {
+        item.Sequence = index++;
+        int qindex = 1;
+        foreach (var q in item.ChoiceList.OrderBy(m => m.SmallQuestionNumber))
         {
-            if (cate.QuestionType == QuestionType.SingleChoice.ToString() || cate.QuestionType == QuestionType.MultipleChoice.ToString())
-            {
-                var qlist = cate.Paper_Choice.AsEnumerable();
-                <div class='tab-pane fade panel  @(cate.Sequence == 1 ? " in acitve" : "")' id="tab-@cate.RandomKey">
+            q.SmallQuestionNumber = qindex++;
+        }
+        qindex = 1;
+        foreach (var q in item.EssayList.OrderBy(m => m.SmallQuestionNumber))
+        {
+            q.SmallQuestionNumber = qindex++;
+        }
+    }
+    var jsonCategory = System.Web.Helpers.Json.Encode(temp);
+    var newCategory = System.Web.Helpers.Json.Encode(new QuestionCategoryJson());
+    var newChoice = System.Web.Helpers.Json.Encode(new ChoiceJson());
+    var newEssay = System.Web.Helpers.Json.Encode(new EssayJson());
+}
+<div id="vueContent">
+    <div id="QuestionCategoryDlgTemplate" class="hidden">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.Label("sequence", "大题号", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class=" col-md-8">
+                    <select class="form-control" id="sequence" v-model="EditingCategory.Sequence">
+                        <option v-for="n in (CategoryList.length)" value="{{n+1}}">{{bigNum[n+1]}}</option>
+                        <option v-show="isEditCategory" value="{{EditingCategory.Sequence}}">
+                            {{bigNum[EditingCategory.Sequence]}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+
+                @Html.Label("categoryName", "名称", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class=" col-md-8">
+                    <input type="text" class="form-control " id="categoryName" v-model="EditingCategory.Title">
+
+                </div>
+            </div>
+            <div v-show="!isEditCategory" class="form-group">
+                @Html.Label("qtype", "试题类型", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class=" col-md-8">
+                    <select id="qtype" class="form-control" v-model="EditingCategory.QuestionType">
+                        @foreach (var i in Utitlity.GetQuestionTypeSelectList())
+                        {
+                            <option value="@i.Value">@i.Text</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("score", "每题默认分数", htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class=" col-md-8">
+                    <input type="number" class=" form-control " max="100" min="1" id="score" v-model="EditingCategory.ScorePerQuestion">
+                </div>
+            </div>
+            @*<a onclick="AddCategory()">添加</a>
+                <a v-*@
+        </div>
+    </div>
+  
+    <div class="form-horizontal">
+        <h4 class="disabled">
+            @title
+            ——
+            @Model.Name
+        </h4>
+        @Html.HiddenFor(model => model.ID)
+        <h5>
+            @Html.LabelFor(m => m.ExamType) :  @Model.ExamType.ToString() &nbsp;&nbsp;@Html.LabelFor(m => m.SubjectID)
+            @{
+                var subject = Utitlity.GetSubjct(Model.SubjectID);
+                if (subject != null)
+                {
+                    @subject.SubjectName
+                }
+                else
+                {
+                    @Model.SubjectID
+                }
+            }
+        </h5>
+    </div>
+    <div class="tab-pane">
+        <div class="form-horizontal">
+            <span><input id="ckanswer" type="checkbox" v-model="ShowAnswer" />显示答案</span>
+            <span><input id="ckinfo" type="checkbox" v-model="ShowInfo" />显示解释</span><span>
+                <input id="ckoption" type="checkbox" v-model="ShowOption" />显示选项
+            </span>
+        </div>
+    </div>
+    <div class=" panel" id="MainContent">
+        <ul id="myTab" class="nav  nav-tabs">
+            <template v-for="cate in CategoryList | orderBy 'Sequence'">
+                <li class="dropdown {{cate.Sequence==1?'  acitve':''}}">
+                    <a href="#tab-{{cate.RandomKey}}" data-toggle="tab">
+                        {{bigNum[cate.Sequence]}}、
+                        {{cate.Title}}
+                        <span v-if="isChoice(cate)" class="badge pull-right">{{cate.ChoiceList.length}}</span>
+                        <span v-else class="badge pull-right">{{cate.EssayList.length}}</span>
+                    </a>
+
+                </li>
+            </template>
+            <li>
+                <button class="glyphicon glyphicon-plus btn btn
+             center-block btn-lg" v-on:click="ShowCategoryDlg(false)"></button>
+            </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <template v-for="cate in CategoryList | orderBy 'Sequence'">
+                <div v-if="cate.QuestionType=='@QuestionType.MultipleChoice.ToString()'||cate.QuestionType=='@QuestionType.SingleChoice.ToString()'" class='tab-pane fade panel  {{cate.Sequence == 1 ? " in acitve" : ""}}' id="tab-{{cate.RandomKey}}">
                     <div class="panel-body">
                         <h4 class="row big-title">
-                            {{GetCategory(@(cate.RandomKey)).Sequence}}
+                            {{bigNum[cate.Sequence]}}
                             、
-                            {{GetCategory(@(cate.RandomKey)).Title}}
+                            {{cate.Title}}
                             (每题默认
-                            {{GetCategory(@(cate.RandomKey)).ScorePerQuestion}}
+                            {{cate.ScorePerQuestion}}
                             分
                             )
+                            @*{{cate.QuestionType}}*@
                         </h4>
-                        @if (cate.Quantity > 0 && qlist.Count() > 0)
-                        {
-                            var type = QuestionType.MultipleChoice.ToString() == cate.QuestionType ? "multiple" : "single";
-                            var questions = from s in Choice
-                                            from y in qlist
-                                            where y.QuestionID == s.ID
-                                            orderby y.BigQuestionNumber, y.SmallQuestionNumber
-                                            select new { Q = s, P = y };
-
-                            foreach (var q in questions)
-                            {
-                                <div class=" panel-body question-content">
-                                    @Html.Hidden("QuestionID", q.Q.ID)
-                                    <div class="row ">
-                                        <div class="flowleft question-number">@q.P.SmallQuestionNumber、</div>
-                                        <div class="flowleft question">
-                                            @Html.Raw(q.Q.Question)
-                                        </div>
+                        <template v-for="q in cate.ChoiceList | orderBy 'SmallQuestionNumber'">
+                            <div class=" panel-body question-content">
+                                <div class="row ">
+                                    <div class="flowleft question-number">{{q.SmallQuestionNumber}}、</div>
+                                    <div class="flowleft question">
+                                        {{{q.Question}}}
+                                    </div>
+                                    <span class="score">
+                                        (
+                                        {{q.Score}}
+                                        分)
+                                    </span>
+                                </div>
+                                <div class='option-list {{cate.QuestionType=="@QuestionType.MultipleChoice" ? "multiple" : "single"}}' v-show="ShowOption">
+                                    <div data="A" class="row"><div class="flowleft">A：</div><div class="flowleft">{{{q.OptionA}}}</div></div>
+                                    <div data="B" class="row"><div class="flowleft">B：</div><div class="flowleft">{{{q.OptionB}}}</div></div>
+                                    <div data="C" v-if="q.OptionC!=''" class="row"><div class="flowleft">C：</div><div class="flowleft">{{{q.OptionC}}}</div></div>
+                                    <div data="D" v-if="q.OptionD!=''" class="row"><div class="flowleft">D：</div><div class="flowleft">{{{q.OptionD}}}</div></div>
+                                    <div data="E" v-if="q.OptionE!=''" class="row"><div class="flowleft">E：</div><div class="flowleft">{{{q.OptionE}}}</div></div>
+                                    <div data="F" v-if="q.OptionF!=''" class="row"><div class="flowleft">F：</div><div class="flowleft">{{{q.OptionF}}}</div></div>
+                                </div>
+                                <div class="row answer" v-show="ShowAnswer">
+                                    <div class="flowleft">答案：</div>
+                                    <div class="flowleft ">
+                                        {{GetchoiceAnswer(q.Q)}}
+                                    </div>
+                                </div>
+                                <div class="row remark " v-show="ShowInfo">
+                                    <div class="flowleft">解释：</div>
+                                    <div class="flowleft ">
+                                        {{{q.Description}}}
+                                    </div>
+                                </div>
+                                <div class="toolbar row">
+                                    <a class="btn btn-primary btn-xs" target="_blank" href='"@Url.Content("/Choice/Details?id=")"+q.ID'>查看</a>
+                                    <a class="btn btn-danger btn-xs" v-on:click="deleteQuestion(cate,q)">移除</a>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            转移到 <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li v-for="destCate in CategoryList | orderBy 'Sequence' ">
+                                                <a v-show="cate.QuestionType==destCate.QuestionType&&cate.RandomKey!=destCate.RandomKey" v-on:click="moveQuestion(cate,destCate,q)">{{bigNum[destCate.Sequence]}}、{{destCate.Title}}</a>
+                                            </li>
+                                            <li>
+                                                <a v-on:click="MoveToBasket(cate,q)">试题候选区</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                        </template>
+                        <div v-if=" cate.ChoiceList.length<=0">未添加任何题目</div>
+                    </div>
+                </div>
+                <div v-else class='tab-pane fade panel  {{cate.Sequence==1?" in acitve":""}}' id="tab-{{cate.RandomKey}}">
+                    <div class="panel-body">
+                        <h4 class="row  big-title">
+                            {{bigNum[cate.Sequence]}}
+                            、
+                            {{cate.Title}}
+                            (每题默认
+                            {{cate.ScorePerQuestion}}
+                            分
+                            )
+                            @*{{cate.QuestionType}}
+                                简答*@
+                            @*@QuestionType.SingleChoice.ToString()*@
+                            <a class="btn btn-primary btn-sm" v-on:click="ShowCategoryDlg(true,cate)">修改</a>
+                            <a class="btn btn-primary btn-sm" v-on:click="addQuestion(cate)">添加试题</a>
+                            <a class="btn btn-danger btn-sm" v-on:click="deleteCategory(cate)">删除</a>
+                            <a class="btn btn-danger btn-sm" v-on:click="clearQuestion(cate)">清空试题</a>
+                        </h4>
+                        <template v-for="q in cate.EssayList | orderBy 'SmallQuestionNumber'">
+                            <div class="panel-body question-content ">
+                                @*@Html.Hidden("QuestionID", q.P.SmallQuestionNumber)*@
+                                <div class="row question">
+                                    <div class="flowleft question-number">{{q.SmallQuestionNumber}} 、</div>
+                                    <div class="flowleft ">
+                                        {{{q.Question}}}
                                         <span class="score">
                                             (
-                                            @q.P.Score
+                                            {{q.Score}}
                                             分)
                                         </span>
                                     </div>
-                                    <div class="option-list @type" v-show="ShowOption">
-                                        <div data="A" class="row"><div class="flowleft">A：</div><div class="flowleft">@Html.Raw(q.Q.OptionA)</div></div>
-                                        <div data="B" class="row"><div class="flowleft">B：</div><div class="flowleft">@Html.Raw(q.Q.OptionB)</div></div>
-                                        @if (!string.IsNullOrWhiteSpace(q.Q.OptionC))
-                                        {
-                                            <div data="C" class="row"><div class="flowleft">C：</div><div class="flowleft">@Html.Raw(q.Q.OptionC)</div></div>
-                                            if (!string.IsNullOrWhiteSpace(q.Q.OptionD))
-                                            {
-                                                <div data="D" class="row"><div class="flowleft">D：</div><div class="flowleft">@Html.Raw(q.Q.OptionD)</div></div>
-                                                if (!string.IsNullOrWhiteSpace(q.Q.OptionE))
-                                                {
-
-                                                    <div data="E" class="row"><div class="flowleft">E：</div><div class="flowleft">@Html.Raw(q.Q.OptionE)</div></div>
-                                                    if (!string.IsNullOrWhiteSpace(q.Q.OptionD))
-                                                    {
-
-                                                        <div data="F" class="row"><div class="flowleft">F：</div><div class="flowleft">@Html.Raw(q.Q.OptionF)</div></div>
-                                                    }
-                                                }
-                                            }
-                                        }
-
-                                    </div>
-                                    <div class="row answer" v-show="ShowAnswer">
-                                        <div class="flowleft">答案：</div>
-                                        <div class="flowleft ">
-                                            @Utitlity.GetChoiceAnswer(q.Q)
-                                        </div>
-                                    </div>
-                                    <div class="row remark " v-show="ShowInfo">
-                                        <div class="flowleft">解释：</div>
-                                        <div class="flowleft ">
-                                            @Html.Raw(q.Q.Description)
-                                        </div>
-                                    </div>
-                                    <div class="toolbar row">
-                                        <a class="btn btn-primary btn-xs" target="_blank" href="@Url.Content("/Choice/Details?id="+ q.Q.ID)">查看</a>
-                                        <a class="btn btn-danger btn-xs" onclick="removeQuestion(this)">移除</a>
-                                        @*<a class="btn btn-warning btn-xs" onclick="moveItem(this)">转到</a>*@
+                                </div>
+                                <div class="row answer" v-show="ShowAnswer">
+                                    <div class="flowleft">答案：</div>
+                                    <div class="flowleft ">
+                                        {{{q.Answer}}}
                                     </div>
                                 </div>
-                                <hr />
-                            }
-
-                        }
-                        else
-                        {
-                            <div>未添加任何题目</div>
-                        }
-                    </div>
-                </div>
-            }
-            else
-            {
-                var qlist = cate.Paper_Essay.AsEnumerable();
-                <div class='tab-pane fade panel  @(cate.Sequence==1?" in acitve":"")' id="tab-@cate.Sequence">
-                    <div class="panel-body">
-                        <h4 class="row  big-title">
-                            @bigNum[cate.Sequence]
-                            、
-                            @cate.Title
-                            (每题默认
-                            @cate.ScorePerQuestion
-                            分
-                            )
-                            <a class="btn btn-primary btn-sm" onclick="editCategory(this)">修改</a>
-                            <a class="btn btn-primary btn-sm" onclick="addQuestion(this)">添加试题</a>
-                            <a class="btn btn-danger btn-sm" onclick="removeCategory(this)">删除</a>
-                            <a class="btn btn-danger btn-sm" onclick="clearQuestion(this)">清空试题</a>
-
-
-                        </h4>
-                        @if (cate.Quantity > 0 && qlist.Count() > 0)
-                        {
-                            //var type = QuestionType.MultipleChoice.ToString() == cate.QuestionType ? "multiple" : "single";
-                            var questions = from s in Essay
-                                            from y in qlist
-                                            where y.QuestionID == s.ID
-                                            orderby y.BigQuestionNumber, y.SmallQuestionNumber
-                                            select new { Q = s, P = y };
-
-
-                            foreach (var q in questions)
-                            {
-                                <div class="panel-body question-content ">
-                                    @Html.Hidden("QuestionID", q.P.SmallQuestionNumber)
-                                    <div class="row question">
-                                        <div class="flowleft question-number">@q.P.SmallQuestionNumber、</div>
-                                        <div class="flowleft ">
-                                            @Html.Raw(q.Q.Question) <span class="score">
-                                                (
-                                                @q.P.Score
-                                                分)
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="row answer" v-show="ShowAnswer">
-                                        <div class="flowleft">答案：</div>
-                                        <div class="flowleft ">
-                                            @Html.Raw(q.Q.Answer)
-                                        </div>
-                                    </div>
-                                    <div class="row remark" v-show="ShowInfo">
-                                        <div class="flowleft">解释：</div>
-                                        <div class="flowleft ">
-                                            @Html.Raw(q.Q.Description)
-                                        </div>
-                                    </div>
-                                    <div class="toolbar row">
-                                        @*@Html.ActionLink("查看","Details", "Choice", new { id = q.Q.ID, target = "_blank", @class = "btn btn-default" })*@
-                                        <a class="glyphicon glyphicon-arrow-up"></a>
-                                        <a class="glyphicon glyphicon-arrow-down"></a>
-
-                                        <a class="btn btn-primary btn-xs" target="_blank" href="@Url.Content("/Essay/Details?id="+ q.Q.ID)">查看</a>
-                                        <a class="btn btn-danger btn-xs" onclick="removeQuestion(this)">移除</a>
-                                        @*<a class="btn btn-danger btn-xs" onclick="move(this)">转到</a>*@
-                                        <div class="btn-group">
-                                            <button onmousedown="generateMenu()" type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                转移到 <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li><a onclick=""></a></li>
-                                                <li><a href="#">Another action</a></li>
-                                                <li><a href="#">Something else here</a></li>
-                                            </ul>
-                                        </div>
-
-
+                                <div class="row remark" v-show="ShowInfo">
+                                    <div class="flowleft">解释：</div>
+                                    <div class="flowleft ">
+                                        {{{q.Description}}}
                                     </div>
                                 </div>
-                                <hr />
-                            }
-
-                        }
-                        else
-                        {
-                            <div>未添加任何题目</div>
-                        }
+                                <div class="toolbar row">
+                                    <a class="glyphicon glyphicon-arrow-up"></a>
+                                    <a class="glyphicon glyphicon-arrow-down"></a>
+                                    <a class="btn btn-primary btn-xs" target="_blank" href='"@Url.Content("/Essay/Details?id=")"+ q.ID'>查看</a>
+                                    <a class="btn btn-primary btn-xs" target="_blank" v-on:click="ShowQuestionDlg(true,cate,q)">修改</a>
+                                    <a class="btn btn-danger btn-xs" v-on:click="deleteQuestion(cate,q)">移除</a>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            转移到 <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li v-for="destCate in CategoryList | orderBy 'Sequence' ">
+                                                <a v-show="cate.QuestionType==destCate.QuestionType&&cate.RandomKey!=destCate.RandomKey" v-on:click="moveQuestion(cate,destCate,q)">{{bigNum[destCate.Sequence] }}、{{destCate.Title}}</a>
+                                            </li>
+                                            <li><a v-on:click="moveQuestion(cate,q)">试题候选区</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                        </template>
+                        <div v-if=" cate.EssayList.length<=0">未添加任何题目</div>
                     </div>
                 </div>
-            }
-        }
+            </template>
+        </div>
+        <div class="container">
+        </div>
     </div>
-    <div class="container">
-    </div>
-</div>
-<div id="menu" class="hidden">
-    <ul>
-        <li><a>试题候选区</a></li>
-        <li><a>收藏夹</a></li>
-        <li><a>试题候选区</a></li>
-        <li><a>试题候选区</a></li>
-    </ul>
+    @*<div id="QuestionDlgTemplate" class="hidden">
+
+        <input type="text" placeholder="试题号" v-modle="EditingQuestion.ID|EncodeQtNum EditingQuestion.QuestionType" onblur="" />
+        <div class="row question">
+            <div class="flowleft question-number">
+                <input type="number" v-model="EditingQuestion.SmallQuestionNumber" placeholder="题号" /> 、
+            </div>
+            <div class="flowleft ">
+                {{{EditingQuestion.Question}}}
+                <span class="score">
+                    (
+                    <input type="text" v-model="EditingQuestion.Score" placeholder="分数" />
+                    分)
+                </span>
+            </div>
+        </div>
+        <div class="row answer" v-show="ShowAnswer">
+            <div class="flowleft">答案：</div>
+            <div class="flowleft ">
+                {{{EditingQuestion.Answer}}}
+            </div>
+        </div>
+        <div class="row remark" v-show="ShowInfo">
+            <div class="flowleft">解释：</div>
+            <div class="flowleft ">
+                {{{EditingQuestion.Description}}}
+            </div>
+        </div>
+    </div>*@
+
+
 </div>
 @section Scripts
 {
@@ -310,76 +366,16 @@
     <script src="/Scripts/artDialog/dist/dialog-plus-min.js"></script>
     <script src="/Scripts/vue.min.js"></script>
     <script src="/Scripts/JSON2/json2.js"></script>
-
     <script>
-        @{
-            var temp =
-                from c in Model.Paper_QuestionCategory
-                select new
-                {
-                    Quantity = c.Quantity,
-                    RandomKey = c.RandomKey,
-                    ScorePerQuestion = c.ScorePerQuestion,
-                    Sequence = c.Sequence,
-                    Title = c.Title,
-                    QuestionType = c.QuestionType,
-                    ChoiceList = (from k in Choice
-                                  from s in c.Paper_Choice
-                                  where k.ID == s.QuestionID
-                                  select new
-                                  {
-                                      ID = k.ID,
-                                      Question = k.Question == null ? "" : k.Question.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                                      Info = k.Info == null ? "" : k.Info.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                                      Description = k.Description == null ? "" : k.Description.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                                      //Answer = k.Answer == null ? "" : k.Answer.Replace("\r\n", "").Replace("\r", "").Replace("\n", "")
 
-                                      OptionA = k.OptionA == null ? "" : k.OptionA.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                                      OptionB = k.OptionB == null ? "" : k.OptionB.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                                      OptionC = k.OptionC == null ? "" : k.OptionC.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                                      OptionD = k.OptionD == null ? "" : k.OptionD.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                                      OptionE = k.OptionE == null ? "" : k.OptionE.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                                      OptionF = k.OptionF == null ? "" : k.OptionF.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                                      AisTrue = k.AisTrue,
-                                      BisTrue = k.BisTrue,
-                                      CisTrue = k.CisTrue,
-                                      DisTrue = k.DisTrue,
-                                      EisTrue = k.EisTrue,
-                                      FisTrue = k.FisTrue,
-                                      IsMultiple = k.IsMultiple
-                                  }).ToList(),
-                    EssayList = (from k in Essay
-                                 from s in c.Paper_Essay
-                                 where k.ID == s.QuestionID
-                                 select new
-                                 {
-                                     ID = k.ID
-                                     ,
-                                     Question = k.Question == null ? "" : k.Question.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                                     Info = k.Info == null ? "" : k.Info.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                                     Description = k.Description == null ? "" : k.Description.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                                     Answer = k.Answer == null ? "" : k.Answer.Replace("\r\n", "").Replace("\r", "").Replace("\n", "")
-                                 }).ToList()
-
-                };
-            //var temp = (from k in Essay
-            //                //from s in Model.Paper_Essay
-            //                //where k.ID == s.QuestionID
-            //            select new
-            //            {
-            //                ID = k.ID
-            //                ,
-            //                Question = k.Question == null ? "" : k.Question.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-            //                Info = k.Info == null ? "" : k.Info.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-            //                Description = k.Description == null ? "" : k.Description.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-            //                Answer = k.Answer == null ? "" : k.Answer.Replace("\r\n", "").Replace("\r", "").Replace("\n", "")
-            //            }).ToList()
-            //;
-            var jsonData = System.Web.Helpers.Json.Encode(temp.ToArray());
-
+        function findAndRemove(array, property, value) {
+            array.forEach(function(result, index) {
+                if(result[property] === value) {
+                    //Remove from array
+                    array.splice(index, 1);
+                }
+            });
         }
-
-
         function HtmlEncode(str) {
             var s = "";
             if (str.length == 0)
@@ -403,156 +399,269 @@
             s = s.replace(/<br>/g, "\n");
             return s;
         }
+        Vue.filter('EncodeQtNum',{read: function (val,qtype) {
+            console.log("EncodeQtNum")
+            var pre;
+            if(qtype=="@QuestionType.SingleChoice.ToString()")pre= 'A';
+            if(qtype=="@QuestionType.MultipleChoice.ToString()")pre= 'B';
+            if(qtype=="@QuestionType.Completion.ToString()")pre= 'C';
+            if(qtype=="@QuestionType.ShortAnswer.ToString()")pre= 'D';
+            if(qtype=="@QuestionType.Discussion.ToString()")pre= 'E';
+            console.log(val);
+            var code = "000000000000000000000" + val.toString();
+            code = code.Substring(code.length - 12,code.length-1);
+            code = pre + code;
+            console.log(pre);
+            console.log(code)
+            return code;
+        },write: function(val,old,qtype){
+            var regex=/[ABCDEF]0*/;
+            var result=val.replace(regex,"")
+            console.log("EncodeQtNum"+result)
+            return result;
+        }}
+        )
 
-        //var s=  HtmlDecode("@System.Web.Helpers.Json.Encode(temp.ToArray())")
-        var s= HtmlDecode("@jsonData")
-        @*Alerter.info("@System.Web.Helpers.Json.Encode(temp.ToArray())")*@
-        Alerter.info(s.split("\r").length)
-
-        var clist = eval("(" +s +")");
-
-        alert(JSON.stringify(clist))
-        //Alerter.info(clist[0].ID)
-
-        var index=@Model.Paper_QuestionCategory.Count();
-
-
-        var bigNum = "零一二三四五六七八九十";
+        //alert(JSON.stringify(clist))
+        var vm;
+        //var bigNum = "零一二三四五六七八九十";
+        var newCategory= HtmlDecode("@newCategory")
+        var newChoice= HtmlDecode("@newChoice")
+        var newEssay= HtmlDecode("@newEssay")
+        //var editingCategory=eval("("+newCategory+")")
         Alerter.turnOn();
         $(function () {
-            //Alerter.info($("#myTab").find("li:eq(0)").children().attr("href"))
+            var s= HtmlDecode("@jsonCategory")
+            var index=@Model.Paper_QuestionCategory.Count();
+            var clist = eval("(" +s +")");
+            vm=  new Vue( {
+                el: "#vueContent",
+                data: {
+                    CategoryList:clist,
+                    NewCategoryIndex:index,
+                    bigNum:"零一二三四五六七八九十",
+                    ShowAnswer:true,
+                    ShowInfo:true,
+                    ShowOption:true,
+                    EditingCategory:{},
+                    isEditCategory:false,
+                    isEditQuestion:false,
+                    EditingQuestion:{}
+                },
+                methods: {
+                    GetCategory: function (randomKey) {
+                        for(var i=0;i<this.CategoryList.length;i++){
+                            console.log("GetCategory:"+i)
+                            if(this.CategoryList[i].RandomKey==randomKey){
+                                return this.CategoryList[i];
+                            }
+                        }
+                        console.log("end")
+                        console.log(this.CategoryList[i])
+                    },
+
+                    GetChoiceAnswer:function(q)
+                    {
+                        var r = "";
+                        if (q.AisTrue) r += "A";
+                        if (q.BisTrue) r += "B";
+                        if (q.CisTrue) r += "C";
+                        if (q.DisTrue) r += "D";
+                        if (q.EisTrue) r += "E";
+                        if (q.FisTrue) r += "F";
+                        return r;
+                    },
+                    //GetJsonLength: function (jsonCategory){
+                    //    var jsonLength = 0;
+                    //    for(var item in jsonCategory){
+                    //        jsonLength++;
+                    //    }
+                    //    return jsonLength;
+                    //},
+                    GetQeuestion:function(cate,qid){
+                    },
+                    isChoice:function(cate){
+                        if(cate.QuestionType.indexOf("Choice")>=0)return true;
+                        return false;
+                    },
+                    deleteQuestion:function(cate,q) {
+                        if(this.isChoice(cate)) findAndRemove(cate.ChoiceList, "ID", q.ID)
+                        else
+                            findAndRemove(cate.EssayList, "ID", q.ID)
+                    },
+                    moveQuestion:function (srcCate,destCate,q){
+                        if(this.isChoice(srcCate)){
+                            var id=q.ID;
+                            q.BigQuestionNumber=destCate.Sequence;
+                            q.SmallQuestionNumber=destCate.ChoiceList.length+1
+                            destCate.ChoiceList.push(q)
+                            findAndRemove(srcCate.ChoiceList,"ID",id)
+
+                        }
+                        else{
+                            var id=q.ID;
+                            q.BigQuestionNumber=destCate.Sequence;
+                            q.SmallQuestionNumber=destCate.EssayList.length+1
+                            destCate.EssayList.push(q)
+                            findAndRemove(srcCate.EssayList, "ID", id)
+
+                        }
+                    },
+                    deleteCategory:function(e) {
+                        if (confirm("确定要删除当前的大题吗？")) {
+                            var i=0;
+                            findAndRemove( this.CategoryList,"RandomKey",e.RandomKey);
+
+                            for(var item in this.CategoryList){
+                                item=this.CategoryList[i]
+                                if(item.Sequence>e.Sequence)
+                                {
+                                    console.log(
+
+
+
+
+
+
+                                        item.Sequence)
+                                    item.Sequence-=1;
+                                }
+                                i++;
+                            }
+                            //GetCategory(e.RandomKey).splice()
+                            //e.splice()
+                        }
+                    },
+                    clearQuestion:  function (e) {
+                        //var a=Array()
+                        e.ChoiceList=[];
+                        e.EssayList=[];
+                    },
+                    ShowQuestionDlg :function (isEdit,cate,q) {
+                        this.isEditQuestion=isEdit;
+                        var vue=this;
+                        if(isEdit){
+                            if(q.QuestionType.indexOf("Choice")>=0){
+                                this.EditingQuestion=q;
+                                //this.EditingQuestion=eval("("+newChoice+")");
+                                //this.EditingQuestion=cate.Sequence;
+                                //this.EditingQuestion.Title=cate.Title;
+                                //this.EditingQuestion.ScorePerQuestion =cate.ScorePerQuestion
+                                //this.EditingQuestion.RandomKey=cate.RandomKey;
+                            }else{
+
+                                this.EditingQuestion=q;
+                            }
+                          
+
+                            var  QtDlg = dialog({
+                                title: cate.Title+ '修改题目',
+                                content: $("#QuestionDlgTemplate"),
+                                okValue: '更新',
+                                ok: function () {
+                                    vue.UpdateQuestion(cate)
+                                },
+                                cancel: true,
+                                cancelValue:'取消'
+                            })
+                        }
+                        else{
+                            if(q.QuestionType.indexOf("Choice")>=0){
+                                this.EditingQuestion=eval("("+newChoice+")");  
+                                this.EditingQuestion.SmallQuestionNumber=cate.ChoiceList.length
+                            }
+                            else{
+                                this.EditingQuestion=eval("("+newEssay+")");
+                                this.EditingQuestion.SmallQuestionNumber=cate.EssayList.length
+                            }
+                            this.EditingQuestion.BigQuestionNumber=cate.Sequence;
+                            this.EditingQuestion.Score=cate.ScorePerQuestion;
+                            //this.EditingQuestion.ID=0;
+                            //this.EditingQuestion.Question="";
+                            //this.EditingQuestion.Answer="";
+                            //this.
+                            
+                         
+                           var  QtDlg = dialog({
+                                title: '添加试题',
+                                content: $("#QuestioDlgTemplate"),
+                                okValue: '添加',
+                                ok: function () {
+                                    vue.AddQuestion(cate);
+                                },
+                                cancel: true,
+                                cancelValue:'取消'
+                            })
+                        }
+                        QtDlg.showModal();
+                    },
+                    AddQuestion :function(cate){
+
+
+                    },
+                   UpdateQuestion :function(cate){
+
+
+                    },
+                    ShowCategoryDlg :function (isEdit,cate) {
+                        this.isEditCategory=isEdit;
+                        var vue=this;
+                        if(isEdit){
+                            this.EditingCategory=eval("("+newCategory+")");
+                            this.EditingCategory.Sequence=cate.Sequence;
+                            this.EditingCategory.Title=cate.Title;
+                            this.EditingCategory.ScorePerQuestion =cate.ScorePerQuestion
+                            this.EditingCategory.RandomKey=cate.RandomKey;
+
+                            var  CateDlg = dialog({
+                                title: '编辑大题',
+                                content: $("#QuestionCategoryDlgTemplate"),
+                                okValue: '更新',
+                                ok: function () {
+                                    vue.UpdateCategory()
+                                },
+                                cancel: true,
+                                cancelValue:'取消'
+                            })
+                        }
+                        else{
+                            this.EditingCategory=eval("("+newCategory+")");
+                            this.EditingCategory.Sequence=this.CategoryList.length+1;
+                            if(this.EditingCategory.Sequence>11){alert("大题数过多，添加失败！");return;}
+                            CateDlg = dialog({
+                                title: '添加大题',
+                                content: $("#QuestionCategoryDlgTemplate"),
+                                okValue: '添加',
+                                ok: function () {
+                                    vue.AddCategory();
+                                },
+                                cancel: true,
+                                cancelValue:'取消'
+                            })
+                        }
+                        CateDlg.showModal();
+                    },
+                    showQuestionCategoryModel:  function (num) {
+                        if (num == null || num == undefined) {
+                        }
+                        if (num < 0 || num > 9) { alert("错误"); return; }
+                    },
+                    AddCategory: function () {
+                        this.EditingCategory.RandomKey=++this.NewCategoryIndex;
+                        this.CategoryList.push(this.EditingCategory)
+                    },
+                    UpdateCategory: function () {
+                        var item= this.GetCategory(this.EditingCategory.RandomKey);
+                        item.Title=this.EditingCategory.Title;
+                        item.Sequence=this.EditingCategory.Sequence
+                        item.ScorePerQuestion=this.EditingCategory.ScorePerQuestion;
+
+                    }
+
+                }
+            })
             $("#myTab").find("li:eq(0)").find("a").click();;
             $(".tab-pane").find("hr:last").remove();
-
-            //            var vm2=      new Vue(
-            //{
-            //    el: "html",
-            //    data: {
-            //        ShowAnswer:true,
-            //        ShowInfo:true,
-            //        ShowOption:true,
-            //    }
-
-            //})
-            var vm=  new Vue(
-     {
-         el: "html",
-         data: {
-             CategoryList:clist,
-             Index:index,
-             bigNum:"零一二三四五六七八九十",
-             ShowAnswer:true,
-             ShowInfo:true,
-             ShowOption:true,
-         },
-         methods: {
-             GetCategory: function (randomKey) {
-                 for(var i=0;i<CategoryList.lenght;i++){
-                     if(CategoryList[i].RandomKey==randomKey){
-                         alert("find");
-                         return CategoryList[i];
-                     }
-
-                 }
-             }
-         }
-     })
-
-
-        })
-        function generateMenu(e) {
-            var elem = "<li><</li>"
-            $(e).parent().find("ul").append(elem)
-
-        }
-        function removeQuestion(e) {
-            var qlist = $(e).parent().parent().parent()
-            $(e).parent().parent().remove();
-            //reOrder($(e).parent().parent().parent());
-
-            var i = 1;
-            $(qlist).children("div").each(function () {
-                Alerter.info($(this).html());
-                $(this).find(".question").find(".question-number").text(i + "、");
-                i += 1;
-            })
-        }
-        function reOrderTab() {
-            var i = 1;
-            $()
-
-        }
-        function moveItem(e) {
-            //$("#menu").removeClass("hidden").
-
-        }
-
-        function onCkChange() {
-            if ($("#ckoption").is(":checked")) { $(".option-list").removeClass("hidden") }
-            else { $(".option-list").addClass("hidden") }
-
-            if ($("#ckanswer").is(":checked")) { $(".answer").removeClass("hidden") }
-            else { $(".answer").addClass("hidden") }
-
-            if ($("#ckinfo").is(":checked")) { $(".remark").removeClass("hidden") }
-            else { $(".remark").addClass("hidden") }
-
-
-
-            //if ($("#ckoption").is(":checked")) { $(".option").addClass("hidden") }
-            //else { $(".option").removeClass("hidden") }
-
-
-        }
-
-
-        function removeCategory(e) {
-
-            if (confirm("确定要删除当前的大题吗？")) {
-                $(e).parent()
-
-            }
-        }
-        function clearQuestion(e) {
-
-
-        }
-        function clearQuestion(e) {
-
-
-        }
-        function editCategory(e) {
-
-
-        }
-        function showQuestionCategoryModel(num) {
-            if (num == null || num == undefined) {
-
-
-
-            }
-            if (num < 0 || num > 9) { alert("错误"); return; }
-
-
-        }
-        function AddCateogry() {
-
-
-        }
-        function OpenAuditDlg() {
-            var dlgCotnet = "<div id='QuestionCategoryDlg'>" + $("#QuestionCategoryDlgTemplate").html() + "</div>";
-            var dlg = dialog({
-                title: '添加大题',
-                content: dlgCotnet,
-                okValue: '通过',
-                ok: function () {
-                    SumitAudit('@Auditing.Pass')
-                    return false;
-                },
-                cancleDisplay: ture
-
-            });
-            dlg.show();
-        }
+        })//$(fncion)
     </script>
 }

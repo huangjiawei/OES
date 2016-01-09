@@ -13,7 +13,6 @@ using System.Collections;
 using System.Collections.Generic;
 using MvcContrib.UI.Grid;
 using System.Web.Security;
-
 namespace OnlineExam.Controllers
 {
     
@@ -23,17 +22,14 @@ namespace OnlineExam.Controllers
         
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
         public AccountController()
         {
         }
-
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
-
         public ApplicationSignInManager SignInManager
         {
             get
@@ -45,7 +41,6 @@ namespace OnlineExam.Controllers
                 _signInManager = value;
             }
         }
-
         IEnumerable<SelectListItem> _roleList;
         void InitRoles()
         {
@@ -55,7 +50,6 @@ namespace OnlineExam.Controllers
             i.Text = "全部";
             temp.Insert(0, i);
             _roleList = temp.AsEnumerable();
-
         }
         public IEnumerable<SelectListItem> RoleList
         {
@@ -71,14 +65,12 @@ namespace OnlineExam.Controllers
 #endif
         public ActionResult UserManagement(string searchWord, int? pageSize, GridSortOptions gridSortOptions, int? page, string SelectRole, DataView? viewType)
         {
-
             ViewBag.Roles = RoleList;
             ViewData["ViewType"] = viewType;
             int CurrentPageSize = 0;
             if (!pageSize.HasValue)
                 CurrentPageSize = (viewType == DataView.GridView ? CKey.GridViewPageCount : CKey.DataListPageCount);
             else CurrentPageSize = pageSize.Value;
-
             var query = from u in ee.AspNetUsers
                         from p1 in (from p in ee.UserProfile where p.UserId == u.UserName select p).DefaultIfEmpty()
                             //from r1 in                      
@@ -118,11 +110,8 @@ namespace OnlineExam.Controllers
             }
             pagedViewModel.Setup();
             //ViewData = pagedViewModel.ViewData;
-
             return View(pagedViewModel);
         }
-
-
 #if !DEBUG
         [Authorize(Roles = "Admin")]
 #endif
@@ -130,7 +119,6 @@ namespace OnlineExam.Controllers
         {
             var user = UserManager.Users.Where(m => m.UserName == name).SingleOrDefault();
             var profile = ee.UserProfile.Where(m => m.UserId == name).SingleOrDefault(); ;
-
             if (user == null) return HttpNotFound();
             ViewBag.UserName = user.UserName;
             ViewBag.ID = user.Id;
@@ -149,9 +137,7 @@ namespace OnlineExam.Controllers
             list.RemoveAt(0);
             ViewBag.Roles = list;
             return View();
-
         }
-
 #if !DEBUG
         [Authorize(Roles = "Admin")]
 #endif
@@ -182,17 +168,14 @@ namespace OnlineExam.Controllers
         {
             ExamEntities ee = new ExamEntities();
             var temp = sids.Split(',');
-
             List<int> ids = new List<int>();
             List<Teacher_Subject> ses = new List<Teacher_Subject>();
             foreach (var i in temp)
             {
-
                 ids.Add(int.Parse(i.Trim()));
                 var t = new Teacher_Subject();
                 t.SubjectID = int.Parse(i.Trim());
                 t.TeacherID = teacher;
-
                 ses.Add(t);
             }
             ee.Teacher_Subject.RemoveRange(ee.Teacher_Subject.Where(m => m.TeacherID == teacher));
@@ -201,7 +184,6 @@ namespace OnlineExam.Controllers
             ee.Teacher_Subject.AddRange(ses.AsEnumerable());
             ee.SaveChanges();
         }
-
 #if !DEBUG
         [Authorize(Roles = "Admin")]
 #endif
@@ -216,7 +198,6 @@ namespace OnlineExam.Controllers
            
             //var id = ee.AspNetUsers.Where(m => m. == UserId).Select(m => m.Id).Single();
             bool ok = UserManager.IsInRole(UserId, "Teacher") | UserManager.IsInRole(UserId, "Editor") || UserManager.IsInRole(UserId, "Audit");
-
             JsonReturn jr = new JsonReturn();
             if (ok)
             {
@@ -239,7 +220,6 @@ namespace OnlineExam.Controllers
             }
             return Json(jr, JsonRequestBehavior.AllowGet);
         }
-
 #if !DEBUG
         [Authorize(Roles = "Admin")]
 #endif
@@ -271,8 +251,6 @@ namespace OnlineExam.Controllers
                 _userManager = value;
             }
         }
-
-
 #if !DEBUG
         [Authorize(Roles = "Admin")]
 #endif
@@ -280,7 +258,6 @@ namespace OnlineExam.Controllers
         {
             var user = UserManager.Users.Where(m => m.UserName == name).SingleOrDefault();
             var profile = ee.UserProfile.Where(m => m.UserId == name).SingleOrDefault(); ;
-
             if (user == null) return HttpNotFound();
             ViewBag.UserName = user.UserName;
             ViewBag.ID = user.Id;
@@ -302,9 +279,7 @@ namespace OnlineExam.Controllers
             //ee.Teacher_Subject.Where(m => m.TeacherID == name).ToList();
             ViewBag.Subjects = list;
             return View();
-
         }
-
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -325,7 +300,6 @@ namespace OnlineExam.Controllers
             {
                 return View(model);
             }
-
             // 这不会计入到为执行帐户锁定而统计的登录失败次数中
             // 若要在多次输入错误密码的情况下触发帐户锁定，请更改为 shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.UserID, model.Password, model.RememberMe, shouldLockout: false);
@@ -335,7 +309,6 @@ namespace OnlineExam.Controllers
                     //var user = model.UserID;
                     //SessionHelper.UserProfile = ee.UserProfile.Where(m => m.UserId == user).SingleOrDefault();
                     //if (SessionHelper.UserProfile==null) 
-
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -347,7 +320,6 @@ namespace OnlineExam.Controllers
                     return View(model);
             }
         }
-
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
@@ -360,7 +332,6 @@ namespace OnlineExam.Controllers
             }
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
-
         //
         // POST: /Account/VerifyCode
         [HttpPost]
@@ -372,7 +343,6 @@ namespace OnlineExam.Controllers
             {
                 return View(model);
             }
-
             // 以下代码可以防范双重身份验证代码遭到暴力破解攻击。
             // 如果用户输入错误代码的次数达到指定的次数，则会将
             // 该用户帐户锁定指定的时间。
@@ -390,7 +360,6 @@ namespace OnlineExam.Controllers
                     return View(model);
             }
         }
-
         //
         // GET: /Account/Register
         [AllowAnonymous]
@@ -398,7 +367,6 @@ namespace OnlineExam.Controllers
         {
             return View();
         }
-
         //
         // POST: /Account/Register
         [HttpPost]
@@ -412,25 +380,20 @@ namespace OnlineExam.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
                     // 有关如何启用帐户确认和密码重置的详细信息，请访问 http://go.microsoft.com/fwlink/?LinkID=320771
                     // 发送包含此链接的电子邮件
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "确认你的帐户", "请通过单击 <a href=\"" + callbackUrl + "\">這裏</a>来确认你的帐户");
-
                     return RedirectToAction("EditProfile");
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }
-
             // 如果我们进行到这一步时某个地方出错，则重新显示表单
             return View(model);
         }
-
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
@@ -443,7 +406,6 @@ namespace OnlineExam.Controllers
             var result = await UserManager.ConfirmEmailAsync(userId, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
-
         //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
@@ -451,7 +413,6 @@ namespace OnlineExam.Controllers
         {
             return View();
         }
-
         //
         // POST: /Account/ForgotPassword
         [HttpPost]
@@ -467,7 +428,6 @@ namespace OnlineExam.Controllers
                     // 请不要显示该用户不存在或者未经确认
                     return View("ForgotPasswordConfirmation");
                 }
-
                 // 有关如何启用帐户确认和密码重置的详细信息，请访问 http://go.microsoft.com/fwlink/?LinkID=320771
                 // 发送包含此链接的电子邮件
                 // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
@@ -475,11 +435,9 @@ namespace OnlineExam.Controllers
                 // await UserManager.SendEmailAsync(user.Id, "重置密码", "请通过单击 <a href=\"" + callbackUrl + "\">此处</a>来重置你的密码");
                 // return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
-
             // 如果我们进行到这一步时某个地方出错，则重新显示表单
             return View(model);
         }
-
         //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
@@ -487,7 +445,6 @@ namespace OnlineExam.Controllers
         {
             return View();
         }
-
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
@@ -495,7 +452,6 @@ namespace OnlineExam.Controllers
         {
             return code == null ? View("Error") : View();
         }
-
         //
         // POST: /Account/ResetPassword
         [HttpPost]
@@ -521,7 +477,6 @@ namespace OnlineExam.Controllers
             AddErrors(result);
             return View();
         }
-
         //
         // GET: /Account/ResetPasswordConfirmation
         [AllowAnonymous]
@@ -529,7 +484,6 @@ namespace OnlineExam.Controllers
         {
             return View();
         }
-
         //
         // POST: /Account/ExternalLogin
         [HttpPost]
@@ -540,7 +494,6 @@ namespace OnlineExam.Controllers
             // 请求重定向到外部登录提供程序
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
-
         //
         // GET: /Account/SendCode
         [AllowAnonymous]
@@ -555,7 +508,6 @@ namespace OnlineExam.Controllers
             var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
             return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
-
         //
         // POST: /Account/SendCode
         [HttpPost]
@@ -567,7 +519,6 @@ namespace OnlineExam.Controllers
             {
                 return View();
             }
-
             // 生成令牌并发送该令牌
             if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
             {
@@ -575,7 +526,6 @@ namespace OnlineExam.Controllers
             }
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
-
         //
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
@@ -604,7 +554,6 @@ namespace OnlineExam.Controllers
                     return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
             }
         }
-
         //
         // POST: /Account/ExternalLoginConfirmation
         [HttpPost]
@@ -616,7 +565,6 @@ namespace OnlineExam.Controllers
             {
                 return RedirectToAction("Index", "Manage");
             }
-
             if (ModelState.IsValid)
             {
                 // 从外部登录提供程序获取有关用户的信息
@@ -638,7 +586,6 @@ namespace OnlineExam.Controllers
                 }
                 AddErrors(result);
             }
-
             ViewBag.ReturnUrl = returnUrl;
             return View(model);
         }
@@ -661,7 +608,6 @@ namespace OnlineExam.Controllers
             ViewBag.Profile = ee.UserProfile.Where(m => m.UserId == userID).SingleOrDefault();
             return View();
         }
-
         public ActionResult EditProfile()
         {
             var p = SessionHelper.UserProfile;
@@ -682,10 +628,8 @@ namespace OnlineExam.Controllers
                 modify = false;
                 p.UserId = User.Identity.Name;
             }
-
             if (ModelState.IsValid)
             {
-
                 var postedFile = Request.Files["Photo"];
                 if (!string.IsNullOrWhiteSpace(postedFile.FileName))
                 {
@@ -734,7 +678,6 @@ namespace OnlineExam.Controllers
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
-
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
@@ -742,7 +685,6 @@ namespace OnlineExam.Controllers
         {
             return View();
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -752,21 +694,17 @@ namespace OnlineExam.Controllers
                     _userManager.Dispose();
                     _userManager = null;
                 }
-
                 if (_signInManager != null)
                 {
                     _signInManager.Dispose();
                     _signInManager = null;
                 }
             }
-
             base.Dispose(disposing);
         }
-
         #region 帮助程序
         // 用于在添加外部登录名时提供 XSRF 保护
         private const string XsrfKey = "XsrfId";
-
         private IAuthenticationManager AuthenticationManager
         {
             get
@@ -774,7 +712,6 @@ namespace OnlineExam.Controllers
                 return HttpContext.GetOwinContext().Authentication;
             }
         }
-
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
@@ -782,7 +719,6 @@ namespace OnlineExam.Controllers
                 ModelState.AddModelError("", error);
             }
         }
-
         private ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
@@ -791,25 +727,21 @@ namespace OnlineExam.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
-
         internal class ChallengeResult : HttpUnauthorizedResult
         {
             public ChallengeResult(string provider, string redirectUri)
                 : this(provider, redirectUri, null)
             {
             }
-
             public ChallengeResult(string provider, string redirectUri, string userId)
             {
                 LoginProvider = provider;
                 RedirectUri = redirectUri;
                 UserId = userId;
             }
-
             public string LoginProvider { get; set; }
             public string RedirectUri { get; set; }
             public string UserId { get; set; }
-
             public override void ExecuteResult(ControllerContext context)
             {
                 var properties = new AuthenticationProperties { RedirectUri = RedirectUri };

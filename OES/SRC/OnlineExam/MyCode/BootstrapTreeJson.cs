@@ -16,7 +16,6 @@ namespace OnlineExam
         }
         //public List<BsTreeNode> GetSubjectTree(out List<Major> majors, out List<Subject> subjects)
         //{
-
         //    List<BsTreeNode> nodes = new List<BsTreeNode>();
         //    BsTreeNode tree = new BsTreeNode();
         //    tree.text = GetSpan("0", "tree-top", "专业分类", "false");
@@ -27,17 +26,14 @@ namespace OnlineExam
         //    {
         //        BsTreeNode n = new BsTreeNode();
         //        n.text = GetSpan(m.MajorID.ToString(), "tree-major", m.MajorName);
-
         //        n.tags.Add(m.MajorID.ToString());
         //        n.tags.Add("Major");
         //        var subSubjects = from s in subjects
         //                          from r in mss
         //                          where r.SubjectID == s.SubjectID && r.MajorID == m.MajorID
         //                          select s;
-
         //        foreach (var sub in subSubjects)
         //        {
-
         //            BsTreeNode n1 = new BsTreeNode();
         //            n1.text = GetSpan(sub.SubjectID.ToString(), "tree-subject", sub.SubjectName);
         //            n1.tags.Add(sub.SubjectID.ToString());
@@ -51,10 +47,8 @@ namespace OnlineExam
         //    nodes.Add(tree);
         //    return nodes;
         //}
-
         public string GetSubjectTree(out List<Major> majors, out List<Subject> subjects)
         {
-
             List<easyUiTreeNode> nodes = new List<easyUiTreeNode>();
             easyUiTreeNode tree = new easyUiTreeNode();
             tree.text = GetSpan("0","tree-top","专业分类");
@@ -76,17 +70,14 @@ namespace OnlineExam
                                   from r in mss
                                   where r.SubjectID == s.SubjectID && r.MajorID == m.MajorID
                                   select s;
-
                 foreach (var sub in subSubjects)
                 {
-
                     easyUiTreeNode n1 = new easyUiTreeNode();
                     n1.text =GetSpan(sub.SubjectID.ToString(),"tree-subject", sub.SubjectName);
                     n1.id ="subject"+ sub.SubjectID.ToString();
                     //n1.iconCls = " glyphicon-leaf";
                     //n1.iconCls = "tree-subject";
                     n1.attributes = new { NodeType = "Subject", NodeId = n1.id };
-
                     //n1.attributes = "{SubjectCode:}";
                     //n1.backColor = "antiquewhite";
                     n.children.Add(n1);
@@ -97,9 +88,7 @@ namespace OnlineExam
             string result = System.Web.Helpers.Json.Encode(nodes);
             return result.Replace(",\"children\":[]", "");
         }
-
     }
-
     public class easyUiTreeNode
     {
         public string id = "";
@@ -109,9 +98,7 @@ namespace OnlineExam
         //public string checked_ = "";//：表明节点是否被选择。
         public object attributes=new { };//：可以为节点添加的自定义属性。
         public List<easyUiTreeNode> children = new List<easyUiTreeNode>();//：子节点
-
     }
-
     public class NodeState
     {
         bool check = true;
@@ -132,5 +119,4 @@ namespace OnlineExam
         public List<string> tags = new List<string>();
         public List<BsTreeNode> nodes = new List<BsTreeNode>();
     }
-
 }

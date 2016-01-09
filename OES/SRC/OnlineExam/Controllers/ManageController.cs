@@ -7,7 +7,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using OnlineExam.Models;
-
 namespace OnlineExam.Controllers
 {
     [Authorize]
@@ -15,17 +14,14 @@ namespace OnlineExam.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
         public ManageController()
         {
         }
-
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
-
         public ApplicationSignInManager SignInManager
         {
             get
@@ -37,7 +33,6 @@ namespace OnlineExam.Controllers
                 _signInManager = value;
             }
         }
-
         public ApplicationUserManager UserManager
         {
             get
@@ -49,7 +44,6 @@ namespace OnlineExam.Controllers
                 _userManager = value;
             }
         }
-
         //
         // GET: /Manage/Index
         public virtual async Task<ActionResult> Index(ManageMessageId? message)
@@ -62,7 +56,6 @@ namespace OnlineExam.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "已添加你的电话号码。"
                 : message == ManageMessageId.RemovePhoneSuccess ? "已删除你的电话号码。"
                 : "";
-
             var userId = User.Identity.GetUserId();
             var model = new IndexViewModel
             {
@@ -74,7 +67,6 @@ namespace OnlineExam.Controllers
             };
             return View(model);
         }
-
         //
         // POST: /Manage/RemoveLogin
         [HttpPost]
@@ -98,14 +90,12 @@ namespace OnlineExam.Controllers
             }
             return RedirectToAction("ManageLogins", new { Message = message });
         }
-
         //
         // GET: /Manage/AddPhoneNumber
         public virtual ActionResult AddPhoneNumber()
         {
             return View();
         }
-
         //
         // POST: /Manage/AddPhoneNumber
         [HttpPost]
@@ -129,7 +119,6 @@ namespace OnlineExam.Controllers
             }
             return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
         }
-
         //
         // POST: /Manage/EnableTwoFactorAuthentication
         [HttpPost]
@@ -144,7 +133,6 @@ namespace OnlineExam.Controllers
             }
             return RedirectToAction("Index", "Manage");
         }
-
         //
         // POST: /Manage/DisableTwoFactorAuthentication
         [HttpPost]
@@ -159,7 +147,6 @@ namespace OnlineExam.Controllers
             }
             return RedirectToAction("Index", "Manage");
         }
-
         //
         // GET: /Manage/VerifyPhoneNumber
         public virtual async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
@@ -168,7 +155,6 @@ namespace OnlineExam.Controllers
             // 通过 SMS 提供程序发送短信以验证电话号码
             return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
-
         //
         // POST: /Manage/VerifyPhoneNumber
         [HttpPost]
@@ -193,7 +179,6 @@ namespace OnlineExam.Controllers
             ModelState.AddModelError("", "无法验证电话号码");
             return View(model);
         }
-
         //
         // GET: /Manage/RemovePhoneNumber
         public virtual async Task<ActionResult> RemovePhoneNumber()
@@ -210,14 +195,12 @@ namespace OnlineExam.Controllers
             }
             return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
         }
-
         //
         // GET: /Manage/ChangePassword
         public virtual ActionResult ChangePassword()
         {
             return View();
         }
-
         //
         // POST: /Manage/ChangePassword
         [HttpPost]
@@ -241,14 +224,12 @@ namespace OnlineExam.Controllers
             AddErrors(result);
             return View(model);
         }
-
         //
         // GET: /Manage/SetPassword
         public virtual ActionResult SetPassword()
         {
             return View();
         }
-
         //
         // POST: /Manage/SetPassword
         [HttpPost]
@@ -269,11 +250,9 @@ namespace OnlineExam.Controllers
                 }
                 AddErrors(result);
             }
-
             // 如果我们进行到这一步时某个地方出错，则重新显示表单
             return View(model);
         }
-
         //
         // GET: /Manage/ManageLogins
         public virtual async Task<ActionResult> ManageLogins(ManageMessageId? message)
@@ -296,7 +275,6 @@ namespace OnlineExam.Controllers
                 OtherLogins = otherLogins
             });
         }
-
         //
         // POST: /Manage/LinkLogin
         [HttpPost]
@@ -306,7 +284,6 @@ namespace OnlineExam.Controllers
             // 请求重定向至外部登录提供程序，以链接当前用户的登录名
             return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId());
         }
-
         //
         // GET: /Manage/LinkLoginCallback
         public virtual async Task<ActionResult> LinkLoginCallback()
@@ -319,7 +296,6 @@ namespace OnlineExam.Controllers
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)
@@ -327,14 +303,11 @@ namespace OnlineExam.Controllers
                 _userManager.Dispose();
                 _userManager = null;
             }
-
             base.Dispose(disposing);
         }
-
         #region 帮助程序
         // 用于在添加外部登录名时提供 XSRF 保护
         private const string XsrfKey = "XsrfId";
-
         private IAuthenticationManager AuthenticationManager
         {
             get
@@ -342,7 +315,6 @@ namespace OnlineExam.Controllers
                 return HttpContext.GetOwinContext().Authentication;
             }
         }
-
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
@@ -350,7 +322,6 @@ namespace OnlineExam.Controllers
                 ModelState.AddModelError("", error);
             }
         }
-
         private bool HasPassword()
         {
             var user = UserManager.FindById(User.Identity.GetUserId());
@@ -360,7 +331,6 @@ namespace OnlineExam.Controllers
             }
             return false;
         }
-
         private bool HasPhoneNumber()
         {
             var user = UserManager.FindById(User.Identity.GetUserId());
@@ -370,7 +340,6 @@ namespace OnlineExam.Controllers
             }
             return false;
         }
-
         public enum ManageMessageId
         {
             AddPhoneSuccess,
@@ -381,7 +350,6 @@ namespace OnlineExam.Controllers
             RemovePhoneSuccess,
             Error
         }
-
         #endregion
     }
 }

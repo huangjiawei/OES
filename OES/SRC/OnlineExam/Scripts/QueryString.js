@@ -8,7 +8,6 @@
     return decodeURIComponent(matches[1].replace("+", " "));
 }
 setUrlEncodedKey = function (key, value, query) {
-
     query = query || window.location.search;
     var q = query + "&";
     var re = new RegExp("[?|&]" + key + "=.*?&");
@@ -29,7 +28,6 @@ String.prototype.trimStart = function (c) {
         return this.replace(new RegExp("^" + c.escapeRegExp() + "*"), '');
     return this.replace(/^\s+/, '');
 }
-
 String.prototype.escapeRegExp = function () {
     return this.replace(/[.*+?^${}()|[\]\/\\]/g, "\\$0");
 };
