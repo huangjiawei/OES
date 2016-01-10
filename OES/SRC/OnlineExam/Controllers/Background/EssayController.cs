@@ -212,5 +212,81 @@ namespace OnlineExam.Controllers.Background
                 return Json(jr, JsonRequestBehavior.AllowGet);
             }
         }
+        public virtual JsonResult GetQuestion(long id, string qtype)
+        {
+            JsonReturn jr = new JsonReturn();
+            try
+            {
+                if (qtype.IndexOf("Choice") >= 0)
+                {
+
+                    var q = ee.QuestionChoice.Where(m => m.ID == id).SingleOrDefault();
+                    if (q != null)
+                    {
+                        jr.Data = new ChoiceJson
+                        {
+                            SmallQuestionNumber = -1,
+                            BigQuestionNumber = -1,
+                            Score = -1,
+                            Question = q.Question==null?"": q.Question.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
+                            IsMultiple = q.IsMultiple,
+                            OptionA = q.OptionA,
+                            OptionB = q.OptionB,
+                            OptionC = q.OptionC,
+                            OptionD = q.OptionD,
+                            OptionE = q.OptionE,
+                            OptionF = q.OptionF,
+                            AisTrue = q.AisTrue,
+                            BisTrue = q.BisTrue,
+                            CisTrue = q.CisTrue,
+                            DisTrue = q.DisTrue,
+                            EisTrue = q.EisTrue,
+                            FisTrue = q.FisTrue,
+                            Info = q.Info==null?"":q.Info.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
+                            Description = q.Description==null?"": q.Description.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
+                            Difficulty = q.Difficulty,
+                            QuestionType = q.IsMultiple ? QuestionType.MultipleChoice.ToString() : QuestionType.SingleChoice.ToString(),
+                            ID = q.ID,
+                            Frequency = q.Frequency
+
+
+                        };
+                        jr.Success = 1;
+                    }
+                    else { jr.Success = 0; jr.Message = "题目不存在"; }
+                }
+                else
+                {
+                    var q = ee.QuestionEssay.Where(m => m.ID == id).SingleOrDefault();
+                    if (q != null)
+                    {
+                        jr.Data = new EssayJson
+                        {
+                            SmallQuestionNumber = -1,
+                            BigQuestionNumber = -1,
+                            Score = -1,
+                            Question = q.Question==null ? "":q.Question.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
+                            Answer = q.Answer==null?"": q.Answer.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
+                            Info = q.Info==null? "" :q.Info.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
+                            Description = q.Description==null?"": q.Description.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
+                            Difficulty = q.Difficulty,
+                            QuestionType = q.QuestionType,
+                            ID = q.ID,
+                            Frequency = q.Frequency
+                        };
+                        jr.Success = 1;
+                    }
+                    else { jr.Success = 0; jr.Message = "题目不存在"; }
+                }
+            }
+            catch (Exception ex)
+            {
+                jr.Success = 0;
+                jr.Message = ex.Message;
+
+            }
+            return Json(jr, JsonRequestBehavior.AllowGet);
+
+        }
     }
 }

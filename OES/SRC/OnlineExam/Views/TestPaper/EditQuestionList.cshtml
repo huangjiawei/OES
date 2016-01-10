@@ -15,7 +15,6 @@
                  select q).ToList();
 
 }
-
 @{
     int randomKey = 1;
     var temp =
@@ -37,9 +36,9 @@
                                Question = k.Question == null ? "" : k.Question.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
                                Info = k.Info == null ? "" : k.Info.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
                                Description = k.Description == null ? "" : k.Description.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                               //Answer = k.Answer == null ? "" : k.Answer.Replace("\r\n", "").Replace("\r", "").Replace("\n", "")
                                SmallQuestionNumber = s.SmallQuestionNumber,
                                BigQuestionNumber = s.BigQuestionNumber,
+
                                QuestionType = k.IsMultiple ? QuestionType.MultipleChoice.ToString() : QuestionType.SingleChoice.ToString(),
                                Score = s.Score,
                                OptionA = k.OptionA == null ? "" : k.OptionA.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
@@ -65,6 +64,8 @@
                               ,
                               QuestionType = k.QuestionType,
                               BigQuestionNumber = s.BigQuestionNumber,
+                              SmallQuestionNumber = s.SmallQuestionNumber,
+
                               Score = s.Score,
                               Question = k.Question == null ? "" : k.Question.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
                               Info = k.Info == null ? "" : k.Info.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
@@ -94,8 +95,9 @@
     var newEssay = System.Web.Helpers.Json.Encode(new EssayJson());
 }
 <div id="vueContent">
-    <div id="QuestionCategoryDlgTemplate" class="hidden">
-        <div class="form-horizontal">
+    <div class="hidden">
+
+        <div id="QuestionCategoryDlgTemplate" class="form-horizontal width300">
             <div class="form-group">
                 @Html.Label("sequence", "大题号", htmlAttributes: new { @class = "control-label col-md-4" })
                 <div class=" col-md-8">
@@ -132,11 +134,80 @@
                     <input type="number" class=" form-control " max="100" min="1" id="score" v-model="EditingCategory.ScorePerQuestion">
                 </div>
             </div>
-            @*<a onclick="AddCategory()">添加</a>
-                <a v-*@
+
         </div>
+
+        <div id="QuestionDlgTemplate" class="  ">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">试题编号:</label>
+                    <div class="col-md-4">
+                        <input class=" form-control" type="text" placeholder="试题号" v-model="EditingQuestion.ID | EncodeQtNum  EditingQuestion.QuestionType" @@keyup.enter="RefreshEditingQeuestion()" @@blur="RefreshEditingQeuestion()" />
+
+                    </div>
+                    <span class=" col-md-1-5 alert-info">按Enter键刷新题目内容</span>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">题号：</label>
+                    <div class="col-md-1 form-control"><input type="number" v-model="EditingQuestion.SmallQuestionNumber" placeholder="题号" /></div>
+
+                    <label class="col-md-3 control-label">分数:</label>
+                    <input class="col-md-1 form-control" type="text" v-model="EditingQuestion.Score" placeholder="分数" />
+
+                </div>
+            </div>
+            <template v-if='EditingQuestion.Question!=""'>
+                <div class="row question">
+                    @*<div class="flowleft question-number">
+                        </div>*@
+                    <div class="flowleft ">
+                        {{{EditingQuestion.Question}}}
+                        @*<span class="score">
+                                (
+
+                                分)
+                            </span>*@
+                    </div>
+                </div>
+
+                <div class='option-list {{cate.QuestionType=="@QuestionType.MultipleChoice" ? "multiple" : "single"}}' v-show="ShowOption&&isChoice(EditingQuestion)">
+                    <div data="A" class="row"><div class="flowleft">A：</div><div class="flowleft">{{{q.OptionA}}}</div></div>
+                    <div data="B" class="row"><div class="flowleft">B：</div><div class="flowleft">{{{q.OptionB}}}</div></div>
+                    <div data="C" v-if="q.OptionC!=''" class="row"><div class="flowleft">C：</div><div class="flowleft">{{{q.OptionC}}}</div></div>
+                    <div data="D" v-if="q.OptionD!=''" class="row"><div class="flowleft">D：</div><div class="flowleft">{{{q.OptionD}}}</div></div>
+                    <div data="E" v-if="q.OptionE!=''" class="row"><div class="flowleft">E：</div><div class="flowleft">{{{q.OptionE}}}</div></div>
+                    <div data="F" v-if="q.OptionF!=''" class="row"><div class="flowleft">F：</div><div class="flowleft">{{{q.OptionF}}}</div></div>
+                </div>
+                <div class="row answer" v-show="ShowAnswer&&isChoice(EditingQuestion)">
+                    <div class="flowleft">答案：</div>
+                    <div class="flowleft ">
+                        {{GetchoiceAnswer(q.Q)}}
+                    </div>
+                </div>
+                <div class="row answer" v-show="ShowAnswer&&!isChoice(EditingQuestion)">
+                    <div class="flowleft">答案：</div>
+                    <div class="flowleft ">
+                        {{{EditingQuestion.Answer}}}
+                    </div>
+                </div>
+                <div class="row remark" v-show="ShowInfo">
+                    <div class="flowleft">解释：</div>
+                    <div class="flowleft ">
+                        {{{EditingQuestion.Description}}}
+                    </div>
+                </div>
+            </template>
+            <div v-else>
+                <template v-if="EditingQuestion.ID!=''&&EditingQuestion.ID!=-1&&EditingQuestion.ID!=undefined">
+                    <div class="row">
+                        <span class="alert-warning">题目{{EditingQuestion.ID | EncodeQtNum  EditingQuestion.QuestionType}}不存在</span>
+                    </div>
+                </template>
+            </div>
+        </div>>
+
     </div>
-  
+
     <div class="form-horizontal">
         <h4 class="disabled">
             @title
@@ -197,7 +268,11 @@
                             {{cate.ScorePerQuestion}}
                             分
                             )
-                            @*{{cate.QuestionType}}*@
+                            <a class="btn btn-primary btn-sm" v-on:click="ShowCategoryDlg(true,cate)">修改</a>
+                            <a class="btn btn-primary btn-sm" v-on:click="ShowQuestionDlg(false,cate)">添加试题</a>
+                            <a class="btn btn-danger btn-sm" v-on:click="deleteCategory(cate)">删除</a>
+                            <a class="btn btn-danger btn-sm" v-on:click="clearQuestion(cate)">清空试题</a>
+
                         </h4>
                         <template v-for="q in cate.ChoiceList | orderBy 'SmallQuestionNumber'">
                             <div class=" panel-body question-content">
@@ -233,7 +308,8 @@
                                     </div>
                                 </div>
                                 <div class="toolbar row">
-                                    <a class="btn btn-primary btn-xs" target="_blank" href='"@Url.Content("/Choice/Details?id=")"+q.ID'>查看</a>
+                                    <a class="btn btn-primary btn-xs" target="_blank" href='"@Url.Content("/Choice/Details?id=")"+ q.ID'>查看</a>
+                                    <a class="btn btn-primary btn-xs" target="_blank" v-on:click="ShowQuestionDlg(true,cate,q)">修改</a>
                                     <a class="btn btn-danger btn-xs" v-on:click="deleteQuestion(cate,q)">移除</a>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -241,11 +317,9 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li v-for="destCate in CategoryList | orderBy 'Sequence' ">
-                                                <a v-show="cate.QuestionType==destCate.QuestionType&&cate.RandomKey!=destCate.RandomKey" v-on:click="moveQuestion(cate,destCate,q)">{{bigNum[destCate.Sequence]}}、{{destCate.Title}}</a>
+                                                <a v-show="cate.QuestionType==destCate.QuestionType&&cate.RandomKey!=destCate.RandomKey" v-on:click="moveQuestion(cate,destCate,q)">{{bigNum[destCate.Sequence] }}、{{destCate.Title}}</a>
                                             </li>
-                                            <li>
-                                                <a v-on:click="MoveToBasket(cate,q)">试题候选区</a>
-                                            </li>
+                                            <li><a v-on:click="moveQuestion(cate,q)">试题候选区</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -265,11 +339,9 @@
                             {{cate.ScorePerQuestion}}
                             分
                             )
-                            @*{{cate.QuestionType}}
-                                简答*@
-                            @*@QuestionType.SingleChoice.ToString()*@
+
                             <a class="btn btn-primary btn-sm" v-on:click="ShowCategoryDlg(true,cate)">修改</a>
-                            <a class="btn btn-primary btn-sm" v-on:click="addQuestion(cate)">添加试题</a>
+                            <a class="btn btn-primary btn-sm" v-on:click="ShowQuestionDlg(false,cate)">添加试题</a>
                             <a class="btn btn-danger btn-sm" v-on:click="deleteCategory(cate)">删除</a>
                             <a class="btn btn-danger btn-sm" v-on:click="clearQuestion(cate)">清空试题</a>
                         </h4>
@@ -300,8 +372,6 @@
                                     </div>
                                 </div>
                                 <div class="toolbar row">
-                                    <a class="glyphicon glyphicon-arrow-up"></a>
-                                    <a class="glyphicon glyphicon-arrow-down"></a>
                                     <a class="btn btn-primary btn-xs" target="_blank" href='"@Url.Content("/Essay/Details?id=")"+ q.ID'>查看</a>
                                     <a class="btn btn-primary btn-xs" target="_blank" v-on:click="ShowQuestionDlg(true,cate,q)">修改</a>
                                     <a class="btn btn-danger btn-xs" v-on:click="deleteQuestion(cate,q)">移除</a>
@@ -328,36 +398,6 @@
         <div class="container">
         </div>
     </div>
-    @*<div id="QuestionDlgTemplate" class="hidden">
-
-        <input type="text" placeholder="试题号" v-modle="EditingQuestion.ID|EncodeQtNum EditingQuestion.QuestionType" onblur="" />
-        <div class="row question">
-            <div class="flowleft question-number">
-                <input type="number" v-model="EditingQuestion.SmallQuestionNumber" placeholder="题号" /> 、
-            </div>
-            <div class="flowleft ">
-                {{{EditingQuestion.Question}}}
-                <span class="score">
-                    (
-                    <input type="text" v-model="EditingQuestion.Score" placeholder="分数" />
-                    分)
-                </span>
-            </div>
-        </div>
-        <div class="row answer" v-show="ShowAnswer">
-            <div class="flowleft">答案：</div>
-            <div class="flowleft ">
-                {{{EditingQuestion.Answer}}}
-            </div>
-        </div>
-        <div class="row remark" v-show="ShowInfo">
-            <div class="flowleft">解释：</div>
-            <div class="flowleft ">
-                {{{EditingQuestion.Description}}}
-            </div>
-        </div>
-    </div>*@
-
 
 </div>
 @section Scripts
@@ -399,27 +439,38 @@
             s = s.replace(/<br>/g, "\n");
             return s;
         }
-        Vue.filter('EncodeQtNum',{read: function (val,qtype) {
-            console.log("EncodeQtNum")
-            var pre;
-            if(qtype=="@QuestionType.SingleChoice.ToString()")pre= 'A';
-            if(qtype=="@QuestionType.MultipleChoice.ToString()")pre= 'B';
-            if(qtype=="@QuestionType.Completion.ToString()")pre= 'C';
-            if(qtype=="@QuestionType.ShortAnswer.ToString()")pre= 'D';
-            if(qtype=="@QuestionType.Discussion.ToString()")pre= 'E';
-            console.log(val);
-            var code = "000000000000000000000" + val.toString();
-            code = code.Substring(code.length - 12,code.length-1);
-            code = pre + code;
-            console.log(pre);
-            console.log(code)
-            return code;
-        },write: function(val,old,qtype){
-            var regex=/[ABCDEF]0*/;
-            var result=val.replace(regex,"")
-            console.log("EncodeQtNum"+result)
-            return result;
-        }}
+        Vue.filter('EncodeQtNum',
+            {
+                read: function (value,qtype) {
+                    console.log("read EncodeQtNum")
+                    var pre;
+
+                    if(qtype=="@QuestionType.SingleChoice.ToString()")pre= 'A';
+                    if(qtype=="@QuestionType.MultipleChoice.ToString()")pre= 'B';
+                    if(qtype=="@QuestionType.Completion.ToString()")pre= 'C';
+                    if(qtype=="@QuestionType.ShortAnswer.ToString()")pre= 'D';
+                    if(qtype=="@QuestionType.Discussion.ToString()")pre= 'E';
+                    console.log(value);
+                    console.log(qtype);
+                    var code = "000000000000000000000" + value;
+                    //var code="0000000000000000000";
+                    code = code.substring(code.length - 12+1,code.length);
+                    code = pre + code;
+                    console.log(pre);
+                    console.log(code)
+                    console.log("-------------------read end------------------------")
+                    return code;
+                },
+                write: function(value,old,qtype){
+                    //var regex=;
+                    console.log("write before replace:"+value)
+                    var result=value.replace(/[ABCDEF]0*/,"")
+                    console.log("write EncodeQtNum"+result)
+                    console.log("-------------------write end------------------------")
+
+                    return result;
+                }
+            }
         )
 
         //alert(JSON.stringify(clist))
@@ -446,7 +497,9 @@
                     EditingCategory:{},
                     isEditCategory:false,
                     isEditQuestion:false,
-                    EditingQuestion:{}
+                    EditingQuestion:{},
+                    OleQuestion:{}
+                    //EditingQuestionExist:true
                 },
                 methods: {
                     GetCategory: function (randomKey) {
@@ -478,6 +531,48 @@
                     //    }
                     //    return jsonLength;
                     //},
+                    RefreshEditingQeuestion:function(){
+                        var id=this.EditingQuestion.ID;
+                        var qtype=this.EditingQuestion.QuestionType;
+                        var vue=this;
+
+                        $.ajax({
+                            type: "GET",
+                            url: "@Url.Action("GetQuestion", "Essay")",
+                            data: {id:id,qtype:qtype},
+                            dataType: 'json',
+                            success: function(data){
+                                if(data.Success==1){
+                                    console.log("ajax success:")
+                                    var temp=vue.EditingQuestion;
+                                    console.log(data.Data)
+                                    console.log(temp)
+                                    data.Data.SmallQuestionNumber=temp.SmallQuestionNumber;
+                                    data.Data.Score=temp.Score;
+                                    data.Data.BigQuestionNumber=temp.BigQuestionNumber;
+                                    vue.EditingQuestion=data.Data;
+                                    //this.EditingQuestion.Question=data.Data.Question;
+                                    //this.EditingQuestion.=data.Data.Question;
+
+                                    //this.EditingQuestion.Question=data.Data.Question;
+                                    //this.EditingQuestion.Question=data.Data.Question;
+
+                                    //data.Data.
+                                    //vue.EditingQuestionExist=true;
+                                }
+                                else{
+                                    vue.EditingQuestion.Question="";
+                                    //alert(data.Message)
+                                }
+                            },
+                            error:function(msg){
+                                console.log("error"+msg);
+                                vue.EditingQuestion.Question="";
+                            }
+
+
+                        })
+                    },
                     GetQeuestion:function(cate,qid){
                     },
                     isChoice:function(cate){
@@ -516,14 +611,7 @@
                                 item=this.CategoryList[i]
                                 if(item.Sequence>e.Sequence)
                                 {
-                                    console.log(
-
-
-
-
-
-
-                                        item.Sequence)
+                                    //console.log(     item.Sequence)
                                     item.Sequence-=1;
                                 }
                                 i++;
@@ -540,21 +628,36 @@
                     ShowQuestionDlg :function (isEdit,cate,q) {
                         this.isEditQuestion=isEdit;
                         var vue=this;
+                        var QtDlg;
                         if(isEdit){
-                            if(q.QuestionType.indexOf("Choice")>=0){
-                                this.EditingQuestion=q;
+                            this.OleQuestion=q;
+                            if(this.isChoice(cate)){
+                                this.EditingQuestion=$.extend({}, q)
+                                //this.EditingQuestion.AisTrue=q.AisTrue;
+                                //this.EditingQuestion.BisTrue=q.BisTrue;
+                                //this.EditingQuestion.CisTrue=q.CisTrue;
+                                //this.EditingQuestion.DisTrue=q.DisTrue;
+                                //this.EditingQuestion.EisTrue=q.EisTrue;
+                                //this.EditingQuestion.FisTrue=q.FisTrue;
+                                //this.EditingQuestion.AisTrue=q.AisTrue;
+                                //this.EditingQuestion.BisTrue=q.BisTrue;
+                                //this.EditingQuestion.CisTrue=q.CisTrue;
+                                //this.EditingQuestion.DisTrue=q.DisTrue;
+                                //this.EditingQuestion.EisTrue=q.EisTrue;
+                                //this.EditingQuestion.FisTrue=q.FisTrue;
+
+
                                 //this.EditingQuestion=eval("("+newChoice+")");
                                 //this.EditingQuestion=cate.Sequence;
                                 //this.EditingQuestion.Title=cate.Title;
                                 //this.EditingQuestion.ScorePerQuestion =cate.ScorePerQuestion
                                 //this.EditingQuestion.RandomKey=cate.RandomKey;
                             }else{
+                                this.EditingQuestion=$.extend({}, q)
 
-                                this.EditingQuestion=q;
                             }
-                          
-
-                            var  QtDlg = dialog({
+                            console.log(this.EditingQuestion)
+                            QtDlg = dialog({
                                 title: cate.Title+ '修改题目',
                                 content: $("#QuestionDlgTemplate"),
                                 okValue: '更新',
@@ -566,25 +669,26 @@
                             })
                         }
                         else{
-                            if(q.QuestionType.indexOf("Choice")>=0){
-                                this.EditingQuestion=eval("("+newChoice+")");  
-                                this.EditingQuestion.SmallQuestionNumber=cate.ChoiceList.length
+                            if(this.isChoice(cate)){
+                                console.log(newChoice)
+                                this.EditingQuestion=eval("("+newChoice+")")
+                                this.EditingQuestion.SmallQuestionNumber=cate.ChoiceList.length+1;
+
                             }
                             else{
-                                this.EditingQuestion=eval("("+newEssay+")");
-                                this.EditingQuestion.SmallQuestionNumber=cate.EssayList.length
+                                console.log(newEssay)
+
+                                this.EditingQuestion=this.EditingQuestion=eval("("+newEssay+")")
+                                this.EditingQuestion.SmallQuestionNumber=cate.EssayList.length+1;
+
                             }
+                            this.EditingQuestion.QuestionType=cate.QuestionType;
+                            //this.EditingQuestion.Score=cate.ScorePerQuestion;
                             this.EditingQuestion.BigQuestionNumber=cate.Sequence;
                             this.EditingQuestion.Score=cate.ScorePerQuestion;
-                            //this.EditingQuestion.ID=0;
-                            //this.EditingQuestion.Question="";
-                            //this.EditingQuestion.Answer="";
-                            //this.
-                            
-                         
-                           var  QtDlg = dialog({
+                            QtDlg = dialog({
                                 title: '添加试题',
-                                content: $("#QuestioDlgTemplate"),
+                                content: $("#QuestionDlgTemplate"),
                                 okValue: '添加',
                                 ok: function () {
                                     vue.AddQuestion(cate);
@@ -593,19 +697,33 @@
                                 cancelValue:'取消'
                             })
                         }
+                        console.log("Qtype:"+ this.EditingQuestion.QuestionType)
+                        console.log("ed.id:"+ this.EditingQuestion.ID)
                         QtDlg.showModal();
                     },
                     AddQuestion :function(cate){
-
-
+                        if(this.isChoice(this.EditingQuestion)){
+                            console.log("addQuestion:")
+                            console.log(this.EditingQuestion)
+                            cate.ChoiceList.push(this.EditingQuestion)
+                        }else{
+                            cate.EssayList.push(this.EditingQuestion)
+                        }
                     },
-                   UpdateQuestion :function(cate){
+                    UpdateQuestion :function(cate){
+                        if(this.isChoice( this.EditingQuestion)){
+                            findAndRemove(cate.ChoiceList,"ID",this.OleQuestion.ID);
+                            cate.ChoiceList.push(this.EditingQuestion)
+                        }else{
 
-
+                            findAndRemove(cate.EssayList,"ID",this.OleQuestion.ID);
+                            cate.EssayList.push(this.EditingQuestion)
+                        }
                     },
                     ShowCategoryDlg :function (isEdit,cate) {
                         this.isEditCategory=isEdit;
                         var vue=this;
+                        var CateDlg;
                         if(isEdit){
                             this.EditingCategory=eval("("+newCategory+")");
                             this.EditingCategory.Sequence=cate.Sequence;
@@ -613,7 +731,7 @@
                             this.EditingCategory.ScorePerQuestion =cate.ScorePerQuestion
                             this.EditingCategory.RandomKey=cate.RandomKey;
 
-                            var  CateDlg = dialog({
+                            CateDlg = dialog({
                                 title: '编辑大题',
                                 content: $("#QuestionCategoryDlgTemplate"),
                                 okValue: '更新',

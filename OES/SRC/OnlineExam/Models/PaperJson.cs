@@ -18,8 +18,9 @@ namespace OnlineExam.Models{    using System;    using System.Collections.Gen
 
 
         }    }    public partial class ChoiceJson    {
-        public ChoiceJson()        {            ID = -1;            Description = "";            Frequency = 0;            Difficulty = 0;
-            OptionD = OptionE = OptionF = "";            Info = "";            Score = 2;            SmallQuestionNumber = BigQuestionNumber = 1;        }
+        public ChoiceJson()        {            ID =1;            Question = "试题内容";            Description = "";            Frequency = 0;            Difficulty = 0;
+            OptionA = OptionB = OptionC = OptionD = OptionE = OptionF = "";            AisTrue = BisTrue = CisTrue = DisTrue = EisTrue = FisTrue = false;            Info = "";            Score = 2;            QuestionType = OnlineExam.QuestionType.ShortAnswer.ToString();            SmallQuestionNumber = BigQuestionNumber = 1;
+            IsMultiple = false;        }
         public long ID { get; set; }
         public string Question { get; set; }
         public int SmallQuestionNumber { get; set; }
@@ -36,7 +37,8 @@ namespace OnlineExam.Models{    using System;    using System.Collections.Gen
         public short Frequency { get; set; }
         public string Description { get; set; }
     }    public partial class EssayJson    {
-        public EssayJson()        {            ID = -1;            Description = "";            Frequency = 0;            Difficulty = 0;
+        public EssayJson()        {            ID =1;            Question = "试题内容";            Description = "";            Frequency = 0;            Difficulty = 0;
+            Answer = "试题答案";            Info = "";            Score = 2;            QuestionType = OnlineExam.QuestionType.ShortAnswer.ToString();            SmallQuestionNumber = BigQuestionNumber = 1;
         }
         public long ID { get; set; }
         public string Question { get; set; }
