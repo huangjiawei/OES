@@ -103,13 +103,13 @@ namespace OnlineExam.Models
             Paper.ModificationDate = DateTime.Now;
             Paper.ModificationTeacher = "System";
             Paper.ModificationTeacherID = "System";
-            Paper.Paper_QuestionCategory.Add(new Paper_QuestionCategory(Paper.ID, 1, QuestionType.SingleChoice, 1, 0));
-            Paper.Paper_QuestionCategory.Add(new Paper_QuestionCategory(Paper.ID, 2, QuestionType.MultipleChoice, 4, 5));
-            Paper.Paper_QuestionCategory.Add(new Paper_QuestionCategory(Paper.ID, 3, QuestionType.Completion, 2, 4));
-            Paper.Paper_QuestionCategory.Add(new Paper_QuestionCategory(Paper.ID, 4, QuestionType.ShortAnswer, 5, 2));
-            Paper.Paper_QuestionCategory.Add(new Paper_QuestionCategory(Paper.ID, 5, QuestionType.Discussion, 1, 10));
-            Paper.Paper_QuestionCategory.Add(new Paper_QuestionCategory(Paper.ID, 6, QuestionType.SingleChoice, 1, 2));
-            
+            Paper.Paper_QuestionCategory.Add(new Paper_QuestionCategory(Paper.ID, 1, QuestionType.SingleChoice, 1, 20));
+            Paper.Paper_QuestionCategory.Add(new Paper_QuestionCategory(Paper.ID, 2, QuestionType.MultipleChoice, 4, 1));
+            Paper.Paper_QuestionCategory.Add(new Paper_QuestionCategory(Paper.ID, 3, QuestionType.Completion, 4, 10));
+            Paper.Paper_QuestionCategory.Add(new Paper_QuestionCategory(Paper.ID, 4, QuestionType.ShortAnswer, 2,30));
+            Paper.Paper_QuestionCategory.Add(new Paper_QuestionCategory(Paper.ID, 5, QuestionType.Completion, 10, 10));
+            Paper.Paper_QuestionCategory.Add(new Paper_QuestionCategory(Paper.ID, 6, QuestionType.SingleChoice, 2, 11));
+
         }
         
         public List<QuestionChoice> Choice
@@ -175,7 +175,7 @@ namespace OnlineExam.Models
                 if (singlechoice.Count > choice_index)
                 {
                     int smallQNumber = 1;//小题号
-                    var qlist = singlechoice.Take(bq.Quantity);
+                    var qlist = singlechoice.Skip(choice_index).Take(bq.Quantity);
                     var temp = from s in qlist
                                select new Paper_Choice
                                {
@@ -188,6 +188,7 @@ namespace OnlineExam.Models
                                };
                     if (bq.Paper_Choice == null) bq.Paper_Choice = new List<Paper_Choice>();
                     ((List<Paper_Choice>)bq.Paper_Choice).AddRange(temp);
+                   
                     var count = temp.Count();
                     bq.Quantity = count;
                     choice_index += count;
@@ -199,7 +200,7 @@ namespace OnlineExam.Models
                 if (multiplechoice.Count > choice_index)
                 {
                     int smallQNumber = 1;//小题号
-                    var qlist = multiplechoice.Take(bq.Quantity);
+                    var qlist = multiplechoice.Skip(choice_index).Take(bq.Quantity);
                     var temp = from s in qlist
                                select new Paper_Choice
                                {
@@ -224,7 +225,7 @@ namespace OnlineExam.Models
                 if (completion.Count > essay_index)
                 {
                     int smallQNumber = 1;//小题号
-                    var qlist = completion.Take(bq.Quantity);
+                    var qlist = completion.Skip(essay_index).Take(bq.Quantity);
                     var temp = from s in qlist
                                select new Paper_Essay
                                {
@@ -250,7 +251,7 @@ namespace OnlineExam.Models
                 if (shortanswer.Count > essay_index)
                 {
                     int smallQNumber = 1;//小题号
-                    var qlist = shortanswer.Take(bq.Quantity);
+                    var qlist = shortanswer.Skip(essay_index).Take(bq.Quantity);
                     var temp = from s in qlist
                                select new Paper_Essay
                                {
@@ -276,7 +277,7 @@ namespace OnlineExam.Models
                 if (discussion.Count > essay_index)
                 {
                     int smallQNumber = 1;//小题号
-                    var qlist = discussion.Take(bq.Quantity);
+                    var qlist = discussion.Skip(essay_index).Take(bq.Quantity);
                     var temp = from s in qlist
                                select new Paper_Essay
                                {

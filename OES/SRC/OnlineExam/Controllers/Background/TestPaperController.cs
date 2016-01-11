@@ -7,6 +7,7 @@ using OnlineExam.Models;
 using MvcContrib.UI.Grid;
 namespace OnlineExam.Controllers.Background
 {
+    [Authorize]
     public class TestPaperController : Controller
     {
         // GET: PaperClip

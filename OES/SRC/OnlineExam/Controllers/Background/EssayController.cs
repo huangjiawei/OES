@@ -219,8 +219,8 @@ namespace OnlineExam.Controllers.Background
             {
                 if (qtype.IndexOf("Choice") >= 0)
                 {
-
-                    var q = ee.QuestionChoice.Where(m => m.ID == id).SingleOrDefault();
+                    var isMultiple = qtype == QuestionType.MultipleChoice.ToString() ? true : false;
+                    var q = ee.QuestionChoice.Where(m => m.ID == id&&isMultiple==m.IsMultiple).SingleOrDefault();
                     if (q != null)
                     {
                         jr.Data = new ChoiceJson
@@ -257,7 +257,7 @@ namespace OnlineExam.Controllers.Background
                 }
                 else
                 {
-                    var q = ee.QuestionEssay.Where(m => m.ID == id).SingleOrDefault();
+                    var q = ee.QuestionEssay.Where(m => m.ID == id&&qtype==m.QuestionType).SingleOrDefault();
                     if (q != null)
                     {
                         jr.Data = new EssayJson

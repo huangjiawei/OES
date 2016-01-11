@@ -61,7 +61,7 @@
                                 }
                             }
                         </div>
-                        <div id="answer" class="row">我的回答：<input type="text" readonly="readonly" option="@type" id="@i" name='@("answer" + i.ToString() )' value="" /></div>
+                        <div id="answer" class="row">我的回答：<input type="text"  readonly="readonly" option="@type" id="@i" name='@("answer" + i.ToString() )' value="" /></div>
                         <br />
                         i++;
                     }
@@ -97,7 +97,7 @@
                         </div>
                         <div id="answer" class="row">
                             @*我的回答：<br />*@
-                            @Html.TextArea("answer" + i.ToString(), new { id = i.ToString(), col = "100", row = "6", @class = "col-md-6", placeholder = "请在这里填写问题您的答案" })
+                            @Html.TextArea("answer" + i.ToString(), new { id = i.ToString(), col = "100", row = "6", @class = "col-md-6 form-control", placeholder = "请在这里填写问题您的答案" })
                         </div>
                         <br />
                         i++;

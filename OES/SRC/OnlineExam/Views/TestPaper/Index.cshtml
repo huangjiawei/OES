@@ -141,17 +141,20 @@
     }
     function ReSetRowStyle(){
         //$("#contentGrid").find("img[alt='未审核']").parent().parent().addClass("danger")
+        
         $("#contentGrid tr").removeClass("info");
+        $("#contentGrid tr").removeClass("SelectedItem");
+        
         $("#contentGrid").find("img[alt='审核不通过']").parent().parent().addClass("warning");
         $("#contentGrid").find("img[alt='未审核']").parent().parent().addClass("warning");
     }
-    function deActive(e){
-        $(e).removeClass("info");
-        $(e).removeClass("SelectedItem");
-        //如果为未审核则添加warning类样式
-        $(e).find("img[alt='未审核']").parent().parent().addClass("warning")
-        $(e).find("img[alt='审核不通过']").parent().parent().addClass("warning")
-    }
+    //function deActive(e){
+    //    $(e).removeClass("info");
+    //    $(e).removeClass("SelectedItem");
+    //    //如果为未审核则添加warning类样式
+    //    $(e).find("img[alt='未审核']").parent().parent().addClass("warning")
+    //    $(e).find("img[alt='审核不通过']").parent().parent().addClass("warning")
+    //}
     function onGridRowClick(e){
         ReSetRowStyle();
         $(e).removeClass("warning");
