@@ -1,17 +1,39 @@
 ﻿@{
     ViewBag.Title = "在线测试";
 }
-<iframe src="/Subject/SubjectDropDown" onload="hideBtn();" style="width:700px; height:30px; border-style:none;overflow:hidden;"></iframe>
-<ul>
-    <li>
-        <input id="autoexam" type="radio" name="examtype" checked="checked" value="练习测试" onclick="HidePapers();" />练习测试
-    </li>
-    <li>
-        <input id="paperexam" type="radio" name="examtype" value="选择试卷" onclick="ShowPapers();" />指定试卷
-    </li>
-</ul>
-<ul id="paperlist" class="panel-body" style="display:none;"></ul>
-<a class="btn btn-default" onclick="begin()">开始测试</a>
+<br />
+<div class="form-horizontal ">
+    @*<div class="row">
+     
+        <label class="flowleft control-label">考试科目：</label><div class="flowleft">
+            @{Html.RenderPartial("_SubjectDropDownList");
+        }
+    </div>
+</div>*@
+    <div class="form-group">
+        @Html.Label("lb", "考试科目:", new { @class = "control-label flowleft" })
+        <div class="col-md-10">
+            @{Html.RenderPartial("_SubjectDropDownList");
+            }
+        </div>
+    </div>
+<div class="form-group">
+    <ul class="list-group">
+        <li class="list-group-item">
+            <input id="autoexam" type="radio" name="examtype" checked="checked" value="练习测试" onclick="HidePapers();" />练习测试
+        </li>
+        <li class=" list-group-item">
+            <input id="paperexam" type="radio" name="examtype" value="选择试卷" onclick="ShowPapers();" />指定试卷
+        </li>
+    </ul>
+</div>
+<div class="form-group">
+    <ul id="paperlist" class="panel-body" style="display:none;">
+        <li>功能正在完善中</li>
+    </ul>
+</div>
+</div>
+<div class="row"><a class="btn btn-default" onclick="begin()">开始测试</a></div>
 @section Scripts{
     <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet">
     <link href="@Url.Content("~/Content/styles.css")" rel="stylesheet">
@@ -22,10 +44,9 @@
     <script src="/Scripts/jquery.validate.min.js"></script>
     <script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script>
-        function hideBtn() {
-            $("iframe").contents().find(".btn").css("display", "none");
-        }
+       
         function ShowPapers() {
+            //$("#paperlist").css("display", "block")
             var subjectid = $("iframe").contents().find("#SubjectList").val();
             $.ajax({
                 url: '@Url.Action("GetPapers")',
@@ -39,7 +60,9 @@
                         for (var i = 0; i < data.Data.lenght; i++) {
                             var li = "<li id='" + data.Data[i].ID + "' > " + data.Data[i].Name + "</li>";
                             $("#paperlist").append(li);
+                          
                         }
+                      
                     }
                 }
             });
@@ -49,7 +72,7 @@
             $("#paperlist").slideToggle(10);
         }
         function begin() {
-            var subjectid = $("iframe").contents().find("#SubjectList").val()
+            var subjectid = GetSubjectID();
             var paperid = "";
             if ($("#autoexam").is(":checked")) {
             } else if ($("#paperexam").is(":checked")) {

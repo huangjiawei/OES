@@ -3,6 +3,7 @@
     var title = ViewBag.EditType == EditType.Edit ? "修改测试试卷信息" : "添加考试试卷信息";
     string BigNum = "零一二三四五六七八九十";
     var destAction = ViewBag.EditType == EditType.Edit ? "Edit" : "Create";
+    var isEdit = ViewBag.EditType == EditType.Edit ? "true" : "false";
 }
 @using (Html.BeginForm(destAction, "TestPaper", FormMethod.Post))
 {
@@ -81,7 +82,7 @@
                         {
                             <tr>
                                 <td class="col-md-1">@BigNum[cate.Sequence]</td>
-                                <td class="col-md-5">@Html.TextBox("qname1", Utitlity.ParseQuestionType(cate.QuestionType).GetInfo(), new { @class = "form-control col-md-12" })</td>
+                                <td class="col-md-5">@Html.TextBox("qname1", cate.Title, new { @class = "form-control col-md-12" })</td>
                                 <td class="col-md-2">
                                     @Html.Hidden("selectOption", Utitlity.ParseQuestionType(cate.QuestionType))
                                     @Html.DropDownList("qtype1", Utitlity.GetQuestionTypeSelectList().AsEnumerable(), new { @class = "form-control col-md-12" })
@@ -190,7 +191,8 @@
                        {
                            lang: "zh",
                            //timepicker: false,
-                           format: 'Y-m-d H:i'
+                           format: 'Y-m-d H:i',
+                           value: new Date()
                            //formatDate:
                        }
                        )
@@ -251,7 +253,8 @@
             //Alerter.info(row);
         }
         function delQuestionCate(e) {
-            if (confirm("删除题目可能会影响已添加到试卷中的试题设置，确定要继续删除吗？")) {
+            var isEdit = "@isEdit";
+            if (isEdit == "false" || confirm("删除题目可能会影响已添加到试卷中的试题设置，确定要继续删除吗？")) {
                 $(e).parent().parent().remove();
                 reOrder();
             }

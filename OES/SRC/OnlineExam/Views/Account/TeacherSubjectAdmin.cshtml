@@ -18,8 +18,11 @@
     <script src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="/Scripts/jquery.validate.min.js"></script>
     <script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
     <script>
+
         $(function () {
+            Alerter.turnOff();
         })
         function updateCallBack(data) {
             if (data.Success == 1)
@@ -39,38 +42,52 @@
             location = location
             //location.reload();
         }
-        function AppendSubject(id, name) {
-            if ($("#subjectlist").find("[id='" + id + "']").length > 0) alert("科目已添加");
-            else $("#subjectlist").append("<span id='" + id + "' class='subject '>" + name + "<a href='#' class='glyphicon glyphicon-remove' onclick='$(this).parent().remove()'></a></span>")
+        function AppendSubject() {
+            if ($("#subjectlist").find("[id='" + GetSubjectID() + "']").length > 0) alert("科目已添加");
+            else $("#subjectlist").append("<span id='" + GetSubjectID() + "' class='subject '>" + GetSubjectName() + "<a href='#' class='glyphicon glyphicon-remove' onclick='$(this).parent().remove()'></a></span>")
         }
     </script>
+    <style>
+        body {
+            margin: 2px 2px;
+            padding: 2px 2px;
+            background-color: white;
+        }
+    </style>
+
 </head>
 <body>
-    <h5>@ViewBag.UserName</h5>
+    <div class="h5">用户ID:@ViewBag.UserName</div>
     @if ((bool)ViewBag.HasProfile)
     {
-        <h5>
-            <img class=" md-photo" src="@(CUrl.UserPhoto+profile.Photo)" alt="用户未上传照片" />
-        </h5>
-        <h5>真实姓名：@profile.RealName</h5>
+        @*<h5>
+                <img class=" md-photo" src="@(CUrl.UserPhoto+profile.Photo)" alt="用户未上传照片" />
+            </h5>*@
+        <div class="h5">真实姓名：@profile.RealName</div>
     }
     @using (Ajax.BeginForm("SetTeacherSubject", new AjaxOptions { HttpMethod = "POST", OnSuccess = "updateCallBack" }))
     {
         @Html.Hidden("UserId")
         @Html.Hidden("SubjectIds")
         <div>
-            <iframe src="/Subject/SubjectDropDown" style="width:700px; height:30px; border-style:none;overflow:hidden;"></iframe>
+            @{Html.RenderPartial("_SubjectDropDownList");
+            }
+            <a class="btn btn-default" onclick="AppendSubject()">添加</a>
+            @*<iframe src="/Subject/SubjectDropDown" style="width:700px; height:30px; border-style:none;overflow:hidden;"></iframe>*@
         </div>
         <div>
             <div id="subjectlist" class="list-group">
                 @foreach (var i in (IEnumerable<Subject>)(ViewBag.Subjects))
                 {
+
                     <span id="@i.SubjectID" class="subject">@i.SubjectName<a href="#" class=" glyphicon glyphicon-remove" onclick="$(this).parent().remove()"></a></span>
+
                 }
             </div>
             <input class="btn btn-primary width80" type="submit" onclick="hideMsg();" value="保存" />
             <p id="info" class="alert-info"></p>
         </div>
-    }
+                }
 </body>
 </html>
+@this.WriteScriptBlocks()

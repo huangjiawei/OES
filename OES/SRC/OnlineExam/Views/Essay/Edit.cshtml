@@ -32,7 +32,10 @@
     <div class="form-horizontal">
         <div class="row">
             <div class="col-md-12">
-                <iframe src="/Subject/SubjectDropDown" style="width:700px; height:30px; border-style:none;overflow:hidden;"></iframe>
+                @{Html.RenderPartial("_SubjectDropDownList");
+                }
+                <a class="btn btn-default" onclick="AppendSubject()">添加</a>
+
             </div>
             <div id="subjectlist" class="col-md-12">
                 @if (ViewBag.RelateSubject != null)
@@ -145,7 +148,8 @@
         if ($("#Frequency").val() < 1 || $("#Frequency").val() > 5) {
             error += "未设置考试频率；\r\n";
         }
-        alert(error);
+        if (error != "")
+            alert(error);
         $("#errorMsg").html(error)
         if (error == "") return true;
         return false;
@@ -156,11 +160,12 @@
         $(".ratebox[data-id='Difficulty']").attr("data-rating", $("#Difficulty").val());
         //alert($(".ratebox[data-id='Frequency']").attr("data-rating"));
     }
-    function AppendSubject(id, name) {
-        if ($("#subjectlist").find("[id='" + id + "']").length > 0) alert("科目已添加");
-        else $("#subjectlist").append("<span id='" + id + "' class='subject '>" + name + "<a href='#' class='glyphicon glyphicon-remove' onclick='$(this).parent().remove()'></a></span>")
+    function AppendSubject() {
+        if ($("#subjectlist").find("[id='" + GetSubjectID() + "']").length > 0) alert("科目已添加");
+        else $("#subjectlist").append("<span id='" + GetSubjectID() + "' class='subject '>" + GetSubjectName()+ "<a href='#' class='glyphicon glyphicon-remove' onclick='$(this).parent().remove()'></a></span>")
     }
     $(function () {
+        Alerter.turnOff()
         InitRateValue();
         CKEDITOR.replace('txtQuestion'
             , {

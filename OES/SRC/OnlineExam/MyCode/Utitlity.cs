@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using OnlineExam.Models;
 using System.Web.Mvc;
+using System.Text.RegularExpressions;
 namespace OnlineExam
 {
     public class Utitlity
@@ -19,6 +20,28 @@ namespace OnlineExam
                 s = subjectList.Where(m => m.SubjectID == sid).SingleOrDefault();
             }
             return s;
+        }
+        static string illegalJsonCharRegex = @"[\u0000-\u007e]";
+
+        public static string JsonStandardizeString(string s)
+        {
+            if (s == null) return "";
+            //else return s.Replace("\r\n", "").Replace("\r", "").Replace("\n", "")
+            else
+            {
+                if (Regex.Match(s, illegalJsonCharRegex).Success)
+                {
+
+                    var temp = s;
+                    s = Regex.Replace(s, illegalJsonCharRegex, "");
+
+                }
+                if (s.IndexOf("<p>test") >= 0)
+                    return s.Replace("\r\n", "").Replace("\r", "").Replace("\n", "").Replace("\"", "\\\"").Replace("&quot", "\\&quot").Replace("", "");
+                return s.Replace("\r\n", "").Replace("\r", "").Replace("\n", "").Replace("\"", "\\\"").Replace("&quot", "\\&quot");
+            }
+            //.Replace("\n", "").Replace("\"", "\\\"");
+
         }
         public static string GetChoiceAnswer(QuestionChoice q)
         {

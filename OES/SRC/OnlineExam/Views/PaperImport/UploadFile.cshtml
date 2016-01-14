@@ -35,7 +35,9 @@
         </div>
         <div class="row">
             <div>
-                <iframe src="/Subject/SubjectDropDown" style="width:700px; height:30px; border-style:none;overflow:hidden" onload="SetDropDownStyle();"></iframe>
+                @{Html.RenderPartial("_SubjectDropDownList");
+                }
+                <a class="btn btn-default" onclick="AppendSubject()">添加</a>
                 <div id="subjectlist" class="col-md-12">
                     @if (!string.IsNullOrWhiteSpace(Model.SubjectName))
                     {
@@ -138,9 +140,9 @@
         //Alerter.info($("iframe").contents().find("span").html());
         //SetDropDownStyle();
     })
-    function AppendSubject(id, name) {
-        if ($("#subjectlist").find("[id='" + id + "']").length > 0) alert("科目已添加");
-        else $("#subjectlist").append("<span id='" + id + "' class='subject '>" + name + "<a href='#' class='glyphicon glyphicon-remove' onclick='$(this).parent().remove()'></a></span>")
+    function AppendSubject() {
+        if ($("#subjectlist").find("[id='" + GetSubjectID() + "']").length > 0) alert("科目已添加");
+        else $("#subjectlist").append("<span id='" + GetSubjectID() + "' class='subject '>" + GetSubjectName() + "<a href='#' class='glyphicon glyphicon-remove' onclick='$(this).parent().remove()'></a></span>")
     }
     function DisplayInfo(e) {
         if ($(e).is(":checked")) {

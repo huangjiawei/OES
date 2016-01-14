@@ -89,12 +89,72 @@ namespace OnlineExam.Controllers.Background
         {
             var q = ee.TestPaper.Where(m => m.ID == id).SingleOrDefault();
             if (q == null || q.ID != id) return HttpNotFound();
-            //int k = 0;
-            //foreach(var i in q.Paper_QuestionCategory.OrderBy(m=>m.Sequence))
-            //{
-            //    i.RandomKey = ++k;
-            //}           
+
             return View(q);
+        }
+        [HttpPost]
+        public JsonResult EditQuestionList(string content, string ID)
+        {
+            JsonReturn jr = new JsonReturn();
+            try {
+                ee.Paper_Choice.RemoveRange(ee.Paper_Choice.Where(m => m.PaperID == ID));
+                ee.Paper_Essay.RemoveRange(ee.Paper_Essay.Where(m => m.PaperID == ID));
+                ee.Paper_QuestionCategory.RemoveRange(ee.Paper_QuestionCategory.Where(m => m.PaperID == ID));
+                ee.SaveChanges();
+                var jsCateList = JsonHelper.JsonDeserialize<List<QuestionCategoryJson>>(Server.HtmlDecode(content));
+                var cateList = new List<Paper_QuestionCategory>();
+                var choiceList = new List<Paper_Choice>();
+                var essayList = new List<Paper_Essay>();
+                foreach (var cate in jsCateList)
+                {
+                    Paper_QuestionCategory qc = new Paper_QuestionCategory();
+                    qc.PaperID = ID;
+                    qc.QuestionType = cate.QuestionType;
+                    qc.Title = cate.Title;
+                    qc.Sequence = cate.Sequence;
+                    qc.ScorePerQuestion = cate.ScorePerQuestion;
+                    if (cate.QuestionType == QuestionType.SingleChoice.ToString() || cate.QuestionType == QuestionType.MultipleChoice.ToString())
+                    {
+                        foreach (var q in cate.ChoiceList)
+                        {
+                            Paper_Choice pc = new Paper_Choice();
+                            pc.SmallQuestionNumber = q.SmallQuestionNumber;
+                            pc.Score = q.Score;
+                            pc.QuestionID = q.ID;
+                            pc.PaperID = ID;
+                            pc.BigQuestionNumber = cate.Sequence;
+                            choiceList.Add(pc);
+                        }
+                        qc.Quantity = cate.ChoiceList.Count();
+                    }
+                    else
+                    {
+                        foreach (var q in cate.EssayList)
+                        {
+                            Paper_Essay pe = new Paper_Essay();
+                            pe.SmallQuestionNumber = q.SmallQuestionNumber;
+                            pe.Score = q.Score;
+                            pe.QuestionID = q.ID;
+                            pe.PaperID = ID;
+                            pe.BigQuestionNumber = cate.Sequence;
+                            essayList.Add(pe);
+                        }
+                        qc.Quantity = cate.EssayList.Count();
+                     
+                    }
+                    cateList.Add(qc);
+                }
+                ee.Paper_QuestionCategory.AddRange(cateList);
+                ee.Paper_Choice.AddRange(choiceList);
+                ee.Paper_Essay.AddRange(essayList);
+                ee.SaveChanges();
+                jr.Success = 1;
+            }catch(Exception ex)
+            {
+                jr.Success = 0;
+                jr.Message = ex.Message;
+            }
+            return Json(jr, JsonRequestBehavior.AllowGet);
         }
         // POST: PaperClip/Create
         [HttpPost]
@@ -125,10 +185,12 @@ namespace OnlineExam.Controllers.Background
                 //return View("Details", model);
                 return RedirectToAction("Details", new { id = model.ID });
             }
-            catch
+            catch(Exception ex)
             {
+                //throw ex;
+                ModelState.AddModelError("SaveError", ex.Message);
                 ViewBag.EditType = EditType.Create;
-                return View(model);
+                return View("Edit",model);
             }
         }
         public ActionResult Edit(string id)

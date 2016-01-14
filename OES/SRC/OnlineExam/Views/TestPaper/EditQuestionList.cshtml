@@ -25,7 +25,7 @@
              RandomKey = randomKey++,
              ScorePerQuestion = c.ScorePerQuestion,
              Sequence = c.Sequence,
-             Title = c.Title,
+             Title = Utitlity.JsonStandardizeString(c.Title),
              QuestionType = c.QuestionType,
              ChoiceList = (from k in Choice
                            from s in c.Paper_Choice
@@ -33,20 +33,20 @@
                            select new ChoiceJson
                            {
                                ID = k.ID,
-                               Question = k.Question == null ? "" : k.Question.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                               Info = k.Info == null ? "" : k.Info.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                               Description = k.Description == null ? "" : k.Description.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                               Question = Utitlity.JsonStandardizeString(k.Question),
+                               Info = Utitlity.JsonStandardizeString(k.Info),
+                               Description = Utitlity.JsonStandardizeString(k.Description),
                                SmallQuestionNumber = s.SmallQuestionNumber,
                                BigQuestionNumber = s.BigQuestionNumber,
 
                                QuestionType = k.IsMultiple ? QuestionType.MultipleChoice.ToString() : QuestionType.SingleChoice.ToString(),
                                Score = s.Score,
-                               OptionA = k.OptionA == null ? "" : k.OptionA.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                               OptionB = k.OptionB == null ? "" : k.OptionB.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                               OptionC = k.OptionC == null ? "" : k.OptionC.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                               OptionD = k.OptionD == null ? "" : k.OptionD.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                               OptionE = k.OptionE == null ? "" : k.OptionE.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                               OptionF = k.OptionF == null ? "" : k.OptionF.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
+                               OptionA = Utitlity.JsonStandardizeString(k.OptionA),
+                               OptionB = Utitlity.JsonStandardizeString(k.OptionB),
+                               OptionC = Utitlity.JsonStandardizeString(k.OptionC),
+                               OptionD = Utitlity.JsonStandardizeString(k.OptionD),
+                               OptionE = Utitlity.JsonStandardizeString(k.OptionE),
+                               OptionF = Utitlity.JsonStandardizeString(k.OptionF),
                                AisTrue = k.AisTrue,
                                BisTrue = k.BisTrue,
                                CisTrue = k.CisTrue,
@@ -67,10 +67,10 @@
                               SmallQuestionNumber = s.SmallQuestionNumber,
 
                               Score = s.Score,
-                              Question = k.Question == null ? "" : k.Question.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                              Info = k.Info == null ? "" : k.Info.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                              Description = k.Description == null ? "" : k.Description.Replace("\r\n", "").Replace("\r", "").Replace("\n", ""),
-                              Answer = k.Answer == null ? "" : k.Answer.Replace("\r\n", "").Replace("\r", "").Replace("\n", "")
+                              Question = Utitlity.JsonStandardizeString(k.Question),
+                              Info = Utitlity.JsonStandardizeString(k.Info),
+                              Description = Utitlity.JsonStandardizeString(k.Description),
+                              Answer = Utitlity.JsonStandardizeString(k.Answer)
                           }).ToList()
          }).ToList();
     //重新排序
@@ -89,8 +89,12 @@
             q.SmallQuestionNumber = qindex++;
         }
     }
+    var jr= new JsonResult();
+    jr.Data = temp;
+    //ViewBag.JsonCategory = jr.GetT4MVCResult();
     var jsonCategory = System.Web.Helpers.Json.Encode(temp);
     var newCategory = System.Web.Helpers.Json.Encode(new QuestionCategoryJson());
+    //newCategory=System.Text.UTF8Encoding.Default
     var newChoice = System.Web.Helpers.Json.Encode(new ChoiceJson());
     var newEssay = System.Web.Helpers.Json.Encode(new EssayJson());
 }
@@ -102,8 +106,8 @@
                 <div class=" col-md-8">
                     <select class="form-control" id="sequence" v-model="EditingCategory.Sequence">
                         <option v-for="n in (CategoryList.length)" value="{{n+1}}">{{bigNum[n+1]}}</option>
-                        <option v-show="isEditCategory" value="{{EditingCategory.Sequence}}">
-                            {{bigNum[EditingCategory.Sequence]}}
+                        <option v-show="!isEditCategory" value="{{CategoryList.length+1}}">
+                            {{bigNum[CategoryList.length+1]}}
                         </option>
                     </select>
                 </div>
@@ -187,7 +191,7 @@
                 <div v-else>
                     <template v-if="EditingQuestion.ID!=undefined">
                         <div class="row ">
-                            <span class="col-md-10 alert-warning">题目{{EditingQuestion.ID | EncodeQtNum  EditingQuestion.QuestionType}}不存在</span>
+                            <span class="col-md-10 alert-warning">题目{{EditingQuestion.ID | EncodeQtNum  EditingQuestion.QuestionType}}不存在，或者不属于当前试卷科目</span>
                         </div>
                     </template>
                 </div>
@@ -219,7 +223,8 @@
                 {
                     @Model.SubjectID
                 }
-            }
+            }<a class="btn btn-primary flowright" onclick="submitPaper()">保存试卷</a>
+
         </h5>
     </div>
     <div class="tab-pane">
@@ -452,6 +457,24 @@
             }
 
         }
+        function escapeUnicode(str) {
+            return str.replace(/[^ -~]|\\/g, function(m0) {
+                var code = m0.charCodeAt(0);
+                return '\\u' + ((code < 0x10)? '000' : 
+                                (code < 0x100)? '00' :
+                                (code < 0x1000)? '0' : '') + code.toString(16);
+            });
+        }
+        function unescapeUnicode(str) {
+            str=str.replace(/\\u00[0-7][a-fA-F0-9]/g,function(m0, m1) {
+                alert(m1)
+                return "";});
+
+            return str.replace(/\\u([a-fA-F0-9]{4})/g, function(m0, m1) {
+                return String.fromCharCode(parseInt(m1, 16));
+            });
+        }
+
         function HtmlEncode(str) {
             var s = "";
             if (str.length == 0)
@@ -512,6 +535,30 @@
             }
         )
 
+        function submitPaper(){
+
+            var content=JSON.stringify(vm.CategoryList)
+            console.log(content);
+            $.ajax({
+                url:'@Url.Action("EditQuestionList")',
+                data: { content:HtmlEncode(content),ID:"@Model.ID"},
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    console.log("submit complete")
+                    if (data.Success == 0) {
+                        alert("提交失败");
+                    } else {
+                        window.location.reload();
+                    }
+                },
+                error:function(data){
+                    console.log(data);
+                }
+            });
+
+        }
+
         //alert(JSON.stringify(clist))
         var vm;
         //var bigNum = "零一二三四五六七八九十";
@@ -521,12 +568,13 @@
         //var editingCategory=eval("("+newCategory+")")
         Alerter.turnOn();
         $(function () {
-
-            //var s= "@jsonCategory"
+        
             var s= HtmlDecode("@jsonCategory")
+            //console.log("@jsonCategory")
+            s=unescapeUnicode(s)
             console.log(s)
             var index=@Model.Paper_QuestionCategory.Count();
-            var clist = eval("(" +s +")");
+            var clist = JSON.parse(s);
             vm=  new Vue( {
                 el: "#vueContent",
                 data: {
@@ -584,7 +632,7 @@
                         $.ajax({
                             type: "GET",
                             url: "@Url.Action("GetQuestion", "Essay")",
-                            data: {id:id,qtype:qtype},
+                            data: {id:id,qtype:qtype,subjectid:@Model.SubjectID},
                             dataType: 'json',
                             success: function(data){
 
@@ -875,11 +923,11 @@
                         }
                         CateDlg.showModal();
                     },
-                    showQuestionCategoryModel:  function (num) {
-                        if (num == null || num == undefined) {
-                        }
-                        if (num < 0 || num > 9) { alert("错误"); return; }
-                    },
+                    //showQuestionCategoryModel:  function (num) {
+                    //    if (num == null || num == undefined) {
+                    //    }
+                    //    if (num < 0 || num > 10) { alert("错误"); return; }
+                    //},
 
                     AddCategory: function () {
                         this.EditingCategory.RandomKey=++this.NewCategoryIndex;

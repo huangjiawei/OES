@@ -146,6 +146,10 @@ namespace OnlineExam.Controllers.Background
             ViewBag.questionType = Model.QuestionType;
             Utitlity.ModelStandardize(Model);
             string sids = Request.Params["SubjectIds"];
+            Model.ModificationTeacher = SessionHelper.UserProfile.RealName;
+            Model.ModificationTeacherID = SessionHelper.UserProfile.UserId;
+            Model.ModificationDate = DateTime.Now;
+            //Model.ModificationTeacher=
             if (sids == null) ModelState.AddModelError("subjectID", "所属科目不能为空");
             sids = sids.Substring(1);
             if (ModelState.IsValid)
@@ -212,7 +216,7 @@ namespace OnlineExam.Controllers.Background
                 return Json(jr, JsonRequestBehavior.AllowGet);
             }
         }
-        public virtual JsonResult GetQuestion(long id, string qtype)
+        public virtual JsonResult GetQuestion(long id, string qtype, int subjectId)
         {
             JsonReturn jr = new JsonReturn();
             try
@@ -220,7 +224,14 @@ namespace OnlineExam.Controllers.Background
                 if (qtype.IndexOf("Choice") >= 0)
                 {
                     var isMultiple = qtype == QuestionType.MultipleChoice.ToString() ? true : false;
-                    var q = ee.QuestionChoice.Where(m => m.ID == id&&isMultiple==m.IsMultiple).SingleOrDefault();
+#if !DEBUG
+                    var q = (from c in ee.QuestionChoice
+                             from sc in ee.Subject_Choice
+                             where c.ID == id && isMultiple == c.IsMultiple && sc.QuestionID == c.ID && sc.SubjectID == subjectId
+                             select c).SingleOrDefault();
+#else
+                    var q = ee.QuestionChoice.Where(m=> m.ID == id&& isMultiple == m.IsMultiple).SingleOrDefault();
+#endif
                     if (q != null)
                     {
                         jr.Data = new ChoiceJson
@@ -228,7 +239,7 @@ namespace OnlineExam.Controllers.Background
                             SmallQuestionNumber = -1,
                             BigQuestionNumber = -1,
                             Score = -1,
-                            Question = q.Question==null?"": q.Question.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
+                            Question = q.Question == null ? "" : q.Question.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
                             IsMultiple = q.IsMultiple,
                             OptionA = q.OptionA,
                             OptionB = q.OptionB,
@@ -242,8 +253,8 @@ namespace OnlineExam.Controllers.Background
                             DisTrue = q.DisTrue,
                             EisTrue = q.EisTrue,
                             FisTrue = q.FisTrue,
-                            Info = q.Info==null?"":q.Info.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
-                            Description = q.Description==null?"": q.Description.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
+                            Info = q.Info == null ? "" : q.Info.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
+                            Description = q.Description == null ? "" : q.Description.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
                             Difficulty = q.Difficulty,
                             QuestionType = q.IsMultiple ? QuestionType.MultipleChoice.ToString() : QuestionType.SingleChoice.ToString(),
                             ID = q.ID,
@@ -251,24 +262,33 @@ namespace OnlineExam.Controllers.Background
 
 
                         };
+
                         jr.Success = 1;
                     }
                     else { jr.Success = 0; jr.Message = "题目不存在"; }
                 }
                 else
                 {
-                    var q = ee.QuestionEssay.Where(m => m.ID == id&&qtype==m.QuestionType).SingleOrDefault();
-                    if (q != null)
+#if !DEBUG
+                    var q = (from c in ee.QuestionEssay
+                             from sc in ee.Subject_Essay
+                             where c.ID == id && qtype == c.QuestionType && sc.QuestionID == c.ID && sc.SubjectID == subjectId
+                             select c).SingleOrDefault();
+#else
+                            var q = ee.QuestionEssay.Where(m=> m.ID == id&&m.QuestionType==qtype).SingleOrDefault();
+             
+#endif
+                      if (q != null)
                     {
                         jr.Data = new EssayJson
                         {
                             SmallQuestionNumber = -1,
                             BigQuestionNumber = -1,
                             Score = -1,
-                            Question = q.Question==null ? "":q.Question.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
-                            Answer = q.Answer==null?"": q.Answer.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
-                            Info = q.Info==null? "" :q.Info.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
-                            Description = q.Description==null?"": q.Description.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
+                            Question = q.Question == null ? "" : q.Question.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
+                            Answer = q.Answer == null ? "" : q.Answer.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
+                            Info = q.Info == null ? "" : q.Info.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
+                            Description = q.Description == null ? "" : q.Description.Replace("\r", "").Replace("\r\n", "").Replace("\n", ""),
                             Difficulty = q.Difficulty,
                             QuestionType = q.QuestionType,
                             ID = q.ID,

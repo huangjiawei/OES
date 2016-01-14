@@ -2,7 +2,6 @@
 @{
     UserProfile profile = null;
     if ((bool)ViewBag.HasProfile) { profile = ViewBag.Profile as UserProfile; }
-    //var User = (ApplicationUser)ViewBag.AppUser;
     Layout = null;
 }
 <!DOCTYPE html>
@@ -20,6 +19,7 @@
     <script src="/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script>
         $(function () {
+            Alerter.turnOff();
         })
         function updateCallBack(data) {
             if (data.Success == 1)
@@ -46,14 +46,21 @@
             //location.reload();
         }
     </script>
+    <style>
+        body {
+            margin: 2px 2px;
+            padding: 2px 2px;
+            background-color: white;
+        }
+    </style>
 </head>
 <body>
     <h5>@ViewBag.UserName</h5>
     @if ((bool)ViewBag.HasProfile)
     {
-        <h5>
-            <img class="md-photo" src="@(CUrl.UserPhoto+profile.Photo)" alt="用户未上传照片" />
-        </h5>
+        @*<h5>
+                <img class="md-photo" src="@(CUrl.UserPhoto+profile.Photo)" alt="用户未上传照片" />
+            </h5>*@
         <h5>真实姓名：@profile.RealName</h5>
     }
     @using (Ajax.BeginForm("SetUserRole", new AjaxOptions { HttpMethod = "POST", OnSuccess = "updateCallBack" }))

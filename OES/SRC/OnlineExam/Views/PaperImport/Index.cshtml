@@ -1,11 +1,13 @@
-﻿<div>
-    <p>通过上传包含试卷试题的word文档进行导入</p>
+﻿
+<div>
     @using (Html.BeginForm("UploadFile", "PaperImport", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        <input type="file" id="DocFile" name="DocFile" />
-        <input type="submit" value="导入" onclick="return validate();" />
+            {
+        <br />
+        @Html.Raw("请上传word文档 ：")
+        <input type="file" id="DocFile" name="DocFile" class="btn " />
+                <input type="submit" value="导入" onclick="return validate();" class="btn btn-default" />
     }
-    <p class="danger">@ViewBag.FileError</p>
+    <p class="alert-danger">@ViewBag.FileError</p>
 </div>
 <script>
     Alerter.turnOff()
@@ -38,7 +40,7 @@
     <script src="@Url.Content("~/Scripts/ckeditor/ckeditor.js")"></script>
     <link rel="stylesheet" href="/Scripts/artDialog/css/ui-dialog.css">
     @*<script src="/Scripts/artDialog/dist/dialog-min.js"></script>*@
-<script src="/Scripts/artDialog/dist/dialog-plus-min.js"></script>
+    <script src="/Scripts/artDialog/dist/dialog-plus-min.js"></script>
     <script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
     @*<script src="//cdn.ckeditor.com/4.5.4/basic/ckeditor.js"></script>*@

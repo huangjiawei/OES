@@ -97,7 +97,7 @@
                         </div>
                         <div id="answer" class="row">
                             @*我的回答：<br />*@
-                            @Html.TextArea("answer" + i.ToString(), new { id = i.ToString(), col = "100", row = "6", @class = "col-md-6 form-control", placeholder = "请在这里填写问题您的答案" })
+                            @Html.TextArea("answer" + i.ToString(), new { id = i.ToString(), col = "100", row = "6", @class = "col-md-6 ", placeholder = "请在这里填写问题您的答案" })
                         </div>
                         <br />
                         i++;
@@ -162,7 +162,9 @@
             })
             $("textarea").each(function () {
                 if ($(this).val() == null || $(this).val() == undefined || $(this).val() == "" || $(this).val().trim() == "") {
+                    //$(this).removeClass("form-control");
                     $(this).addClass("bg-danger");
+                    //$(this).addClass("form-control");
                     emptyList += $(this).attr("id") + "、";
                 }
             })
